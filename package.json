@@ -1,0 +1,47 @@
+{
+  "name": "preact-ts-offline-first",
+  "version": "0.7.0",
+  "repository": "https://github.com/st-ax/preact-ts-offline-first",
+  "license": "CC-BY-NC-4.0",
+  "scripts": {
+    "dev": "vite --https",
+    "tsc": "tsc -p . --noEmit",
+    "build": "cross-env NODE_ENV=production vite build",
+    "lint": "eslint src/**/*.ts[x] --fix",
+    "clean": "rm -rf .cache .tmp lib build"
+  },
+  "dependencies": {
+    "dexie": "^3.2.0-rc.1",
+    "dexie-observable": "^3.0.0-beta.11",
+    "dexie-react-hooks": "^1.0.7",
+    "dexie-syncable": "^3.0.0-beta.10",
+    "preact": "^10.5.10"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
+    "@prefresh/vite": "^2.0.1",
+    "@types/node": "^16.4.8",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.14.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-preact": "^1.1.4",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.25.1",
+    "typescript": "^4.1.3",
+    "vite": "^2.5.6",
+    "vite-plugin-pwa": "^0.11.2",
+    "vite-plugin-windicss": "^1.3.0",
+    "windicss": "^3.1.7"
+  },
+  "peerDependencies": {
+    "postcss": "^8.1.10"
+  },
+  "resolutions": {
+    "postcss": "8.1.10"
+  }
+}
