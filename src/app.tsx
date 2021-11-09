@@ -1,10 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { h } from 'preact'
-import Footer from './Components/Footer'
-// import InitializingServiceWorker from './Components/ServiceWorker'
-import ActiveTask from './Components/Tasks/ActiveTask'
-import AddTasks from './Components/Tasks/AddTasks'
-import CompletedTask from './Components/Tasks/CompletedTask'
+import AllocatorSet from './Components/Allocator/AllocatorSet'
 import { ActiveTasksQuery, CompletedTasksQuery } from './Data/data'
 // eslint-disable-next-line @typescript-eslint/promise-function-async
 // const App = lazy(() => import('./app'))
@@ -28,12 +24,8 @@ export const App = () => {
 
   return (
     <div className="container mx-auto lg:w-1/2">
-      <h1 className="text-5xl">Todo App</h1>
-      <AddTasks />
-      <ActiveTask />
-      <hr />
-      <CompletedTask />
-      <Footer />
+      <h1 className="text-5xl">Allocator</h1>
+      <AllocatorSet />
     </div>
   )
 }

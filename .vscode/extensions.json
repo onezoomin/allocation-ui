@@ -1,5 +1,6 @@
 {
   "recommendations": [
-    "ms-azuretools.vscode-azurefunctions"
+    "steoates.autoimport",
+    "voorjaar.windicss-intellisense"
   ]
 }
