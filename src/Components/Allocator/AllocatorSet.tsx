@@ -1,7 +1,7 @@
+import { clamp } from 'lodash'
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
 import Slider from '../Slider'
-
 const allocatorStructure = {
   Dev: {
     value: 25,
@@ -45,18 +45,27 @@ export default function AllocatorSet () {
   function onChangeCallback (key: string, newVal: number) {
     struct[key].value = newVal
 
-    let currentSum = 0
+    currentSum = 0
     for (const eachTopKey of topKeys) {
       currentSum += (struct[eachTopKey].value as number)
     }
-
+    console.log('before', struct, key, newVal, currentSum)
     if (currentSum !== 100) {
       const adjust = 100 - currentSum
+      const eachAdjustment: number = Math.ceil(adjust / (topKeys.length - 1))
       for (const eachTopKey of topKeys) {
-        const eachAdjustment: number = (adjust / (topKeys.length - 1))
-        const thisAdjustment: number = Math.max(0, Math.floor((struct[eachTopKey].value as number) + eachAdjustment))
+        const thisAdjustment: number = clamp(Math.round((struct[eachTopKey].value as number) + eachAdjustment), 0, 100)
         if (eachTopKey !== key) { // && thisAdjustment >= 0
           struct[eachTopKey].value = thisAdjustment
+        }
+        currentSum = 0
+        for (const eachTopKey of topKeys) {
+          currentSum += (struct[eachTopKey].value as number)
+        }
+        if (currentSum !== 100) {
+          const adjust = 100 - currentSum
+          struct[key].value = clamp((struct[key].value as number) + adjust, 0, 100)
+          console.log('mid', newVal, adjust)
         }
       }
     }
@@ -64,11 +73,7 @@ export default function AllocatorSet () {
     for (const eachTopKey of topKeys) {
       currentSum += (struct[eachTopKey].value as number)
     }
-    if (currentSum !== 100) {
-      const adjust = 100 - currentSum
-      struct[topKeys[0]].value = Math.max(0, (struct[topKeys[0]].value as number) + adjust)
-    }
-    console.log(struct, key, newVal, currentSum)
+    console.log('after', struct, key, newVal, currentSum)
     setStruct({ ...struct })
   }
 
