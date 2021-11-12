@@ -1,39 +1,9 @@
 import { clamp } from 'lodash'
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { GenericObject } from '../../Model/Generics'
 import Slider from '../Slider'
-const allocatorStructure = {
-  Dev: {
-    value: 25,
-    endeavor: {
-      'End 1': 50,
-      'End 2': 50,
-    },
-  },
-  Seeds: {
-    value: 25,
-    endeavor: {
-      'Seeds 1': 25,
-      'Seeds 2': 75,
-    },
-  },
-  Flowers: {
-    value: 25,
-    endeavor: {
-      'Seeds 1': 25,
-      'Seeds 2': 75,
-    },
-  },
-  Fruit: {
-    value: 25,
-    endeavor: {
-      'Seeds 1': 25,
-      'Seeds 2': 75,
-    },
-  },
-}
-export default function AllocatorSet () {
-  const [struct, setStruct] = useState(allocatorStructure)
+
+export default function AllocatorSet ({ struct, setStruct }: {struct: GenericObject, setStruct: any}) {
   // .sort((a, b) => a.value - b.value)
 
   const topKeys = Array.from(Object.keys(struct))

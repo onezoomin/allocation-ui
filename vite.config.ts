@@ -13,6 +13,10 @@ export default defineConfig({
     alias: [
       { find: 'react', replacement: 'preact/compat' },
       { find: 'react-dom', replacement: 'preact/compat' },
+      // Not necessary unless you consume a module using `createClass`
+      { find: 'create-react-class', replacement: 'preact-compat/lib/create-react-class' },
+      // Not necessary unless you consume a module requiring `react-dom-factories`
+      { find: 'react-dom-factories', replacement: 'preact-compat/lib/react-dom-factories' },
     ],
   },
   plugins: [preactRefresh(), VitePWA(), WindiCSS({ safelist: 'prose prose-sm m-auto' })],
