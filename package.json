@@ -23,7 +23,6 @@
     "lodash": "^4.17.21",
     "mdi-preact": "^8.1.0",
     "preact": "^10.5.15",
-    "preact-fluid": "^0.9.1",
     "react-slider": "^1.3.1"
   },
   "devDependencies": {

@@ -1,7 +1,11 @@
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { useMemo, useState } from 'preact/hooks'
 import AllocatorSet from './Components/Allocator/AllocatorSet'
-import CheckButton from './Components/ButtonComponents/CheckButton'
+import SubmitRow from './Components/Allocator/SubmitRow'
+import { Address } from './Model/Address'
+import { Recipient } from './Model/Allocations'
 // eslint-disable-next-line @typescript-eslint/promise-function-async
 // const App = lazy(() => import('./app'))
 // <Suspense fallback={<div>Loading...</div>}></Suspense>
@@ -37,29 +41,47 @@ const allocatorStructure = {
   },
 }
 
+const walletStruct = {
+  address: '0x234',
+  balance: 10000,
+}
+
 export const App = () => {
-  // // InitializingServiceWorker()
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  )
+
   // const ActiveTasks = useLiveQuery(ActiveTasksQuery) ?? []
-  // const CompletedTasks = useLiveQuery(CompletedTasksQuery) ?? []
-
-  // // useEffect(() => {
-  // //   localStorage.setItem('ActiveTasks', JSON.stringify(ActiveTasks))
-  // // }, [ActiveTasks])
-
-  // // useEffect(() => {
-  // //   localStorage.setItem('CompletedTasks', JSON.stringify(CompletedTasks))
-  // // }, [CompletedTasks])
-
   // console.log(`Active Tasks: ${ActiveTasks.length}`)
-  // console.log(`Completed Tasks: ${CompletedTasks.length}`)
 
   const [struct, setStruct] = useState(allocatorStructure)
 
+  const onSubmit = (amount) => {
+    const topKeys = Array.from(Object.keys(struct))
+    for (const eachTopKey of topKeys) {
+      const eachRecip = new Recipient({
+        percentage: (struct[eachTopKey].value as number) * amount * 0.01,
+        recipient: new Address({ address: eachTopKey }),
+      })
+      console.log(amount, eachRecip.short)
+    }
+  }
+
   return (
-    <div className="container mx-auto lg:w-1/2">
-      <h1 className="text-5xl">Allocator</h1>
-      <AllocatorSet {...{ struct, setStruct }} />
-      <CheckButton onCheck={(mEv) => console.log(mEv)} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="container mx-auto lg:w-1/2">
+        <h1 className="text-5xl">Allocator</h1>
+        <AllocatorSet {...{ struct, setStruct }} />
+        <SubmitRow {...{ onSubmit }} />
+      </div>
+    </ThemeProvider>
   )
 }
