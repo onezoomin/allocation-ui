@@ -1,6 +1,7 @@
 // import ReactSlider from '@mui/material/Slider'
 import { h } from 'preact'
 import ReactSlider from 'react-slider'
+import { FlexRow } from './Minis'
 
 export default function Slider ({
   id,
@@ -16,9 +17,11 @@ export default function Slider ({
   },
 }) {
   return (
-    <div className="w-full flex flex-row justify-between">
-      <span className="mr-2">{id}: </span>
-      <span className="mr-2">{value}%</span>
+    <FlexRow className="w-full justify-between">
+      <FlexRow className="w-1/5 justify-between">
+        <span className="mr-2">{id}: </span>
+        <span className="mr-2">{value}%</span>
+      </FlexRow>
       <ReactSlider
         {...{ id, step, min, max }}
         className="w-3/4 h-3 pr-2 my-4 bg-gray-200 rounded-md cursor-grab"
@@ -26,7 +29,7 @@ export default function Slider ({
         value={value}
         onChange={onChange}
       />
-    </div>
+    </FlexRow>
 
   )
 }
