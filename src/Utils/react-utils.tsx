@@ -1,7 +1,7 @@
 
-import { TextField } from '@mui/material'
+import { createTheme, TextField, useMediaQuery } from '@mui/material'
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
+import { useMemo, useState } from 'preact/hooks'
 
 export const useField = ({ defaultValue, variant = 'filled', label = 'Label', id = `${variant}-${label}` }) => {
   const [value, setValue] = useState(defaultValue)
@@ -21,4 +21,17 @@ export const appendClassNames = (
   additional: string = '',
 ) => {
   return { className: `${classes} ${additional}` }
+}
+export const useDarkMode = () => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+  return useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  )
 }

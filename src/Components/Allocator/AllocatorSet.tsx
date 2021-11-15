@@ -1,63 +1,84 @@
 import { clamp } from 'lodash'
 import { h } from 'preact'
-import { GenericObject } from '../../Model/Generics'
+import { Recipient } from '../../Model/Allocations'
 import Slider from '../Slider'
 
-export default function AllocatorSet ({ struct, setStruct }: {struct: GenericObject, setStruct: any}) {
+export default function AllocatorSet ({ struct, setStruct }: {struct: Recipient[], setStruct: any}) {
   // .sort((a, b) => a.value - b.value)
 
-  const topKeys = Array.from(Object.keys(struct))
   let currentSum = 0
-  for (const eachTopKey of topKeys) {
-    currentSum += (struct[eachTopKey].value as number)
+  for (const eachRecip of struct) {
+    currentSum += eachRecip.value
   }
 
-  function onChangeCallback (key: string, newVal: number) {
-    struct[key].value = newVal
+  function onChangeCallback (id: number, newVal: number) {
+    const recip = struct[id]
+    recip.value = newVal
 
     currentSum = 0
-    for (const eachTopKey of topKeys) {
-      currentSum += (struct[eachTopKey].value as number)
+    for (const eachRecip of struct) {
+      currentSum += eachRecip.value
     }
-    console.log('before', struct, key, newVal, currentSum)
+    console.log('before', struct, newVal, currentSum)
     if (currentSum !== 100) {
       const adjust = 100 - currentSum
-      const eachAdjustment: number = Math.ceil(adjust / (topKeys.length - 1))
-      for (const eachTopKey of topKeys) {
-        const thisAdjustment: number = clamp(Math.round((struct[eachTopKey].value as number) + eachAdjustment), 0, 100)
-        if (eachTopKey !== key) { // && thisAdjustment >= 0
-          struct[eachTopKey].value = thisAdjustment
+      const eachAdjustment: number = Math.ceil(adjust / (struct.length - 1))
+      for (const eachRecip of struct) {
+        const thisAdjustment: number = clamp(Math.round(eachRecip.value + eachAdjustment), 0, 100)
+        if (eachRecip !== recip) { // && thisAdjustment >= 0
+          eachRecip.value = thisAdjustment
         }
         currentSum = 0
-        for (const eachTopKey of topKeys) {
-          currentSum += (struct[eachTopKey].value as number)
+        for (const eachRecip of struct) {
+          currentSum += eachRecip.value
         }
         if (currentSum !== 100) {
           const adjust = 100 - currentSum
-          struct[key].value = clamp((struct[key].value as number) + adjust, 0, 100)
+          recip.value = clamp(recip.value + adjust, 0, 100)
           console.log('mid', newVal, adjust)
         }
       }
     }
     currentSum = 0
-    for (const eachTopKey of topKeys) {
-      currentSum += (struct[eachTopKey].value as number)
+    for (const eachRecip of struct) {
+      currentSum += eachRecip.value
     }
-    console.log('after', struct, key, newVal, currentSum)
-    setStruct({ ...struct })
+    console.log('after', struct, recip, newVal, currentSum)
+    setStruct([...struct]) // new array instance needed to trigger render
   }
 
   return (
     <div class="container overflow-y:auto mx-auto mb-5">
-      {topKeys?.map((eachCategory) => {
-        const cat = struct[eachCategory]
-        console.log(cat, struct)
+      {struct?.map((recip, id) => {
+        console.log(recip, struct)
+        const key = `${recip.catKey}-${id}`
         // const innerKeys = Array.from(Object.keys(cat.endeavor))
         return (
-          <Slider value={cat.value} key={eachCategory} id={eachCategory} {...{ cat, onChangeCallback }} />
+          <Slider {...{ key, id, recip, onChangeCallback }} />
         )
       })}
       Sum: {currentSum}
     </div>
   )
 }
+// export function CategoryAllocatorSet ({ struct, onRecipientChange }: {struct: AllocatorCategory[], setStruct: any, onRecipientChange: any}) {
+//   // .sort((a, b) => a.value - b.value)
+
+//   let currentSum = 0
+//   for (const eachCat of struct) {
+//     currentSum += eachCat.value
+//   }
+
+//   return (
+//     <div class="container overflow-y:auto mx-auto mb-5">
+//       {struct?.map((eachCategory, i) => {
+//         console.log(eachCategory, struct)
+//         // const innerKeys = Array.from(Object.keys(cat.endeavor))
+//         return (
+//           <Slider value={eachCategory.value} key={`cat-${i}`} id={eachCategory.label} onChangeCallback={ onRecipientChange } />
+//         )
+//       })}
+//       Sum: {currentSum}
+//     </div>
+//   )
+// }
