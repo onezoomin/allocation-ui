@@ -24,5 +24,5 @@
     "jsxFactory": "h",
     "jsxImportSource": "preact"
   },
-  "include": [".eslintrc.js", "vite.config.ts","tailwind.config.ts", "src", "src/main.tsx", "service-worker.js"]
+  "include": [".eslintrc.js", "vite.config.ts","windi.config.ts", "src", "src/main.tsx", "service-worker.js"]
 }

@@ -4,6 +4,13 @@ import { VitePWA } from 'vite-plugin-pwa'
 import WindiCSS from 'vite-plugin-windicss'
 
 export default defineConfig({
+  // optimizeDeps: {
+  //   include: [],
+  // },
+  // build: {
+  //   commonjsOptions: {},
+  //   // or empty commonjsOptions: {}
+  // },
   esbuild: {
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
@@ -19,5 +26,9 @@ export default defineConfig({
       { find: 'react-dom-factories', replacement: 'preact-compat/lib/react-dom-factories' },
     ],
   },
-  plugins: [preactRefresh(), VitePWA(), WindiCSS({ safelist: 'prose prose-sm m-auto' })],
+  plugins: [
+    preactRefresh(),
+    VitePWA(),
+    WindiCSS({ safelist: 'prose prose-sm m-auto' }),
+  ],
 })
