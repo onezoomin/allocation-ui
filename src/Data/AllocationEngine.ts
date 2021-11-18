@@ -22,7 +22,7 @@ const castWeightedVote = (recipientArray: Recipient[], weight: number) => {
     const recipRef = (tally.get(eachRecip.recipient.address))
     if (!recipRef) return
     const newWeight = recipRef.weight + weight
-    recipRef.value = ((recipRef?.weight * recipRef?.value) + (weight * eachRecip.value)) / newWeight
+    recipRef.value = ((recipRef.weight * recipRef.value) + (weight * eachRecip.value)) / newWeight
     recipRef.weight = newWeight
   }
 }
@@ -30,15 +30,18 @@ const getCurrentTally = (): Map<string, RecipientWeighted> => {
   // return the current tally
   return runningTally
 }
-const whitelistRecipientAddress = () => {
+const authorizedWhitelisters = ['addressThatCalledTheContract']
+const whitelistRecipientAddress = (newAddressToWhitelist: string, caller = 'addressThatCalledTheContract') => {
   // Check for authority/permission
+  if (!authorizedWhitelisters.includes(caller)) throw new Error('unauthorized attempt to whitelist an address')
   // Grant whitelist authority to new address (Add to list of addresses that can add whitelist addresses)
-
+  mockWhitelist.push(newAddressToWhitelist)
 }
 
-const triggerDistribution = () => {
-// Distribute according to tally
+const triggerDistribution = (): void => {
+  // Distribute according to tally
 }
-const validateTally = () => {
-// Retrace all vote records and recalculate tally
+const validateTally = (): boolean => {
+  // Retrace all vote records and recalculate tally
+  return false || true
 }
