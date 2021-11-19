@@ -1,4 +1,7 @@
+import WarningIcon from '@mui/icons-material/Warning'
+import { IconButton, Link, Tooltip } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
+import { Image } from 'mui-image'
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
 import AllocatorSet from './Components/Allocator/AllocatorSet'
@@ -31,7 +34,13 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <FlexRow className="p-4">
+        <Link href='https://github.com/onezoomin'>
+          <Image width={100} src="https://avatars.githubusercontent.com/u/13870464?s=200&v=4" />
+        </Link>
+      </FlexRow>
       <div className="container mx-auto lg:w-1/2">
+
         <h1 className="text-5xl mb-4">Allocator</h1>
         <AllocatorSet {...{ struct, setStruct }} />
         <SubmitRow className="mb-4" {...{ onSubmit }} />
@@ -46,6 +55,14 @@ export const App = () => {
             })
           }
       </div>
+      <FlexRow className="p-4">
+        <Image width={100} src="https://test.broken.url" showLoading
+          errorIcon={
+            <Tooltip arrow title="Broken Image" placement="right-start">
+              <IconButton aria-label="broken"><WarningIcon /></IconButton>
+            </Tooltip>}
+        />
+      </FlexRow>
     </ThemeProvider>
   )
 }
