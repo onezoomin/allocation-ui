@@ -13,9 +13,8 @@ const castWeightedVote = (recipientArray: Recipient[], weight: number) => {
   for (const eachRecip of recipientArray) {
     if (!mockWhitelist.includes(eachRecip.recipient.address)) throw new Error('unknown recipient address - vote is discarded and voting tokens returned')
   }
-  // Commit vote record
 
-  // Update tally
+  // Update running tally
   const tally = getCurrentTally()
   for (const eachRecip of recipientArray) {
     console.log(weight, eachRecip.short)
@@ -25,11 +24,18 @@ const castWeightedVote = (recipientArray: Recipient[], weight: number) => {
     recipRef.value = ((recipRef.weight * recipRef.value) + (weight * eachRecip.value)) / newWeight
     recipRef.weight = newWeight
   }
+
+  // Commit vote record
+  const voteRecord = {
+    thisVote: recipientArray,
+    runningTally: tally, // TODO decide if this is part of the same tx / voteRecord or separate
+  }
 }
 const getCurrentTally = (): Map<string, RecipientWeighted> => {
   // return the current tally
   return runningTally
 }
+
 const authorizedWhitelisters = ['addressThatCalledTheContract']
 const whitelistRecipientAddress = (newAddressToWhitelist: string, caller = 'addressThatCalledTheContract') => {
   // Check for authority/permission
