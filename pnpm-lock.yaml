@@ -41,7 +41,7 @@ specifiers:
   eslint-plugin-react: ^7.27.1
   lodash: ^4.17.21
   mdi-preact: ^8.1.0
-  mui-image: ^0.1.3
+  mui-image: ^1.0.0
   preact: ^10.6.1
   react-slider: ^1.3.1
   storybook-builder-vite: ^0.1.10
@@ -62,7 +62,7 @@ dependencies:
   dexie-syncable: 3.0.0-beta.10_c76a95cbcca083a75092d2d2298bfd50
   lodash: 4.17.21
   mdi-preact: 8.2.0_preact@10.6.1
-  mui-image: 0.1.3_f86d8461b7534880a6e3cb42fd1f2855
+  mui-image: 1.0.0_f86d8461b7534880a6e3cb42fd1f2855
   preact: 10.6.1
   react-slider: 1.3.1
 
@@ -10152,8 +10152,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
-  /mui-image/0.1.3_f86d8461b7534880a6e3cb42fd1f2855:
-    resolution: {integrity: sha512-eli4h70PII3vYxNk8syYW+Sau/J2gPUlvYLZ7sqKXhQhRr9xmdvUCjlAxnNJqdGircyp8zhxhzCYjJmzz45GYg==}
+  /mui-image/1.0.0_f86d8461b7534880a6e3cb42fd1f2855:
+    resolution: {integrity: sha512-7mN3G+dS5843WP7WzB5Egq7r6RHrdCBWYKZ6mSnhvqzbOzOKFiIENJbsD1zZcf+5noZan8T/ntupGnttAXTq8g==}
     peerDependencies:
       '@emotion/react': ^11.4.1
       '@emotion/styled': ^11.3.0
