@@ -1,3 +1,4 @@
+import { getKeplrFromWindow } from '@keplr-wallet/stores'
 import WarningIcon from '@mui/icons-material/Warning'
 import { IconButton, Link, Tooltip } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
@@ -6,6 +7,7 @@ import { h } from 'preact'
 import { useState } from 'preact/hooks'
 import AllocatorSet from './Components/Allocator/AllocatorSet'
 import SubmitRow from './Components/Allocator/SubmitRow'
+import ConnectButton from './Components/ButtonComponents/ConnectButton'
 import { FlexRow } from './Components/Minis'
 import { initialRecipients, RecipientWeighted } from './Model/Allocations'
 import { useDarkMode } from './Utils/react-utils'
@@ -31,13 +33,15 @@ export const App = () => {
     }
     setTally(new Map(tally))
   }
+  const clickConnect = async (mEv: MouseEvent) => {
+    const k = await getKeplrFromWindow()
+    console.log('click', mEv, k, await k?.getKey('osmosis-1'))
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <FlexRow className="p-4">
-        <Link href='https://github.com/onezoomin'>
-          <Image width={100} src="https://avatars.githubusercontent.com/u/13870464?s=200&v=4" />
-        </Link>
+        <ConnectButton onClick={clickConnect} />
       </FlexRow>
       <div className="container mx-auto lg:w-1/2">
 
@@ -56,6 +60,9 @@ export const App = () => {
           }
       </div>
       <FlexRow className="p-4">
+        <Link href='https://github.com/onezoomin'>
+          <Image width={100} src="https://avatars.githubusercontent.com/u/13870464?s=200&v=4" />
+        </Link>
         <Image width={100} src="https://test.broken.url" showLoading
           errorIcon={
             <Tooltip arrow title="Broken Image" placement="right-start">
