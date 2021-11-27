@@ -8,6 +8,7 @@ const mockRecipientMap: Map<string, RecipientWeighted> = new Map(
 
 const newContractAddress = () => 'NEWcontractInstancePublicKey'
 type PublicKeyString = string
+type RecipientMap = Map<string, RecipientWeighted>
 export class DivvyAddress {
   recipientMap: Map<PublicKeyString, RecipientWeighted>
   owner: string
@@ -21,15 +22,24 @@ export class DivvyAddress {
     // subscribe to fund arrival events and call this.doDistribution(amountThatArrived)
   }
 
-  setCurrentRecipientMap = (newMap: Map<string, RecipientWeighted>, caller = 'addressThatCalledTheContract'): void => {
-    if (caller !== this.owner) throw new Error('unauthorized attempt to setCurrentRecipientMap')
-    // set the current tally
-    this.recipientMap = newMap
-  }
-
   getCurrentRecipientMap = (): Map<string, RecipientWeighted> => {
     // return the current tally
     return this.recipientMap
+  }
+
+  setCurrentRecipientMap = (newMap: RecipientMap, caller = 'addressThatCalledTheContract'): void => {
+    try {
+      // set the current tally
+      this.recipientMap = this.assertValidRecipientMap(newMap, caller)
+      // return success via rpc
+    } catch (error) {
+      // return error via rpc
+    }
+  }
+
+  assertValidRecipientMap = (newMap: RecipientMap, caller = 'addressThatCalledTheContract'): RecipientMap => {
+    if (caller !== this.owner) throw new Error('unauthorized attempt to setCurrentRecipientMap')
+    return newMap
   }
 
   // Distribute according to tally
@@ -85,6 +95,14 @@ export class DivvyAddress2 extends DivvyAddress {
     } else {
       // throw
     }
+  }
+
+  assertValidRecipientMap = (newMap: RecipientMap, caller = 'addressThatCalledTheContract'): RecipientMap => {
+    if (caller !== this.owner) throw new Error('unauthorized attempt to setCurrentRecipientMap')
+    newMap.forEach((eachRecip) => {
+      if (!this.mockWhitelist.includes(eachRecip.recipient.address)) throw new Error(`attempt to include non-whitelisted address: ${eachRecip.recipient.address}`)
+    })
+    return newMap
   }
 
   validateTally = (): boolean => {
