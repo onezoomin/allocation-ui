@@ -1,15 +1,24 @@
 import { initialRecipients, Recipient, RecipientWeighted } from './../Model/Allocations'
 
-const mockRecipientMap: Map<string, RecipientWeighted> = new Map(initialRecipients.map((r: Recipient) => [r.recipient.address, new RecipientWeighted(r)]))
-class DivvyAddress {
-  recipientMap: Map<string, RecipientWeighted>
+const mockRecipientMap: Map<string, RecipientWeighted> = new Map(
+  initialRecipients.map(
+    (r: Recipient) => [r.recipient.address, new RecipientWeighted(r)],
+  ),
+)
+
+const newContractAddress = () => 'NEWcontractInstancePublicKey'
+type PublicKeyString = string
+export class DivvyAddress {
+  recipientMap: Map<PublicKeyString, RecipientWeighted>
   owner: string
   publicAddress: string
 
   constructor (newMap = mockRecipientMap, caller) {
     this.recipientMap = newMap
     this.owner = caller
-    this.publicAddress = determinePublicAddress()
+    this.publicAddress = newContractAddress()
+
+    // subscribe to fund arrival events and call this.doDistribution(amountThatArrived)
   }
 
   setCurrentRecipientMap = (newMap: Map<string, RecipientWeighted>, caller = 'addressThatCalledTheContract'): void => {
@@ -23,15 +32,16 @@ class DivvyAddress {
     return this.recipientMap
   }
 
+  // Distribute according to tally
   doDistribution = (totalAmount): void => {
-    // Distribute according to tally
+    // build aggregate Tx to distribute to all recips
     this.getCurrentRecipientMap().forEach((eachRecip: RecipientWeighted) => {
-      // doSend(eachRecip.recipient.address, eachRecip.value*totalAmount)
+      // addSendMsg(eachRecip.recipient.address, eachRecip.value*totalAmount)
     })
   }
 }
 
-class DivvyAddress2 extends DivvyAddress {
+export class DivvyAddress2 extends DivvyAddress {
   authorizedWhitelisters = ['addressThatCalledTheContract']
   mockWhitelist: string[] = initialRecipients.map((r: Recipient) => r.recipient.address)
 

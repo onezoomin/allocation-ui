@@ -24,7 +24,7 @@ export const App = () => {
     for (const eachRecip of struct) {
       console.log(amount, eachRecip.short)
       const recipRef = (tally.get(eachRecip.recipient.address))
-      if (!recipRef) return
+      if (!recipRef || !amount) return
       const newWeight = recipRef.weight + amount
       recipRef.value = ((recipRef?.weight * recipRef?.value) + (amount * eachRecip.value)) / newWeight
       recipRef.weight = newWeight
