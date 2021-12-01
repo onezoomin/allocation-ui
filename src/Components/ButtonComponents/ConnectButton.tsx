@@ -6,7 +6,7 @@ export default function ConnectButton (props: any) {
 
   return (
     <Button {...restProps}>
-      <WalletIcon color='white' /> Connect
+      <WalletIcon class='mr-2' color='white' /> Connect
     </Button>
   )
 }

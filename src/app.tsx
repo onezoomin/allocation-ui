@@ -35,7 +35,12 @@ export const App = () => {
   }
   const clickConnect = async (mEv: MouseEvent) => {
     const k = await getKeplrFromWindow()
-    console.log('click', mEv, k, await k?.getKey('osmosis-1'))
+    // console.log('click', mEv, k, await k?.getKey('osmosis-1'))
+    const offlineSigner = k?.getOfflineSigner('osmosis-1')
+    if (offlineSigner) {
+      const accounts = await offlineSigner.getAccounts()
+      console.log('accounts', accounts)
+    }
   }
 
   return (
