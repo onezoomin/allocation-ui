@@ -59,6 +59,7 @@ specifiers:
   react-slider: ^1.3.1
   rollup-plugin-polyfill-node: ^0.7.0
   storybook-builder-vite: ^0.1.10
+  ts-proto: ^1.92.0
   typescript: ^4.5.2
   vite: ^2.6.14
   vite-plugin-pwa: ^0.11.7
@@ -93,6 +94,7 @@ dependencies:
   preact: 10.6.1
   react-slider: 1.3.1
   rollup-plugin-polyfill-node: 0.7.0
+  ts-proto: 1.92.0
 
 devDependencies:
   '@babel/core': 7.16.0
@@ -5063,6 +5065,10 @@ packages:
     resolution: {integrity: sha512-1TcL7YDYCtnHmLhTWbum+IIwLlvpaHoEKS2KNIngEwLzwgDeHaebaEHHbQp8IqzNQ9IYiboLKUjAf7MZqG63+w==}
     dev: true
 
+  /@types/object-hash/1.3.4:
+    resolution: {integrity: sha512-xFdpkAkikBgqBdG9vIlsqffDV8GpvnPEzs0IUtr1v3BEB97ijsFQ4RXVbUZwjFThhB4MDSTUfvmxUD5PGx0wXA==}
+    dev: false
+
   /@types/overlayscrollbars/1.12.1:
     resolution: {integrity: sha512-V25YHbSoKQN35UasHf0EKD9U2vcmexRSp78qa8UglxFH8H3D+adEa9zGZwrqpH4TdvqeMrgMqVqsLB4woAryrQ==}
     dev: true
@@ -5073,6 +5079,10 @@ packages:
   /@types/parse5/5.0.3:
     resolution: {integrity: sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==}
     dev: true
+
+  /@types/prettier/1.19.1:
+    resolution: {integrity: sha512-5qOlnZscTn4xxM5MeGXAMOsIOIKIbh9e85zJWfBRVPlRMEVawzoPhINYbRGkBZCI8LxvBe7tJCdWiarA99OZfQ==}
+    dev: false
 
   /@types/pretty-hrtime/1.0.1:
     resolution: {integrity: sha512-VjID5MJb1eGKthz2qUerWT8+R4b9N+CHvGCzg9fn4kWZgaF9AhdYikQio3R7wV8YY1NsQKPaCwKz1Yff+aHNUQ==}
@@ -7270,6 +7280,10 @@ packages:
   /cyclist/1.0.1:
     resolution: {integrity: sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=}
     dev: true
+
+  /dataloader/1.4.0:
+    resolution: {integrity: sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -11247,6 +11261,11 @@ packages:
       kind-of: 3.2.2
     dev: true
 
+  /object-hash/1.3.1:
+    resolution: {integrity: sha512-OSuu/pU4ENM9kmREg0BdNrUDIl1heYa4mBZacJc+vVWz4GtAwu7jO8s4AIt2aGRUTqxykpWzI3Oqnsm13tTMDA==}
+    engines: {node: '>= 0.10.0'}
+    dev: false
+
   /object-inspect/1.11.0:
     resolution: {integrity: sha512-jp7ikS6Sd3GxQfZJPyH3cjcbJF6GZPClgdV+EFygjFLQ5FmW/dRUnTd9PQ9k0JhoNDabWFbpF1yCdSWCC6gexg==}
     dev: true
@@ -11836,7 +11855,6 @@ packages:
     resolution: {integrity: sha512-FM/zAKgWTxj40rH03VxzIPdXmj39SwSjwG0heUcNFwI+EMZJnY93yAiKXM3dObIKAM5TA88werc8T/EwhB45eg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
-    dev: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -13899,6 +13917,33 @@ packages:
     dependencies:
       typescript: 4.5.2
     dev: true
+
+  /ts-poet/4.6.1:
+    resolution: {integrity: sha512-DXJ+mBJIDp+jiaUgB4N5I/sczHHDU2FWacdbDNVAVS4Mh4hb7ckpvUWVW7m7/nAOcjR0r4Wt+7AoO7FeJKExfA==}
+    dependencies:
+      '@types/prettier': 1.19.1
+      lodash: 4.17.21
+      prettier: 2.5.0
+    dev: false
+
+  /ts-proto-descriptors/1.3.1:
+    resolution: {integrity: sha512-Cybb3fqceMwA6JzHdC32dIo8eVGVmXrM6TWhdk1XQVVHT/6OQqk0ioyX1dIdu3rCIBhRmWUhUE4HsyK+olmgMw==}
+    dependencies:
+      long: 4.0.0
+      protobufjs: 6.11.2
+    dev: false
+
+  /ts-proto/1.92.0:
+    resolution: {integrity: sha512-g2iUlR/eNnwdLhivqTLpLOmw4jumwYmjXauRejewzjJPfPyeH4HgNa9y0o0tYd4R70fIwZzUedwAFwuJseKMMw==}
+    hasBin: true
+    dependencies:
+      '@types/object-hash': 1.3.4
+      dataloader: 1.4.0
+      object-hash: 1.3.1
+      protobufjs: 6.11.2
+      ts-poet: 4.6.1
+      ts-proto-descriptors: 1.3.1
+    dev: false
 
   /tsconfig-paths/3.11.0:
     resolution: {integrity: sha512-7ecdYDnIdmv639mmDwslG6KQg1Z9STTz1j7Gcz0xa+nshh/gKDAHcPxRbWOsA3SPp0tXP2leTcY9Kw+NAkfZzA==}
