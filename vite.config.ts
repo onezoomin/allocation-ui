@@ -37,7 +37,7 @@ export default defineConfig({
     VitePWA(),
     WindiCSS({ safelist: 'prose prose-sm m-auto' }),
   ],
-  // define: {
-  //   'process.env': process?.env || {}, // alternate to nodePolyfills
-  // },
+  define: {
+    'process.env': process?.env || {}, // needed in addition to nodePolyfills
+  },
 })

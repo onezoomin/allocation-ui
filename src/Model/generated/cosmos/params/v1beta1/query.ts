@@ -7,215 +7,217 @@ export const protobufPackage = 'cosmos.params.v1beta1';
 
 /** QueryParamsRequest is request type for the Query/Params RPC method. */
 export interface QueryParamsRequest {
-/** subspace defines the module to query the parameter for. */
-subspace: string,
-/** key defines the key of the parameter in the subspace. */
-key: string,
+	/** subspace defines the module to query the parameter for. */
+	subspace: string;
+	/** key defines the key of the parameter in the subspace. */
+	key: string;
 }
 
 /** QueryParamsResponse is response type for the Query/Params RPC method. */
 export interface QueryParamsResponse {
-/** param defines the queried parameter. */
-param?: ParamChange,
+	/** param defines the queried parameter. */
+	param?: ParamChange;
 }
 
-const baseQueryParamsRequest: object = { subspace: "",key: "" };
+const baseQueryParamsRequest: object = { subspace: '', key: '' };
 
 export const QueryParamsRequest = {
-            encode(
-      message: QueryParamsRequest,
-      writer: Writer = Writer.create(),
-    ): Writer {
-if (message.subspace !== "") {
-          writer.uint32(10).string(message.subspace);
-        }
-if (message.key !== "") {
-          writer.uint32(18).string(message.key);
-        }
-return writer;
-},
+	encode(
+		message: QueryParamsRequest,
+		writer: Writer = Writer.create()
+	): Writer {
+		if (message.subspace !== '') {
+			writer.uint32(10).string(message.subspace);
+		}
+		if (message.key !== '') {
+			writer.uint32(18).string(message.key);
+		}
+		return writer;
+	},
 
-decode(
-      input: Reader | Uint8Array,
-      length?: number,
-    ): QueryParamsRequest {
-      const reader = input instanceof Reader ? input : new Reader(input);
-      let end = length === undefined ? reader.len : reader.pos + length;
-      const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
-while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-case 1:
-message.subspace = reader.string();
-break;
-case 2:
-message.key = reader.string();
-break;
-default:
-      reader.skipType(tag & 7);
-      break;
-}
-}
-return message;
-},
+	decode(input: Reader | Uint8Array, length?: number): QueryParamsRequest {
+		const reader = input instanceof Reader ? input : new Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.subspace = reader.string();
+					break;
+				case 2:
+					message.key = reader.string();
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
 
-fromJSON(object: any): QueryParamsRequest {
-      const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
-message.subspace = (object.subspace !== undefined && object.subspace !== null)
-          ? String(object.subspace)
-          : "";
-message.key = (object.key !== undefined && object.key !== null)
-          ? String(object.key)
-          : "";
-return message
-},
+	fromJSON(object: any): QueryParamsRequest {
+		const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
+		message.subspace =
+			object.subspace !== undefined && object.subspace !== null
+				? String(object.subspace)
+				: '';
+		message.key =
+			object.key !== undefined && object.key !== null
+				? String(object.key)
+				: '';
+		return message;
+	},
 
-toJSON(message: QueryParamsRequest): unknown {
-      const obj: any = {};
-message.subspace !== undefined && (obj.subspace = message.subspace);
-message.key !== undefined && (obj.key = message.key);
-return obj;
-},
+	toJSON(message: QueryParamsRequest): unknown {
+		const obj: any = {};
+		message.subspace !== undefined && (obj.subspace = message.subspace);
+		message.key !== undefined && (obj.key = message.key);
+		return obj;
+	},
 
-fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(object: I): QueryParamsRequest {
-      const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
-message.subspace = object.subspace ?? "";
-message.key = object.key ?? "";
-return message;
-}
-          };
+	fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(
+		object: I
+	): QueryParamsRequest {
+		const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
+		message.subspace = object.subspace ?? '';
+		message.key = object.key ?? '';
+		return message;
+	},
+};
 
-const baseQueryParamsResponse: object = {  };
+const baseQueryParamsResponse: object = {};
 
 export const QueryParamsResponse = {
-            encode(
-      message: QueryParamsResponse,
-      writer: Writer = Writer.create(),
-    ): Writer {
-if (message.param !== undefined) {
-          ParamChange.encode(message.param, writer.uint32(10).fork()).ldelim();
-        }
-return writer;
-},
+	encode(
+		message: QueryParamsResponse,
+		writer: Writer = Writer.create()
+	): Writer {
+		if (message.param !== undefined) {
+			ParamChange.encode(
+				message.param,
+				writer.uint32(10).fork()
+			).ldelim();
+		}
+		return writer;
+	},
 
-decode(
-      input: Reader | Uint8Array,
-      length?: number,
-    ): QueryParamsResponse {
-      const reader = input instanceof Reader ? input : new Reader(input);
-      let end = length === undefined ? reader.len : reader.pos + length;
-      const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
-while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-case 1:
-message.param = ParamChange.decode(reader, reader.uint32());
-break;
-default:
-      reader.skipType(tag & 7);
-      break;
-}
-}
-return message;
-},
+	decode(input: Reader | Uint8Array, length?: number): QueryParamsResponse {
+		const reader = input instanceof Reader ? input : new Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.param = ParamChange.decode(reader, reader.uint32());
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
 
-fromJSON(object: any): QueryParamsResponse {
-      const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
-message.param = (object.param !== undefined && object.param !== null)
-          ? ParamChange.fromJSON(object.param)
-          : undefined;
-return message
-},
+	fromJSON(object: any): QueryParamsResponse {
+		const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
+		message.param =
+			object.param !== undefined && object.param !== null
+				? ParamChange.fromJSON(object.param)
+				: undefined;
+		return message;
+	},
 
-toJSON(message: QueryParamsResponse): unknown {
-      const obj: any = {};
-message.param !== undefined && (obj.param = message.param ? ParamChange.toJSON(message.param) : undefined);
-return obj;
-},
+	toJSON(message: QueryParamsResponse): unknown {
+		const obj: any = {};
+		message.param !== undefined &&
+			(obj.param = message.param
+				? ParamChange.toJSON(message.param)
+				: undefined);
+		return obj;
+	},
 
-fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
-      const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
-message.param = (object.param !== undefined && object.param !== null)
-          ? ParamChange.fromPartial(object.param)
-          : undefined;
-return message;
-}
-          };
+	fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(
+		object: I
+	): QueryParamsResponse {
+		const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
+		message.param =
+			object.param !== undefined && object.param !== null
+				? ParamChange.fromPartial(object.param)
+				: undefined;
+		return message;
+	},
+};
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-/**
- * Params queries a specific parameter of a module, given its subspace and
- * key.
- */
-Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+	/**
+	 * Params queries a specific parameter of a module, given its subspace and
+	 * key.
+	 */
+	Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
 }
 
-export class QueryClientImpl implements Query {private readonly rpc: Rpc;constructor(rpc: Rpc) {this.rpc = rpc;this.Params = this.Params.bind(this);}
-    Params(
-      request: QueryParamsRequest
-    ): Promise<QueryParamsResponse> {
-      const data = QueryParamsRequest.encode(request).finish();
-      const promise = this.rpc.request(
-        
-        "cosmos.params.v1beta1.Query",
-        "Params",
-        data
-      );
-      return promise.then(data => QueryParamsResponse.decode(new Reader(data)));
-    }
-  }
+export class QueryClientImpl implements Query {
+	private readonly rpc: Rpc;
+	constructor(rpc: Rpc) {
+		this.rpc = rpc;
+		this.Params = this.Params.bind(this);
+	}
+	Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
+		const data = QueryParamsRequest.encode(request).finish();
+		const promise = this.rpc.request(
+			'cosmos.params.v1beta1.Query',
+			'Params',
+			data
+		);
+		return promise.then((data) =>
+			QueryParamsResponse.decode(new Reader(data))
+		);
+	}
+}
 
 interface Rpc {
-request(
-        
-        service: string,
-        method: string,
-        data: Uint8Array
-      ): Promise<Uint8Array>;
+	request(
+		service: string,
+		method: string,
+		data: Uint8Array
+	): Promise<Uint8Array>;
 }
 
+type Builtin =
+	| Date
+	| Function
+	| Uint8Array
+	| string
+	| number
+	| boolean
+	| undefined;
 
-
-
-
-
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
-
-export type DeepPartial<T> =  T extends Builtin
-        ? T
-         : T extends Long ? string | number | Long 
-        : T extends Array<infer U>
-        ? Array<DeepPartial<U>>
-        : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-        ? { [K in keyof T]?: DeepPartial<T[K]> }
-        : Partial<T>;
+export type DeepPartial<T> = T extends Builtin
+	? T
+	: T extends Long
+	? string | number | Long
+	: T extends Array<infer U>
+	? Array<DeepPartial<U>>
+	: T extends ReadonlyArray<infer U>
+	? ReadonlyArray<DeepPartial<U>>
+	: T extends {}
+	? { [K in keyof T]?: DeepPartial<T[K]> }
+	: Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-      export type Exact<P, I extends P> = P extends Builtin
-        ? P
-        : P &
-        { [K in keyof P]: Exact<P[K], I[K]> } & Record<Exclude<keyof I, KeysOfUnion<P> >, never>;
-
-
-
-
-
-
-
-
-
-
-
-
+export type Exact<P, I extends P> = P extends Builtin
+	? P
+	: P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
+				Exclude<keyof I, KeysOfUnion<P>>,
+				never
+			>;
 
 // If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-    // add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-      if (util.Long !== Long) {
-        util.Long = Long as any;
-        configure();
-      }
-
+// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
+if (util.Long !== Long) {
+	util.Long = Long as any;
+	configure();
+}
