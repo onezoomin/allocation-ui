@@ -7,13 +7,14 @@ import { ThemeProvider } from '@mui/material/styles'
 import { Image } from 'mui-image'
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
+import AllocatorsComboBox from './Components/Allocator/AllocatorsComboBox'
 import AllocatorSet from './Components/Allocator/AllocatorSet'
 import SubmitRow from './Components/Allocator/SubmitRow'
 import ConnectButton from './Components/ButtonComponents/ConnectButton'
 import { FlexRow } from './Components/Minis'
 import { initialRecipients, RecipientWeighted } from './Model/Allocations'
 import { MsgCreateAllocator } from './Model/generated/regen/divvy/v1/tx'
-import { addRegenChain } from './Utils/cosmos-utils'
+import { addRegenRedwoodChain } from './Utils/cosmos-utils'
 import { useDarkMode } from './Utils/react-utils'
 
 const myRegistry = new Registry([
@@ -48,12 +49,12 @@ export const App = () => {
     if (sgClient) return console.log('already connected')
 
     const k = await getKeplrFromWindow()
-    addRegenChain(k)
+    addRegenRedwoodChain(k)
     // console.log('click', mEv, k, await k?.getKey('osmosis-1'))
     const offlineSigner = await k?.getOfflineSignerAuto('regen-redwood-1')
 
     if (!offlineSigner) {
-      addRegenChain(k)
+      console.log('no signer??')
     } else {
       const [account] = await offlineSigner.getAccounts()
       setClientAddress(account.address)
@@ -91,12 +92,15 @@ export const App = () => {
         gas: '10000',
       }
 
-      // const response = await regenStargateClient.signAndBroadcast(
+      const response = await regenStargateClient.getAllBalances(account.address)
+      console.log('getAllBalances', response)
+
+      // response = await regenStargateClient.signAndBroadcast(
       //   account.address,
       //   [encodableMsg],
       //   fee)
 
-      // console.log('response', response)
+      // console.log('createAllocatorMsg', response)
     }
   }
 
@@ -104,6 +108,7 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <FlexRow className="p-4">
         <ConnectButton address={ clientAddress } onClick={clickConnect} />
+        {sgClient && <AllocatorsComboBox className="ml-4" />}
       </FlexRow>
       <div className="container mx-auto lg:w-1/2">
 

@@ -24,7 +24,12 @@ export interface MsgCreateAllocator {
 	name: string;
 	/** url with metadata */
 	url: string;
-	entries: Recipient[];
+	/**
+	 * Initial allocator mapping.
+	 * Invariants:
+	 * * sum of shares in recipients must equal to 100% (1mln)
+	 */
+	recipients: Recipient[];
 }
 
 /** MsgCreateClassResponse is the Msg/CreateClass response type. */
@@ -52,9 +57,9 @@ export interface MsgSetAllocationMap {
 	/**
 	 * New allocator mapping.
 	 * Invariants:
-	 * * sum of shares in entires must equal to 100% (1mln)
+	 * * sum of shares in recipients must equal to 100% (1mln)
 	 */
-	entries: Recipient[];
+	recipients: Recipient[];
 }
 
 export interface MsgRemoveAllocator {
@@ -71,6 +76,8 @@ export interface MsgCreateSlowReleaseStream {
 	interval?: Duration;
 	/** Allocator address */
 	destination: string;
+	/** when paused, stream won't send funds */
+	paused: boolean;
 	/**
 	 * fixed amount of tokens streamed in each round. If there is a zero balance
 	 * available then then nothing will be streamed. If only fraction is
@@ -177,7 +184,7 @@ export const MsgCreateAllocator = {
 		if (message.url !== '') {
 			writer.uint32(50).string(message.url);
 		}
-		for (const v of message.entries) {
+		for (const v of message.recipients) {
 			Recipient.encode(v!, writer.uint32(82).fork()).ldelim();
 		}
 		return writer;
@@ -187,7 +194,7 @@ export const MsgCreateAllocator = {
 		const reader = input instanceof Reader ? input : new Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateAllocator } as MsgCreateAllocator;
-		message.entries = [];
+		message.recipients = [];
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
@@ -214,7 +221,7 @@ export const MsgCreateAllocator = {
 					message.url = reader.string();
 					break;
 				case 10:
-					message.entries.push(
+					message.recipients.push(
 						Recipient.decode(reader, reader.uint32())
 					);
 					break;
@@ -252,7 +259,7 @@ export const MsgCreateAllocator = {
 			object.url !== undefined && object.url !== null
 				? String(object.url)
 				: '';
-		message.entries = (object.entries ?? []).map((e: any) =>
+		message.recipients = (object.recipients ?? []).map((e: any) =>
 			Recipient.fromJSON(e)
 		);
 		return message;
@@ -270,12 +277,12 @@ export const MsgCreateAllocator = {
 				: undefined);
 		message.name !== undefined && (obj.name = message.name);
 		message.url !== undefined && (obj.url = message.url);
-		if (message.entries) {
-			obj.entries = message.entries.map((e) =>
+		if (message.recipients) {
+			obj.recipients = message.recipients.map((e) =>
 				e ? Recipient.toJSON(e) : undefined
 			);
 		} else {
-			obj.entries = [];
+			obj.recipients = [];
 		}
 		return obj;
 	},
@@ -293,8 +300,8 @@ export const MsgCreateAllocator = {
 				: undefined;
 		message.name = object.name ?? '';
 		message.url = object.url ?? '';
-		message.entries =
-			object.entries?.map((e) => Recipient.fromPartial(e)) || [];
+		message.recipients =
+			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
 		return message;
 	},
 };
@@ -517,7 +524,7 @@ export const MsgSetAllocationMap = {
 		if (message.sender !== '') {
 			writer.uint32(10).string(message.sender);
 		}
-		for (const v of message.entries) {
+		for (const v of message.recipients) {
 			Recipient.encode(v!, writer.uint32(18).fork()).ldelim();
 		}
 		return writer;
@@ -527,7 +534,7 @@ export const MsgSetAllocationMap = {
 		const reader = input instanceof Reader ? input : new Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
-		message.entries = [];
+		message.recipients = [];
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
@@ -535,7 +542,7 @@ export const MsgSetAllocationMap = {
 					message.sender = reader.string();
 					break;
 				case 2:
-					message.entries.push(
+					message.recipients.push(
 						Recipient.decode(reader, reader.uint32())
 					);
 					break;
@@ -553,7 +560,7 @@ export const MsgSetAllocationMap = {
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
 				: '';
-		message.entries = (object.entries ?? []).map((e: any) =>
+		message.recipients = (object.recipients ?? []).map((e: any) =>
 			Recipient.fromJSON(e)
 		);
 		return message;
@@ -562,12 +569,12 @@ export const MsgSetAllocationMap = {
 	toJSON(message: MsgSetAllocationMap): unknown {
 		const obj: any = {};
 		message.sender !== undefined && (obj.sender = message.sender);
-		if (message.entries) {
-			obj.entries = message.entries.map((e) =>
+		if (message.recipients) {
+			obj.recipients = message.recipients.map((e) =>
 				e ? Recipient.toJSON(e) : undefined
 			);
 		} else {
-			obj.entries = [];
+			obj.recipients = [];
 		}
 		return obj;
 	},
@@ -577,8 +584,8 @@ export const MsgSetAllocationMap = {
 	): MsgSetAllocationMap {
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
 		message.sender = object.sender ?? '';
-		message.entries =
-			object.entries?.map((e) => Recipient.fromPartial(e)) || [];
+		message.recipients =
+			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
 		return message;
 	},
 };
@@ -638,7 +645,11 @@ export const MsgRemoveAllocator = {
 	},
 };
 
-const baseMsgCreateSlowReleaseStream: object = { admin: '', destination: '' };
+const baseMsgCreateSlowReleaseStream: object = {
+	admin: '',
+	destination: '',
+	paused: false,
+};
 
 export const MsgCreateSlowReleaseStream = {
 	encode(
@@ -662,6 +673,9 @@ export const MsgCreateSlowReleaseStream = {
 		}
 		if (message.destination !== '') {
 			writer.uint32(34).string(message.destination);
+		}
+		if (message.paused === true) {
+			writer.uint32(40).bool(message.paused);
 		}
 		if (message.fixedAmount !== undefined) {
 			writer.uint32(82).string(message.fixedAmount);
@@ -695,6 +709,9 @@ export const MsgCreateSlowReleaseStream = {
 				case 4:
 					message.destination = reader.string();
 					break;
+				case 5:
+					message.paused = reader.bool();
+					break;
 				case 10:
 					message.fixedAmount = reader.string();
 					break;
@@ -726,6 +743,10 @@ export const MsgCreateSlowReleaseStream = {
 			object.destination !== undefined && object.destination !== null
 				? String(object.destination)
 				: '';
+		message.paused =
+			object.paused !== undefined && object.paused !== null
+				? Boolean(object.paused)
+				: false;
 		message.fixedAmount =
 			object.fixedAmount !== undefined && object.fixedAmount !== null
 				? String(object.fixedAmount)
@@ -744,6 +765,7 @@ export const MsgCreateSlowReleaseStream = {
 				: undefined);
 		message.destination !== undefined &&
 			(obj.destination = message.destination);
+		message.paused !== undefined && (obj.paused = message.paused);
 		message.fixedAmount !== undefined &&
 			(obj.fixedAmount = message.fixedAmount);
 		return obj;
@@ -762,6 +784,7 @@ export const MsgCreateSlowReleaseStream = {
 				? Duration.fromPartial(object.interval)
 				: undefined;
 		message.destination = object.destination ?? '';
+		message.paused = object.paused ?? false;
 		message.fixedAmount = object.fixedAmount ?? undefined;
 		return message;
 	},
@@ -975,10 +998,10 @@ export const MsgEditSlowReleaseStream = {
 /** Msg is the regen.ecocredit.v1alpha1 Msg service. */
 export interface Msg {
 	/**
-	 * Allocator is a distribution engine, which distributes everything which is
-	 * comming in configurable interval periods to registered entries. Each
-	 * allocator has only one owner. Ideally this can be managed by a group
-	 * module.
+	 * Allocator is a distribution engine, which "divvys out" all incoming funds,
+	 * at configurable time intervals to all registered recipients.
+	 * Each allocator has only one owner.
+	 * Ideally this can be managed by a group module.
 	 */
 	CreateAllocator(
 		request: MsgCreateAllocator
