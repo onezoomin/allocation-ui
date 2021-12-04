@@ -8,9 +8,7 @@
     "tsc": "tsc -p . --noEmit",
     "build": "cross-env NODE_ENV=production vite build",
     "lint": "eslint src/**/*.ts[x] --fix",
-    "clean": "rm -rf .cache .tmp lib build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "clean": "rm -rf .cache .tmp lib build"
   },
   "dependencies": {
     "@cosmjs/launchpad": "^0.26.5",
@@ -51,15 +49,6 @@
     "@babel/plugin-syntax-class-properties": "^7.12.13",
     "@mdx-js/preact": "^1.6.22",
     "@prefresh/vite": "^2.2.4",
-    "@storybook/addon-actions": "^6.4.0",
-    "@storybook/addon-docs": "^6.4.0",
-    "@storybook/addon-essentials": "^6.4.0",
-    "@storybook/addon-links": "^6.4.0",
-    "@storybook/cli": "^6.4.0",
-    "@storybook/client-api": "^6.4.0",
-    "@storybook/client-logger": "^6.4.0",
-    "@storybook/core": "^6.4.0",
-    "@storybook/preact": "^6.4.5",
     "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
