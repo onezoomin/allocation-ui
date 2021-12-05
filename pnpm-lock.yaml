@@ -6,6 +6,7 @@ overrides:
 specifiers:
   '@babel/core': ^7.16.0
   '@babel/plugin-syntax-class-properties': ^7.12.13
+  '@cosmjs/encoding': ^0.26.5
   '@cosmjs/launchpad': ^0.26.5
   '@cosmjs/proto-signing': ^0.26.5
   '@cosmjs/stargate': ^0.26.5
@@ -45,6 +46,7 @@ specifiers:
   eslint-plugin-node: ^11.1.0
   eslint-plugin-promise: ^5.2.0
   eslint-plugin-react: ^7.27.1
+  js-sha256: ^0.9.0
   lodash: ^4.17.21
   long: ^4.0.0
   mdi-preact: ^8.1.0
@@ -62,6 +64,7 @@ specifiers:
   windicss: ^3.2.1
 
 dependencies:
+  '@cosmjs/encoding': 0.26.5
   '@cosmjs/launchpad': 0.26.5
   '@cosmjs/proto-signing': 0.26.5
   '@cosmjs/stargate': 0.26.5
@@ -85,6 +88,7 @@ dependencies:
   dexie-observable: 3.0.0-beta.11_dexie@3.2.0
   dexie-react-hooks: 1.0.7_dexie@3.2.0
   dexie-syncable: 3.0.0-beta.10_c76a95cbcca083a75092d2d2298bfd50
+  js-sha256: 0.9.0
   lodash: 4.17.21
   long: 4.0.0
   mdi-preact: 8.2.0_preact@10.6.2
@@ -5427,6 +5431,10 @@ packages:
 
   /js-encoding-utils/0.5.6:
     resolution: {integrity: sha512-qnAGsUIWrmzh5n+3AXqbxX1KsB9hkQmJZf3aA9DLAS7GpL/NEHCBreFFbW+imramoU+Q0TDyvkwhRbBRH1TVkg==}
+    dev: false
+
+  /js-sha256/0.9.0:
+    resolution: {integrity: sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==}
     dev: false
 
   /js-sha3/0.8.0:

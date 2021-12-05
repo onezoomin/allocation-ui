@@ -4,6 +4,7 @@ import { getKeplrFromWindow } from '@keplr-wallet/stores'
 import WarningIcon from '@mui/icons-material/Warning'
 import { IconButton, Link, Tooltip } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
+import { sha256 } from 'js-sha256'
 import { Image } from 'mui-image'
 import { h } from 'preact'
 import { useState } from 'preact/hooks'
@@ -12,14 +13,16 @@ import AllocatorSet from './Components/Allocator/AllocatorSet'
 import SubmitRow from './Components/Allocator/SubmitRow'
 import ConnectButton from './Components/ButtonComponents/ConnectButton'
 import { FlexRow } from './Components/Minis'
+import { addPendingTx } from './Data/data'
 import { initialRecipients, RecipientWeighted } from './Model/Allocations'
+import { TxRaw } from './Model/generated/cosmos/tx/v1beta1/tx'
 import { MsgCreateAllocator } from './Model/generated/regen/divvy/v1/tx'
 import { addRegenRedwoodChain } from './Utils/cosmos-utils'
 import { useDarkMode } from './Utils/react-utils'
-
 const myRegistry = new Registry([
   ...defaultRegistryTypes,
-  ['/regen/divvy/v1/tx/MsgCreateAllocator', MsgCreateAllocator], // Replace with your own type URL and Msg class
+  ['/regen.divvy.v1.tx.MsgCreateAllocator', MsgCreateAllocator], // Replace with your own type URL and Msg class
+  // ['/regen.ecocredit.v1alpha2.tx.MsgCreateAllocator', MsgCreateAllocator], // Replace with your own type URL and Msg class
 ])
 
 const runningTally = new Map(initialRecipients.map((r) => [r.recipient.address, new RecipientWeighted(r)]))
@@ -67,40 +70,75 @@ export const App = () => {
       setSgClient(regenStargateClient)
 
       console.log('account 0', account)
-      const createAllocatorMsg: MsgCreateAllocator = MsgCreateAllocator.fromPartial({
-        admin: account.address,
-        start: new Date(),
-        name: `${account.address}-allocator-X`,
-        /** url with metadata */
-        url: 'https://meta.data',
-        entries: Array.from(struct.values()).map(eachRecip => ({
-          address: eachRecip.recipient.address,
-          share: eachRecip.value * 1000000, /** allocation share. 100% = 1e6. */
-        })),
-      })
+      // const createAllocatorMsg: MsgCreateAllocator = MsgCreateAllocator.fromPartial({
+      //   admin: account.address,
+      //   start: new Date(),
+      //   name: `${account.address}-allocator-X`,
+      //   /** url with metadata */
+      //   url: 'https://meta.data',
+      //   recipients: Array.from(struct.values()).map(eachRecip => ({
+      //     address: eachRecip.recipient.address,
+      //     share: eachRecip.value * 1000000, /** allocation share. 100% = 1e6. */
+      //   })),
+      // })
+      // const encodableMsg: EncodeObject = {
+      //   typeUrl: '/regen.divvy.v1.tx.MsgCreateAllocator', // Same as above
+      //   value: createAllocatorMsg,
+      // }
       const encodableMsg: EncodeObject = {
-        typeUrl: '/regen/divvy/v1/tx/MsgCreateAllocator', // Same as above
-        value: createAllocatorMsg,
+        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+        value: {
+          fromAddress: account.address,
+          toAddress: account.address,
+          amount: [{
+            denom: 'uregen',
+            amount: '1000',
+          }],
+        },
       }
       const fee = {
         amount: [
           {
-            denom: 'udenom', // Use the appropriate fee denom for your chain
-            amount: '120000',
+            denom: 'uregen', // Use the appropriate fee denom for your chain
+            amount: '40000',
           },
         ],
-        gas: '10000',
+        gas: '80000',
       }
 
-      const response = await regenStargateClient.getAllBalances(account.address)
+      const response: any = await regenStargateClient.getAllBalances(account.address)
       console.log('getAllBalances', response)
 
-      // response = await regenStargateClient.signAndBroadcast(
+      // response = await regenStargateClient.sendTokens(
       //   account.address,
-      //   [encodableMsg],
-      //   fee)
+      //   account.address,
+      //   [{
+      //     denom: 'uregen',
+      //     amount: '10000',
+      //   }],
+      //   fee,
+      // )
+      // console.log('sendTokens', response)
 
-      // console.log('createAllocatorMsg', response)
+      const raw = await regenStargateClient.sign(
+        account.address,
+        [encodableMsg],
+        fee,
+        '',
+      )
+
+      const finished = TxRaw.encode(raw).finish()
+      console.log('signedTx', raw)
+      const hash = sha256(finished)
+      console.log('finished', finished, hash)
+      await addPendingTx({
+        hash,
+        finished,
+        raw,
+      })
+
+      const bresponse = await regenStargateClient.broadcastTx(finished)
+      console.log('broadcastTx', bresponse)
     }
   }
 

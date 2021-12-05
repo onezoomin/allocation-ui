@@ -11,6 +11,7 @@
     "clean": "rm -rf .cache .tmp lib build"
   },
   "dependencies": {
+    "@cosmjs/encoding": "^0.26.5",
     "@cosmjs/launchpad": "^0.26.5",
     "@cosmjs/proto-signing": "^0.26.5",
     "@cosmjs/stargate": "^0.26.5",
@@ -34,6 +35,7 @@
     "dexie-observable": "^3.0.0-beta.11",
     "dexie-react-hooks": "^1.0.7",
     "dexie-syncable": "^3.0.0-beta.10",
+    "js-sha256": "^0.9.0",
     "lodash": "^4.17.21",
     "long": "^4.0.0",
     "mdi-preact": "^8.1.0",
