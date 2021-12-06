@@ -83,6 +83,18 @@ const chainInfo = {
   features: ['stargate'],
 }
 
+export const addRegenLocalChain = (k) => {
+  const local = {
+    ...chainInfo,
+
+    chainId: 'test',
+    chainName: 'Regen Local Testnet',
+    rpc: 'http://127.0.0.1:26657',
+    rest: 'http://127.0.0.1:1317',
+  }
+  k.experimentalSuggestChain(local)
+}
+
 export const addRegenRedwoodChain = (k) => {
   const redwood = {
     ...chainInfo,

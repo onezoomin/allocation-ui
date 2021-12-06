@@ -1,14 +1,15 @@
 import Dexie from 'dexie'
 import { Address } from '../Model/Address'
 import { Allocator } from '../Model/generated/regen/divvy/v1/types'
-import { PendingTx } from './../Model/Transactions'
+import { CompletedTx, PendingTx } from './../Model/Transactions'
 
 // TODO consider https://dexie.org/docs/Typescript#storing-real-classes-instead-of-just-interfaces
 class AllocatorDB extends Dexie {
   // Declare implicit table properties. (just to inform Typescript. Instanciated by Dexie in stores() method)
   Addresses: Dexie.Table<Address, string> // string = type of the primkey
   Allocators: Dexie.Table<Allocator, number>
-  PendingTxs: Dexie.Table<PendingTx, number>
+  PendingTxs: Dexie.Table<PendingTx, string>
+  CompletedTxs: Dexie.Table<CompletedTx, string>
   // ...other tables go here...
 
   // async init () {
@@ -25,12 +26,14 @@ class AllocatorDB extends Dexie {
     this.version(1).stores({
       Addresses: 'address',
       Allocators: '++id, name, admin, string',
-      PendingTxs: '++id',
+      PendingTxs: 'hash',
+      CompletedTxs: 'hash',
       // ...other tables go here...//
     })
     this.Addresses = this.table('Addresses')
     this.Allocators = this.table('Allocators')
     this.PendingTxs = this.table('PendingTxs')
+    this.CompletedTxs = this.table('CompletedTxs')
 
     this.Addresses.mapToClass(Address)
     // this.Allocators.mapToClass(Allocator)
