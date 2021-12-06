@@ -30,9 +30,20 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
   const { sgClient, clientAddress } = useContext(CosmosContext)
   const { recipientList } = useContext(AllocatorContext)
 
-  const onClickAdd = async (mEv) => {
-    if (!sgClient) return console.warn('no stargate client in context')
+  const onChange = (event: any, newValue: string | null, viaAdd = false) => {
+    const newVa = newValue?.split(ADD_NEW)[1] ?? newValue
+    if (newVa && !options.includes(newVa)) {
+      if (!viaAdd) return onAdd()
 
+      setShowAddButton(false)
+      setOptions([...options, newVa])
+      return setValue(newVa)
+    }
+    setValue(newVa)
+  }
+  const onAdd = async () => {
+    if (!sgClient) return console.warn('no stargate client in context')
+    onChange(undefined, inputValue, true)
     const createAllocatorMsg: MsgCreateAllocator = MsgCreateAllocator.fromPartial({
       admin: clientAddress,
       start: new Date(),
@@ -84,31 +95,31 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
     const bresponse = await sgClient.broadcastTx(finished)
     // const parsedLog = JSON.parse(bresponse.rawLog ?? '')
     console.log('broadcastTx', bresponse)
+
     void completePendingTx(bresponse.transactionHash, bresponse)
+  }
+  const onInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue)
+    if (newInputValue && !options.includes(newInputValue)) {
+      setInputValue(newInputValue)
+      setShowAddButton(true)
+    } else {
+      setShowAddButton(false)
+    }
+    setInputValue(newInputValue)
+  }
+  const onKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.defaultMuiPrevented = true // Prevent's default 'Enter' behavior.
+      void onAdd(event)
+    }
   }
   return (
 
     <Autocomplete
         {...passedProps}
-        {...{ options, value, filterOptions }}
-        onChange={(event: any, newValue: string | null) => {
-          if (newValue && !options.includes(newValue)) {
-            const newVa = newValue.split(ADD_NEW)[1]
-            setOptions([...options, newVa])
-            return setValue(newVa)
-          }
-          setValue(newValue)
-        }}
-        inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
-          if (newInputValue && !options.includes(newInputValue)) {
-            setValue(null)
-            setShowAddButton(true)
-          } else {
-            setShowAddButton(false)
-          }
-          setInputValue(newInputValue)
-        }}
+        {...{ options, value, filterOptions, inputValue, onChange, onKeyDown, onInputChange }}
+
         id="allocators-combo-box"
         sx={{ width: 300 }}
         renderInput={(params) => {
@@ -122,7 +133,7 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
                     in={true}
                     unmountOnExit
                   >
-                    <Fab size="small" color="primary" aria-label="add" onClick={onClickAdd}>
+                    <Fab size="small" color="primary" aria-label="add" onClick={onAdd}>
                       <AddIcon />
                     </Fab>
                   </Zoom>
