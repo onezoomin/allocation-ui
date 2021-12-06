@@ -2,9 +2,9 @@
 import { util, configure } from 'protobufjs/minimal';
 import * as Long from 'long';
 
-export const protobufPackage = 'regen.ecocredit.v1alpha2';
+export const protobufPackage = 'regen.divvy.v1';
 
-/** Msg is the regen.ecocredit.v1alpha1 Msg service. */
+/** Msg is the divvy Msg service. */
 export interface Query {}
 
 export class QueryClientImpl implements Query {

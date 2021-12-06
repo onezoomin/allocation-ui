@@ -8,6 +8,7 @@
     "tsc": "tsc -p . --noEmit",
     "build": "cross-env NODE_ENV=production vite build",
     "lint": "eslint src/**/*.ts[x] --fix",
+    "protoSync": "./protoSync.sh",
     "clean": "rm -rf .cache .tmp lib build"
   },
   "dependencies": {

@@ -4,7 +4,7 @@ import * as Long from 'long';
 import { Duration } from '../../../google/protobuf/duration';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 
-export const protobufPackage = 'regen.ecocredit.v1alpha2';
+export const protobufPackage = 'regen.divvy.v1';
 
 export interface Recipient {
 	/** address wallet address */

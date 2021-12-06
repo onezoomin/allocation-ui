@@ -5,7 +5,7 @@ import { Duration } from '../../../google/protobuf/duration';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 import { Recipient } from '../../../regen/divvy/v1/types';
 
-export const protobufPackage = 'regen.ecocredit.v1alpha2';
+export const protobufPackage = 'regen.divvy.v1';
 
 export interface MsgEmptyResp {}
 
@@ -32,18 +32,20 @@ export interface MsgCreateAllocator {
 	recipients: Recipient[];
 }
 
-/** MsgCreateClassResponse is the Msg/CreateClass response type. */
+/** MsgCreateClassResponse is the Msg/CreateAllocator response type. */
 export interface MsgCreateAllocatorResp {
 	/** id is the unique ID of the newly created allocator. */
-	id: string;
+	id: Long;
 }
 
 export interface MsgUpdateAllocatorSetting {
+	/** id of the allocator */
+	id: Long;
 	/** sender must the the Allocator admin */
 	sender: string;
 	start?: Date;
 	end?: Date;
-	/** how often we do a distribution, min 1s */
+	/** how often we do a distribution */
 	interval?: Duration;
 	/** name of the allocator */
 	name: string;
@@ -52,6 +54,8 @@ export interface MsgUpdateAllocatorSetting {
 }
 
 export interface MsgSetAllocationMap {
+	/** id of the allocator */
+	id: Long;
 	/** sender must the the Allocator admin */
 	sender: string;
 	/**
@@ -63,6 +67,8 @@ export interface MsgSetAllocationMap {
 }
 
 export interface MsgRemoveAllocator {
+	/** id of the allocator */
+	id: Long;
 	/** sender must the the Allocator admin */
 	sender: string;
 }
@@ -86,7 +92,18 @@ export interface MsgCreateSlowReleaseStream {
 	fixedAmount: string | undefined;
 }
 
+/**
+ * MsgCreateSlowReleaseStreamResp is response for
+ * Msg/CreateSlowReleaseStreamResp
+ */
+export interface MsgCreateSlowReleaseStreamResp {
+	/** id is the unique ID of the newly created stream. */
+	id: Long;
+}
+
 export interface MsgPauseSlowReleaseStream {
+	/** id of the stream */
+	id: Long;
 	/** sender must the the Stream admin */
 	sender: string;
 	/** the pause value to set */
@@ -94,6 +111,8 @@ export interface MsgPauseSlowReleaseStream {
 }
 
 export interface MsgEditSlowReleaseStream {
+	/** id of the stream */
+	id: Long;
 	/** sender must the the Stream admin */
 	sender: string;
 	/** when the stream starts */
@@ -102,6 +121,8 @@ export interface MsgEditSlowReleaseStream {
 	interval?: Duration;
 	/** Allocator address */
 	destination: string;
+	/** when paused, stream won't send funds */
+	paused: boolean;
 	/**
 	 * fixed amount of tokens streamed in each round. If there is a zero balance
 	 * available then then nothing will be streamed. If only fraction is
@@ -158,31 +179,31 @@ export const MsgCreateAllocator = {
 		writer: Writer = Writer.create()
 	): Writer {
 		if (message.admin !== '') {
-			writer.uint32(10).string(message.admin);
+			writer.uint32(18).string(message.admin);
 		}
 		if (message.start !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.start),
-				writer.uint32(18).fork()
+				writer.uint32(26).fork()
 			).ldelim();
 		}
 		if (message.end !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.end),
-				writer.uint32(26).fork()
+				writer.uint32(34).fork()
 			).ldelim();
 		}
 		if (message.interval !== undefined) {
 			Duration.encode(
 				message.interval,
-				writer.uint32(34).fork()
+				writer.uint32(42).fork()
 			).ldelim();
 		}
 		if (message.name !== '') {
-			writer.uint32(42).string(message.name);
+			writer.uint32(50).string(message.name);
 		}
 		if (message.url !== '') {
-			writer.uint32(50).string(message.url);
+			writer.uint32(58).string(message.url);
 		}
 		for (const v of message.recipients) {
 			Recipient.encode(v!, writer.uint32(82).fork()).ldelim();
@@ -198,26 +219,26 @@ export const MsgCreateAllocator = {
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
-				case 1:
+				case 2:
 					message.admin = reader.string();
 					break;
-				case 2:
+				case 3:
 					message.start = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 3:
+				case 4:
 					message.end = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 4:
+				case 5:
 					message.interval = Duration.decode(reader, reader.uint32());
 					break;
-				case 5:
+				case 6:
 					message.name = reader.string();
 					break;
-				case 6:
+				case 7:
 					message.url = reader.string();
 					break;
 				case 10:
@@ -306,15 +327,15 @@ export const MsgCreateAllocator = {
 	},
 };
 
-const baseMsgCreateAllocatorResp: object = { id: '' };
+const baseMsgCreateAllocatorResp: object = { id: Long.UZERO };
 
 export const MsgCreateAllocatorResp = {
 	encode(
 		message: MsgCreateAllocatorResp,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (message.id !== '') {
-			writer.uint32(10).string(message.id);
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
 		}
 		return writer;
 	},
@@ -332,7 +353,7 @@ export const MsgCreateAllocatorResp = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.string();
+					message.id = reader.uint64() as Long;
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -348,14 +369,15 @@ export const MsgCreateAllocatorResp = {
 		} as MsgCreateAllocatorResp;
 		message.id =
 			object.id !== undefined && object.id !== null
-				? String(object.id)
-				: '';
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		return message;
 	},
 
 	toJSON(message: MsgCreateAllocatorResp): unknown {
 		const obj: any = {};
-		message.id !== undefined && (obj.id = message.id);
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		return obj;
 	},
 
@@ -365,44 +387,55 @@ export const MsgCreateAllocatorResp = {
 		const message = {
 			...baseMsgCreateAllocatorResp,
 		} as MsgCreateAllocatorResp;
-		message.id = object.id ?? '';
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		return message;
 	},
 };
 
-const baseMsgUpdateAllocatorSetting: object = { sender: '', name: '', url: '' };
+const baseMsgUpdateAllocatorSetting: object = {
+	id: Long.UZERO,
+	sender: '',
+	name: '',
+	url: '',
+};
 
 export const MsgUpdateAllocatorSetting = {
 	encode(
 		message: MsgUpdateAllocatorSetting,
 		writer: Writer = Writer.create()
 	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
 		if (message.sender !== '') {
-			writer.uint32(10).string(message.sender);
+			writer.uint32(18).string(message.sender);
 		}
 		if (message.start !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.start),
-				writer.uint32(18).fork()
+				writer.uint32(26).fork()
 			).ldelim();
 		}
 		if (message.end !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.end),
-				writer.uint32(26).fork()
+				writer.uint32(34).fork()
 			).ldelim();
 		}
 		if (message.interval !== undefined) {
 			Duration.encode(
 				message.interval,
-				writer.uint32(34).fork()
+				writer.uint32(42).fork()
 			).ldelim();
 		}
 		if (message.name !== '') {
-			writer.uint32(42).string(message.name);
+			writer.uint32(50).string(message.name);
 		}
 		if (message.url !== '') {
-			writer.uint32(50).string(message.url);
+			writer.uint32(58).string(message.url);
 		}
 		return writer;
 	},
@@ -420,25 +453,28 @@ export const MsgUpdateAllocatorSetting = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.sender = reader.string();
+					message.id = reader.uint64() as Long;
 					break;
 				case 2:
+					message.sender = reader.string();
+					break;
+				case 3:
 					message.start = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 3:
+				case 4:
 					message.end = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 4:
+				case 5:
 					message.interval = Duration.decode(reader, reader.uint32());
 					break;
-				case 5:
+				case 6:
 					message.name = reader.string();
 					break;
-				case 6:
+				case 7:
 					message.url = reader.string();
 					break;
 				default:
@@ -453,6 +489,10 @@ export const MsgUpdateAllocatorSetting = {
 		const message = {
 			...baseMsgUpdateAllocatorSetting,
 		} as MsgUpdateAllocatorSetting;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -482,6 +522,8 @@ export const MsgUpdateAllocatorSetting = {
 
 	toJSON(message: MsgUpdateAllocatorSetting): unknown {
 		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.start !== undefined &&
 			(obj.start = message.start.toISOString());
@@ -501,6 +543,10 @@ export const MsgUpdateAllocatorSetting = {
 		const message = {
 			...baseMsgUpdateAllocatorSetting,
 		} as MsgUpdateAllocatorSetting;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		message.sender = object.sender ?? '';
 		message.start = object.start ?? undefined;
 		message.end = object.end ?? undefined;
@@ -514,18 +560,21 @@ export const MsgUpdateAllocatorSetting = {
 	},
 };
 
-const baseMsgSetAllocationMap: object = { sender: '' };
+const baseMsgSetAllocationMap: object = { id: Long.UZERO, sender: '' };
 
 export const MsgSetAllocationMap = {
 	encode(
 		message: MsgSetAllocationMap,
 		writer: Writer = Writer.create()
 	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
 		if (message.sender !== '') {
-			writer.uint32(10).string(message.sender);
+			writer.uint32(18).string(message.sender);
 		}
 		for (const v of message.recipients) {
-			Recipient.encode(v!, writer.uint32(18).fork()).ldelim();
+			Recipient.encode(v!, writer.uint32(26).fork()).ldelim();
 		}
 		return writer;
 	},
@@ -539,9 +588,12 @@ export const MsgSetAllocationMap = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.sender = reader.string();
+					message.id = reader.uint64() as Long;
 					break;
 				case 2:
+					message.sender = reader.string();
+					break;
+				case 3:
 					message.recipients.push(
 						Recipient.decode(reader, reader.uint32())
 					);
@@ -556,6 +608,10 @@ export const MsgSetAllocationMap = {
 
 	fromJSON(object: any): MsgSetAllocationMap {
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -568,6 +624,8 @@ export const MsgSetAllocationMap = {
 
 	toJSON(message: MsgSetAllocationMap): unknown {
 		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		message.sender !== undefined && (obj.sender = message.sender);
 		if (message.recipients) {
 			obj.recipients = message.recipients.map((e) =>
@@ -583,6 +641,10 @@ export const MsgSetAllocationMap = {
 		object: I
 	): MsgSetAllocationMap {
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		message.sender = object.sender ?? '';
 		message.recipients =
 			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
@@ -590,15 +652,18 @@ export const MsgSetAllocationMap = {
 	},
 };
 
-const baseMsgRemoveAllocator: object = { sender: '' };
+const baseMsgRemoveAllocator: object = { id: Long.UZERO, sender: '' };
 
 export const MsgRemoveAllocator = {
 	encode(
 		message: MsgRemoveAllocator,
 		writer: Writer = Writer.create()
 	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
 		if (message.sender !== '') {
-			writer.uint32(10).string(message.sender);
+			writer.uint32(18).string(message.sender);
 		}
 		return writer;
 	},
@@ -611,6 +676,9 @@ export const MsgRemoveAllocator = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
+					message.id = reader.uint64() as Long;
+					break;
+				case 2:
 					message.sender = reader.string();
 					break;
 				default:
@@ -623,6 +691,10 @@ export const MsgRemoveAllocator = {
 
 	fromJSON(object: any): MsgRemoveAllocator {
 		const message = { ...baseMsgRemoveAllocator } as MsgRemoveAllocator;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -632,6 +704,8 @@ export const MsgRemoveAllocator = {
 
 	toJSON(message: MsgRemoveAllocator): unknown {
 		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		message.sender !== undefined && (obj.sender = message.sender);
 		return obj;
 	},
@@ -640,6 +714,10 @@ export const MsgRemoveAllocator = {
 		object: I
 	): MsgRemoveAllocator {
 		const message = { ...baseMsgRemoveAllocator } as MsgRemoveAllocator;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		message.sender = object.sender ?? '';
 		return message;
 	},
@@ -657,25 +735,25 @@ export const MsgCreateSlowReleaseStream = {
 		writer: Writer = Writer.create()
 	): Writer {
 		if (message.admin !== '') {
-			writer.uint32(10).string(message.admin);
+			writer.uint32(18).string(message.admin);
 		}
 		if (message.start !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.start),
-				writer.uint32(18).fork()
+				writer.uint32(26).fork()
 			).ldelim();
 		}
 		if (message.interval !== undefined) {
 			Duration.encode(
 				message.interval,
-				writer.uint32(26).fork()
+				writer.uint32(34).fork()
 			).ldelim();
 		}
 		if (message.destination !== '') {
-			writer.uint32(34).string(message.destination);
+			writer.uint32(42).string(message.destination);
 		}
 		if (message.paused === true) {
-			writer.uint32(40).bool(message.paused);
+			writer.uint32(48).bool(message.paused);
 		}
 		if (message.fixedAmount !== undefined) {
 			writer.uint32(82).string(message.fixedAmount);
@@ -695,21 +773,21 @@ export const MsgCreateSlowReleaseStream = {
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
-				case 1:
+				case 2:
 					message.admin = reader.string();
 					break;
-				case 2:
+				case 3:
 					message.start = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 3:
+				case 4:
 					message.interval = Duration.decode(reader, reader.uint32());
 					break;
-				case 4:
+				case 5:
 					message.destination = reader.string();
 					break;
-				case 5:
+				case 6:
 					message.paused = reader.bool();
 					break;
 				case 10:
@@ -790,18 +868,93 @@ export const MsgCreateSlowReleaseStream = {
 	},
 };
 
-const baseMsgPauseSlowReleaseStream: object = { sender: '', paused: false };
+const baseMsgCreateSlowReleaseStreamResp: object = { id: Long.UZERO };
+
+export const MsgCreateSlowReleaseStreamResp = {
+	encode(
+		message: MsgCreateSlowReleaseStreamResp,
+		writer: Writer = Writer.create()
+	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
+		return writer;
+	},
+
+	decode(
+		input: Reader | Uint8Array,
+		length?: number
+	): MsgCreateSlowReleaseStreamResp {
+		const reader = input instanceof Reader ? input : new Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = {
+			...baseMsgCreateSlowReleaseStreamResp,
+		} as MsgCreateSlowReleaseStreamResp;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.id = reader.uint64() as Long;
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): MsgCreateSlowReleaseStreamResp {
+		const message = {
+			...baseMsgCreateSlowReleaseStreamResp,
+		} as MsgCreateSlowReleaseStreamResp;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
+		return message;
+	},
+
+	toJSON(message: MsgCreateSlowReleaseStreamResp): unknown {
+		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
+		return obj;
+	},
+
+	fromPartial<
+		I extends Exact<DeepPartial<MsgCreateSlowReleaseStreamResp>, I>
+	>(object: I): MsgCreateSlowReleaseStreamResp {
+		const message = {
+			...baseMsgCreateSlowReleaseStreamResp,
+		} as MsgCreateSlowReleaseStreamResp;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
+		return message;
+	},
+};
+
+const baseMsgPauseSlowReleaseStream: object = {
+	id: Long.UZERO,
+	sender: '',
+	paused: false,
+};
 
 export const MsgPauseSlowReleaseStream = {
 	encode(
 		message: MsgPauseSlowReleaseStream,
 		writer: Writer = Writer.create()
 	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
 		if (message.sender !== '') {
-			writer.uint32(10).string(message.sender);
+			writer.uint32(18).string(message.sender);
 		}
 		if (message.paused === true) {
-			writer.uint32(16).bool(message.paused);
+			writer.uint32(24).bool(message.paused);
 		}
 		return writer;
 	},
@@ -819,9 +972,12 @@ export const MsgPauseSlowReleaseStream = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.sender = reader.string();
+					message.id = reader.uint64() as Long;
 					break;
 				case 2:
+					message.sender = reader.string();
+					break;
+				case 3:
 					message.paused = reader.bool();
 					break;
 				default:
@@ -836,6 +992,10 @@ export const MsgPauseSlowReleaseStream = {
 		const message = {
 			...baseMsgPauseSlowReleaseStream,
 		} as MsgPauseSlowReleaseStream;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -849,6 +1009,8 @@ export const MsgPauseSlowReleaseStream = {
 
 	toJSON(message: MsgPauseSlowReleaseStream): unknown {
 		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.paused !== undefined && (obj.paused = message.paused);
 		return obj;
@@ -860,36 +1022,51 @@ export const MsgPauseSlowReleaseStream = {
 		const message = {
 			...baseMsgPauseSlowReleaseStream,
 		} as MsgPauseSlowReleaseStream;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		message.sender = object.sender ?? '';
 		message.paused = object.paused ?? false;
 		return message;
 	},
 };
 
-const baseMsgEditSlowReleaseStream: object = { sender: '', destination: '' };
+const baseMsgEditSlowReleaseStream: object = {
+	id: Long.UZERO,
+	sender: '',
+	destination: '',
+	paused: false,
+};
 
 export const MsgEditSlowReleaseStream = {
 	encode(
 		message: MsgEditSlowReleaseStream,
 		writer: Writer = Writer.create()
 	): Writer {
+		if (!message.id.isZero()) {
+			writer.uint32(8).uint64(message.id);
+		}
 		if (message.sender !== '') {
-			writer.uint32(10).string(message.sender);
+			writer.uint32(18).string(message.sender);
 		}
 		if (message.start !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.start),
-				writer.uint32(18).fork()
+				writer.uint32(26).fork()
 			).ldelim();
 		}
 		if (message.interval !== undefined) {
 			Duration.encode(
 				message.interval,
-				writer.uint32(26).fork()
+				writer.uint32(34).fork()
 			).ldelim();
 		}
 		if (message.destination !== '') {
-			writer.uint32(34).string(message.destination);
+			writer.uint32(42).string(message.destination);
+		}
+		if (message.paused === true) {
+			writer.uint32(48).bool(message.paused);
 		}
 		if (message.fixedAmount !== undefined) {
 			writer.uint32(82).string(message.fixedAmount);
@@ -910,18 +1087,24 @@ export const MsgEditSlowReleaseStream = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.sender = reader.string();
+					message.id = reader.uint64() as Long;
 					break;
 				case 2:
+					message.sender = reader.string();
+					break;
+				case 3:
 					message.start = fromTimestamp(
 						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
-				case 3:
+				case 4:
 					message.interval = Duration.decode(reader, reader.uint32());
 					break;
-				case 4:
+				case 5:
 					message.destination = reader.string();
+					break;
+				case 6:
+					message.paused = reader.bool();
 					break;
 				case 10:
 					message.fixedAmount = reader.string();
@@ -938,6 +1121,10 @@ export const MsgEditSlowReleaseStream = {
 		const message = {
 			...baseMsgEditSlowReleaseStream,
 		} as MsgEditSlowReleaseStream;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromString(object.id)
+				: Long.UZERO;
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -954,6 +1141,10 @@ export const MsgEditSlowReleaseStream = {
 			object.destination !== undefined && object.destination !== null
 				? String(object.destination)
 				: '';
+		message.paused =
+			object.paused !== undefined && object.paused !== null
+				? Boolean(object.paused)
+				: false;
 		message.fixedAmount =
 			object.fixedAmount !== undefined && object.fixedAmount !== null
 				? String(object.fixedAmount)
@@ -963,6 +1154,8 @@ export const MsgEditSlowReleaseStream = {
 
 	toJSON(message: MsgEditSlowReleaseStream): unknown {
 		const obj: any = {};
+		message.id !== undefined &&
+			(obj.id = (message.id || Long.UZERO).toString());
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.start !== undefined &&
 			(obj.start = message.start.toISOString());
@@ -972,6 +1165,7 @@ export const MsgEditSlowReleaseStream = {
 				: undefined);
 		message.destination !== undefined &&
 			(obj.destination = message.destination);
+		message.paused !== undefined && (obj.paused = message.paused);
 		message.fixedAmount !== undefined &&
 			(obj.fixedAmount = message.fixedAmount);
 		return obj;
@@ -983,6 +1177,10 @@ export const MsgEditSlowReleaseStream = {
 		const message = {
 			...baseMsgEditSlowReleaseStream,
 		} as MsgEditSlowReleaseStream;
+		message.id =
+			object.id !== undefined && object.id !== null
+				? Long.fromValue(object.id)
+				: Long.UZERO;
 		message.sender = object.sender ?? '';
 		message.start = object.start ?? undefined;
 		message.interval =
@@ -990,12 +1188,13 @@ export const MsgEditSlowReleaseStream = {
 				? Duration.fromPartial(object.interval)
 				: undefined;
 		message.destination = object.destination ?? '';
+		message.paused = object.paused ?? false;
 		message.fixedAmount = object.fixedAmount ?? undefined;
 		return message;
 	},
 };
 
-/** Msg is the regen.ecocredit.v1alpha1 Msg service. */
+/** Msg is the divvy Msg service. */
 export interface Msg {
 	/**
 	 * Allocator is a distribution engine, which "divvys out" all incoming funds,
@@ -1027,7 +1226,7 @@ export interface Msg {
 	 */
 	CreateSlowReleaseStream(
 		request: MsgCreateSlowReleaseStream
-	): Promise<MsgEmptyResp>;
+	): Promise<MsgCreateSlowReleaseStreamResp>;
 	PauseSlowReleaseStream(
 		request: MsgPauseSlowReleaseStream
 	): Promise<MsgEmptyResp>;
@@ -1053,7 +1252,7 @@ export class MsgClientImpl implements Msg {
 	): Promise<MsgCreateAllocatorResp> {
 		const data = MsgCreateAllocator.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'CreateAllocator',
 			data
 		);
@@ -1067,7 +1266,7 @@ export class MsgClientImpl implements Msg {
 	): Promise<MsgEmptyResp> {
 		const data = MsgUpdateAllocatorSetting.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'UpdateAllocatorSetting',
 			data
 		);
@@ -1077,7 +1276,7 @@ export class MsgClientImpl implements Msg {
 	SetAllocationMap(request: MsgSetAllocationMap): Promise<MsgEmptyResp> {
 		const data = MsgSetAllocationMap.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'SetAllocationMap',
 			data
 		);
@@ -1089,7 +1288,7 @@ export class MsgClientImpl implements Msg {
 	): Promise<MsgCreateAllocatorResp> {
 		const data = MsgRemoveAllocator.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'RemoveAllocator',
 			data
 		);
@@ -1100,14 +1299,16 @@ export class MsgClientImpl implements Msg {
 
 	CreateSlowReleaseStream(
 		request: MsgCreateSlowReleaseStream
-	): Promise<MsgEmptyResp> {
+	): Promise<MsgCreateSlowReleaseStreamResp> {
 		const data = MsgCreateSlowReleaseStream.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'CreateSlowReleaseStream',
 			data
 		);
-		return promise.then((data) => MsgEmptyResp.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgCreateSlowReleaseStreamResp.decode(new Reader(data))
+		);
 	}
 
 	PauseSlowReleaseStream(
@@ -1115,7 +1316,7 @@ export class MsgClientImpl implements Msg {
 	): Promise<MsgEmptyResp> {
 		const data = MsgPauseSlowReleaseStream.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'PauseSlowReleaseStream',
 			data
 		);
@@ -1127,7 +1328,7 @@ export class MsgClientImpl implements Msg {
 	): Promise<MsgEmptyResp> {
 		const data = MsgEditSlowReleaseStream.encode(request).finish();
 		const promise = this.rpc.request(
-			'regen.ecocredit.v1alpha2.Msg',
+			'regen.divvy.v1.Msg',
 			'EditSlowReleaseStream',
 			data
 		);
