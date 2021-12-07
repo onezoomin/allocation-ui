@@ -3,58 +3,55 @@ import { h } from 'preact'
 import { Recipient } from '../../Model/Allocations'
 import Slider from '../Slider'
 
-export default function AllocatorSet ({ struct, setStruct }: {struct: Recipient[], setStruct: any}) {
-  // .sort((a, b) => a.value - b.value)
-
+export default function AllocatorSet ({ recipientList, setRecipientList }: {recipientList: Recipient[], setRecipientList: any}) {
   let currentSum = 0
-  for (const eachRecip of struct) {
+  for (const eachRecip of recipientList) {
     currentSum += eachRecip.value
   }
 
   function onChangeCallback (id: number, newVal: number) {
-    const recip = struct[id]
+    const recip = recipientList[id]
     recip.value = newVal
 
     currentSum = 0
-    for (const eachRecip of struct) {
+    for (const eachRecip of recipientList) {
       currentSum += eachRecip.value
     }
-    console.log('before', struct, newVal, currentSum)
+    // console.log('before', struct, newVal, currentSum)
     if (currentSum !== 100) {
       const adjust = 100 - currentSum
-      const eachAdjustment: number = Math.ceil(adjust / (struct.length - 1))
-      for (const eachRecip of struct) {
+      const eachAdjustment: number = Math.ceil(adjust / (recipientList.length - 1))
+      for (const eachRecip of recipientList) {
         const thisAdjustment: number = clamp(Math.round(eachRecip.value + eachAdjustment), 0, 100)
         if (eachRecip !== recip) { // && thisAdjustment >= 0
           eachRecip.value = thisAdjustment
         }
         currentSum = 0
-        for (const eachRecip of struct) {
+        for (const eachRecip of recipientList) {
           currentSum += eachRecip.value
         }
         if (currentSum !== 100) {
           const adjust = 100 - currentSum
           recip.value = clamp(recip.value + adjust, 0, 100)
-          console.log('mid', newVal, adjust)
+          // console.log('mid', newVal, adjust)
         }
       }
     }
     currentSum = 0
-    for (const eachRecip of struct) {
+    for (const eachRecip of recipientList) {
       currentSum += eachRecip.value
     }
-    console.log('after', struct, recip, newVal, currentSum)
-    setStruct([...struct]) // new array instance needed to trigger render
+    // console.log('after', struct, recip, newVal, currentSum)
+    setRecipientList([...recipientList]) // new array instance needed to trigger render
   }
 
   return (
     <div class="container overflow-y:auto mx-auto mb-5">
-      {struct?.map((recip, id) => {
-        console.log(recip, struct)
+      {recipientList?.map((recip, id) => {
+        // console.log(recip, struct)
         const key = `${recip.catKey}-${id}`
-        // const innerKeys = Array.from(Object.keys(cat.endeavor))
         return (
-          <Slider {...{ key, id, recip, onChangeCallback }} />
+          <Slider key={key} {...{ id, recip, onChangeCallback }} />
         )
       })}
       Sum: {currentSum}

@@ -7,17 +7,19 @@ import { ThemeProvider } from '@mui/material/styles'
 import { sha256 } from 'js-sha256'
 import { Image } from 'mui-image'
 import { createContext, h } from 'preact'
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import AllocatorsComboBox from './Components/Allocator/AllocatorsComboBox'
 import AllocatorSet from './Components/Allocator/AllocatorSet'
 import SubmitRow from './Components/Allocator/SubmitRow'
 import ConnectButton from './Components/ButtonComponents/ConnectButton'
 import { FlexRow } from './Components/Minis'
 import { addPendingTx, completePendingTx } from './Data/data'
-import { initialRecipients, RecipientWeighted } from './Model/Allocations'
+import { Address } from './Model/Address'
+import { initialRecipients, Recipient, RecipientWeighted } from './Model/Allocations'
 import { TxRaw } from './Model/generated/cosmos/tx/v1beta1/tx'
 import { MsgCreateAllocator } from './Model/generated/regen/divvy/v1/tx'
-import { addRegenLocalChain } from './Utils/cosmos-utils'
+import { Allocator } from './Model/generated/regen/divvy/v1/types'
+import { addRegenLocalChain, getAllAllocators } from './Utils/cosmos-utils'
 import { useDarkMode } from './Utils/react-utils'
 const myRegistry = new Registry([
   ...defaultRegistryTypes,
@@ -34,16 +36,43 @@ export const CosmosContext = createContext<{
   sgClient: null,
   clientAddress: '',
 })
-export const AllocatorContext = createContext({
-  recipientList: initialRecipients,
+export const AllocatorContext = createContext<{
+  recipientList: Recipient[]
+  allocatorOptions: Allocator[]
+}>({
+  recipientList: [],
+  allocatorOptions: [],
 })
 
 export const App = () => {
   const theme = useDarkMode()
-  const [recipientList, setRecipientList] = useState(initialRecipients)
+
   const [tally, setTally] = useState(runningTally)
   const [clientAddress, setClientAddress] = useState('')
   const [sgClient, setSgClient] = useState<null | SigningStargateClient>(null)
+
+  const [allocatorOptions, setAllocatorOptions] = useState<Allocator[]>([])
+
+  const [recipientList, setRecipientList] = useState<Recipient[]>([])
+  useEffect(() => {
+    if (sgClient) {
+      const fetchData = async () => {
+        const data = await getAllAllocators(sgClient)
+        if (data) {
+          setAllocatorOptions(data.allocator)
+          setRecipientList(data.allocator[1].entries.map(({ address, share }, i) =>
+            new Recipient({
+              recipient: new Address({ address }),
+              name: `Endeavor ${i}`,
+              value: share / 10000,
+            }),
+          ))
+        }
+      }
+
+      void fetchData()
+    }
+  }, [sgClient])
 
   // const ActiveTasks = useLiveQuery(ActiveTasksQuery) ?? []
   // console.log(`Active Tasks: ${ActiveTasks.length}`)
@@ -82,6 +111,9 @@ export const App = () => {
       setSgClient(regenStargateClient)
 
       console.log('account 0', account)
+
+      const allocatorQueryResults = await getAllAllocators(regenStargateClient)
+      console.log('allocatorQueryResults', allocatorQueryResults)
 
       const encodableMsg: EncodeObject = {
         typeUrl: '/cosmos.bank.v1beta1.MsgSend',
@@ -144,7 +176,7 @@ export const App = () => {
 
   return (
     <CosmosContext.Provider value={{ sgClient, clientAddress }}>
-      <AllocatorContext.Provider value={{ recipientList }}>
+      <AllocatorContext.Provider value={{ recipientList, allocatorOptions }}>
         <ThemeProvider theme={theme}>
           <FlexRow className="p-4">
             <ConnectButton address={ clientAddress } onClick={clickConnect} />
@@ -152,7 +184,7 @@ export const App = () => {
           </FlexRow>
           <div className="container mx-auto lg:w-1/2">
             <h1 className="text-5xl mb-4">Allocator</h1>
-            <AllocatorSet {...{ struct: recipientList, setStruct: setRecipientList }} />
+            <AllocatorSet {...{ recipientList, setRecipientList }} />
             <SubmitRow className="mb-4" {...{ onSubmit }} />
             <h1 className="mb-2 text-3xl text-left">Running Weighted Tally</h1>
             {

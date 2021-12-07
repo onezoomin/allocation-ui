@@ -1,3 +1,46 @@
+import { createProtobufRpcClient, QueryClient, SigningStargateClient } from '@cosmjs/stargate'
+import { QueryClientImpl } from './../Model/generated/regen/divvy/v1/query'
+
+export const getAllAllocators = async (sgClient: SigningStargateClient) => {
+  // https://github.com/cosmos/cosmjs/blob/main/packages/stargate/CUSTOM_PROTOBUF_CODECS.md#step-3b-instantiate-a-query-client-using-your-custom-query-service
+  const tmC = sgClient.getTmClient()
+  if (!tmC) return console.warn('no tm client')
+
+  const queryClient = new QueryClient(tmC)
+  const rpcClient = createProtobufRpcClient(queryClient)
+  const queryService = new QueryClientImpl(rpcClient)
+  const queryResult = await queryService.Allocators({
+  // pagination: {
+  //   /**
+  //    * key is a value returned in PageResponse.next_key to begin
+  //    * querying the next page most efficiently. Only one of offset or key
+  //    * should be set.
+  //    */
+  //   key: Uint8Array;
+  //   /**
+  //    * offset is a numeric offset that can be used when key is unavailable.
+  //    * It is less efficient than using key. Only one of offset or key should
+  //    * be set.
+  //    */
+  //   offset: Long;
+  //   /**
+  //    * limit is the total number of results to be returned in the result page.
+  //    * If left empty it will default to a value to be set by each app.
+  //    */
+  //   limit: Long;
+  //   /**
+  //    * count_total is set to true  to indicate that the result set should include
+  //    * a count of the total number of items available for pagination in UIs.
+  //    * count_total is only respected when offset is used. It is ignored when key
+  //    * is set.
+  //    */
+  //   countTotal: boolean;
+  // },
+  })
+
+  return queryResult
+}
+
 const chainInfo = {
   // Chain-id of the Regen chain.
   chainId: '',

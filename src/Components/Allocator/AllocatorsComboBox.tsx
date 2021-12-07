@@ -8,7 +8,7 @@ import Zoom from '@mui/material/Zoom'
 import addDays from 'date-fns/addDays'
 import { sha256 } from 'js-sha256'
 import { h } from 'preact'
-import { useContext, useState } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 import { AllocatorContext, CosmosContext } from '../../app'
 import { addPendingTx, completePendingTx } from '../../Data/data'
 import { Recipient } from '../../Model/Allocations'
@@ -20,21 +20,23 @@ import { FlexRow } from '../Minis'
 const filter = createFilterOptions()
 
 const ADD_NEW = 'Add a new Allocator: '
-const optionDefaults = ['regenAllocatorAddress1', 'regenAllocatorAddress2']
 
 export default function AllocatorsComboBox ({ ...passedProps }) {
-  const [options, setOptions] = useState<string[]>(optionDefaults)
-  const [value, setValue] = useState<string | null>(options[0])
   const [inputValue, setInputValue] = useState('')
   const [showAddButton, setShowAddButton] = useState(false)
   const { sgClient, clientAddress } = useContext(CosmosContext)
-  const { recipientList } = useContext(AllocatorContext)
+  const { recipientList, allocatorOptions } = useContext(AllocatorContext)
+  const [options, setOptions] = useState<string[]>(allocatorOptions.map((a) => a.name))
+  const [value, setValue] = useState<string | null>(options[0])
+  useEffect(() => {
+    setOptions(allocatorOptions.map((a) => a.name))
+    setValue(options[0])
+  }, [allocatorOptions, options])
 
   const onChange = (event: any, newValue: string | null, viaAdd = false) => {
+    if (newValue?.split(ADD_NEW)[1]) return onAdd()
     const newVa = newValue?.split(ADD_NEW)[1] ?? newValue
     if (newVa && !options.includes(newVa)) {
-      if (!viaAdd) return onAdd()
-
       setShowAddButton(false)
       setOptions([...options, newVa])
       return setValue(newVa)
@@ -111,7 +113,7 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
   const onKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.defaultMuiPrevented = true // Prevent's default 'Enter' behavior.
-      void onAdd(event)
+      void onAdd()
     }
   }
   return (
