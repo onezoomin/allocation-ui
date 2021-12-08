@@ -21,27 +21,31 @@ const filter = createFilterOptions()
 
 const ADD_NEW = 'Add a new Allocator: '
 
-export default function AllocatorsComboBox ({ ...passedProps }) {
+export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedProps }) {
   const [inputValue, setInputValue] = useState('')
   const [showAddButton, setShowAddButton] = useState(false)
   const { sgClient, clientAddress } = useContext(CosmosContext)
   const { recipientList, allocatorOptions } = useContext(AllocatorContext)
   const [options, setOptions] = useState<string[]>(allocatorOptions.map((a) => a.name))
-  const [value, setValue] = useState<string | null>(options[0])
+  const [value, setValue] = useState<string | null>(null)
+  const alloMapByName = new Map(allocatorOptions.map((a) => ([a.name, a]))) // TODO refactor to use unique ID/address instead of name
   useEffect(() => {
     setOptions(allocatorOptions.map((a) => a.name))
-    setValue(options[0])
+    if (!value && allocatorOptions.length) setValue(allocatorOptions[0].name)
   }, [allocatorOptions, options])
 
-  const onChange = (event: any, newValue: string | null, viaAdd = false) => {
+  const onChange = (event: any, newValue: string = '', viaAdd = false) => {
     if (newValue?.split(ADD_NEW)[1]) return onAdd()
     const newVa = newValue?.split(ADD_NEW)[1] ?? newValue
+    console.log('choose', newVa, alloMapByName)
+
     if (newVa && !options.includes(newVa)) {
       setShowAddButton(false)
       setOptions([...options, newVa])
-      return setValue(newVa)
     }
     setValue(newVa)
+
+    if (alloMapByName.has(newVa)) onChoose(alloMapByName.get(newVa))
   }
   const onAdd = async () => {
     if (!sgClient) return console.warn('no stargate client in context')
@@ -56,9 +60,10 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
       }),
       /** url with metadata */
       url: 'https://meta.data',
-      recipients: Array.from(recipientList.values()).map((eachRecip: Recipient) => ({
-        address: eachRecip.recipient.address,
-        share: eachRecip.value * 10000, /** allocation share. 100% = 1e6. */
+      recipients: Array.from(recipientList.values()).map(({ address, share, name }: Recipient) => ({
+        address,
+        name,
+        share, /** allocation share. 100% = 1e6. */
       })),
     })
     const encodableMsg: EncodeObject = {
@@ -97,7 +102,7 @@ export default function AllocatorsComboBox ({ ...passedProps }) {
     const bresponse = await sgClient.broadcastTx(finished)
     // const parsedLog = JSON.parse(bresponse.rawLog ?? '')
     console.log('broadcastTx', bresponse)
-
+    triggerFetch(true)
     void completePendingTx(bresponse.transactionHash, bresponse)
   }
   const onInputChange = (event, newInputValue) => {

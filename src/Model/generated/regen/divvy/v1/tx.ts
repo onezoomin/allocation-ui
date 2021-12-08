@@ -34,13 +34,13 @@ export interface MsgCreateAllocator {
 
 /** MsgCreateClassResponse is the Msg/CreateAllocator response type. */
 export interface MsgCreateAllocatorResp {
-	/** id is the unique ID of the newly created allocator. */
-	id: Long;
+	/** Address is a unique address of newly created Allocator */
+	address: string;
 }
 
 export interface MsgUpdateAllocatorSetting {
-	/** id of the allocator */
-	id: Long;
+	/** address of the allocator */
+	address: string;
 	/** sender must the the Allocator admin */
 	sender: string;
 	start?: Date;
@@ -54,8 +54,8 @@ export interface MsgUpdateAllocatorSetting {
 }
 
 export interface MsgSetAllocationMap {
-	/** id of the allocator */
-	id: Long;
+	/** address of the allocator */
+	address: string;
 	/** sender must the the Allocator admin */
 	sender: string;
 	/**
@@ -67,8 +67,8 @@ export interface MsgSetAllocationMap {
 }
 
 export interface MsgRemoveAllocator {
-	/** id of the allocator */
-	id: Long;
+	/** address of the allocator */
+	address: string;
 	/** sender must the the Allocator admin */
 	sender: string;
 }
@@ -97,13 +97,13 @@ export interface MsgCreateSlowReleaseStream {
  * Msg/CreateSlowReleaseStreamResp
  */
 export interface MsgCreateSlowReleaseStreamResp {
-	/** id is the unique ID of the newly created stream. */
-	id: Long;
+	/** address of the newly created streamer */
+	address: string;
 }
 
 export interface MsgPauseSlowReleaseStream {
-	/** id of the stream */
-	id: Long;
+	/** address of a stream */
+	address: string;
 	/** sender must the the Stream admin */
 	sender: string;
 	/** the pause value to set */
@@ -111,8 +111,8 @@ export interface MsgPauseSlowReleaseStream {
 }
 
 export interface MsgEditSlowReleaseStream {
-	/** id of the stream */
-	id: Long;
+	/** address of a stream */
+	address: string;
 	/** sender must the the Stream admin */
 	sender: string;
 	/** when the stream starts */
@@ -327,15 +327,15 @@ export const MsgCreateAllocator = {
 	},
 };
 
-const baseMsgCreateAllocatorResp: object = { id: Long.UZERO };
+const baseMsgCreateAllocatorResp: object = { address: '' };
 
 export const MsgCreateAllocatorResp = {
 	encode(
 		message: MsgCreateAllocatorResp,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		return writer;
 	},
@@ -353,7 +353,7 @@ export const MsgCreateAllocatorResp = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -367,17 +367,16 @@ export const MsgCreateAllocatorResp = {
 		const message = {
 			...baseMsgCreateAllocatorResp,
 		} as MsgCreateAllocatorResp;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		return message;
 	},
 
 	toJSON(message: MsgCreateAllocatorResp): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		return obj;
 	},
 
@@ -387,16 +386,13 @@ export const MsgCreateAllocatorResp = {
 		const message = {
 			...baseMsgCreateAllocatorResp,
 		} as MsgCreateAllocatorResp;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		return message;
 	},
 };
 
 const baseMsgUpdateAllocatorSetting: object = {
-	id: Long.UZERO,
+	address: '',
 	sender: '',
 	name: '',
 	url: '',
@@ -407,8 +403,8 @@ export const MsgUpdateAllocatorSetting = {
 		message: MsgUpdateAllocatorSetting,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		if (message.sender !== '') {
 			writer.uint32(18).string(message.sender);
@@ -453,7 +449,7 @@ export const MsgUpdateAllocatorSetting = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				case 2:
 					message.sender = reader.string();
@@ -489,10 +485,10 @@ export const MsgUpdateAllocatorSetting = {
 		const message = {
 			...baseMsgUpdateAllocatorSetting,
 		} as MsgUpdateAllocatorSetting;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -522,8 +518,7 @@ export const MsgUpdateAllocatorSetting = {
 
 	toJSON(message: MsgUpdateAllocatorSetting): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.start !== undefined &&
 			(obj.start = message.start.toISOString());
@@ -543,10 +538,7 @@ export const MsgUpdateAllocatorSetting = {
 		const message = {
 			...baseMsgUpdateAllocatorSetting,
 		} as MsgUpdateAllocatorSetting;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.start = object.start ?? undefined;
 		message.end = object.end ?? undefined;
@@ -560,15 +552,15 @@ export const MsgUpdateAllocatorSetting = {
 	},
 };
 
-const baseMsgSetAllocationMap: object = { id: Long.UZERO, sender: '' };
+const baseMsgSetAllocationMap: object = { address: '', sender: '' };
 
 export const MsgSetAllocationMap = {
 	encode(
 		message: MsgSetAllocationMap,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		if (message.sender !== '') {
 			writer.uint32(18).string(message.sender);
@@ -588,7 +580,7 @@ export const MsgSetAllocationMap = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				case 2:
 					message.sender = reader.string();
@@ -608,10 +600,10 @@ export const MsgSetAllocationMap = {
 
 	fromJSON(object: any): MsgSetAllocationMap {
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -624,8 +616,7 @@ export const MsgSetAllocationMap = {
 
 	toJSON(message: MsgSetAllocationMap): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
 		if (message.recipients) {
 			obj.recipients = message.recipients.map((e) =>
@@ -641,10 +632,7 @@ export const MsgSetAllocationMap = {
 		object: I
 	): MsgSetAllocationMap {
 		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.recipients =
 			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
@@ -652,15 +640,15 @@ export const MsgSetAllocationMap = {
 	},
 };
 
-const baseMsgRemoveAllocator: object = { id: Long.UZERO, sender: '' };
+const baseMsgRemoveAllocator: object = { address: '', sender: '' };
 
 export const MsgRemoveAllocator = {
 	encode(
 		message: MsgRemoveAllocator,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		if (message.sender !== '') {
 			writer.uint32(18).string(message.sender);
@@ -676,7 +664,7 @@ export const MsgRemoveAllocator = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				case 2:
 					message.sender = reader.string();
@@ -691,10 +679,10 @@ export const MsgRemoveAllocator = {
 
 	fromJSON(object: any): MsgRemoveAllocator {
 		const message = { ...baseMsgRemoveAllocator } as MsgRemoveAllocator;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -704,8 +692,7 @@ export const MsgRemoveAllocator = {
 
 	toJSON(message: MsgRemoveAllocator): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
 		return obj;
 	},
@@ -714,10 +701,7 @@ export const MsgRemoveAllocator = {
 		object: I
 	): MsgRemoveAllocator {
 		const message = { ...baseMsgRemoveAllocator } as MsgRemoveAllocator;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		return message;
 	},
@@ -868,15 +852,15 @@ export const MsgCreateSlowReleaseStream = {
 	},
 };
 
-const baseMsgCreateSlowReleaseStreamResp: object = { id: Long.UZERO };
+const baseMsgCreateSlowReleaseStreamResp: object = { address: '' };
 
 export const MsgCreateSlowReleaseStreamResp = {
 	encode(
 		message: MsgCreateSlowReleaseStreamResp,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		return writer;
 	},
@@ -894,7 +878,7 @@ export const MsgCreateSlowReleaseStreamResp = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -908,17 +892,16 @@ export const MsgCreateSlowReleaseStreamResp = {
 		const message = {
 			...baseMsgCreateSlowReleaseStreamResp,
 		} as MsgCreateSlowReleaseStreamResp;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		return message;
 	},
 
 	toJSON(message: MsgCreateSlowReleaseStreamResp): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		return obj;
 	},
 
@@ -928,16 +911,13 @@ export const MsgCreateSlowReleaseStreamResp = {
 		const message = {
 			...baseMsgCreateSlowReleaseStreamResp,
 		} as MsgCreateSlowReleaseStreamResp;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		return message;
 	},
 };
 
 const baseMsgPauseSlowReleaseStream: object = {
-	id: Long.UZERO,
+	address: '',
 	sender: '',
 	paused: false,
 };
@@ -947,8 +927,8 @@ export const MsgPauseSlowReleaseStream = {
 		message: MsgPauseSlowReleaseStream,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		if (message.sender !== '') {
 			writer.uint32(18).string(message.sender);
@@ -972,7 +952,7 @@ export const MsgPauseSlowReleaseStream = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				case 2:
 					message.sender = reader.string();
@@ -992,10 +972,10 @@ export const MsgPauseSlowReleaseStream = {
 		const message = {
 			...baseMsgPauseSlowReleaseStream,
 		} as MsgPauseSlowReleaseStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -1009,8 +989,7 @@ export const MsgPauseSlowReleaseStream = {
 
 	toJSON(message: MsgPauseSlowReleaseStream): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.paused !== undefined && (obj.paused = message.paused);
 		return obj;
@@ -1022,10 +1001,7 @@ export const MsgPauseSlowReleaseStream = {
 		const message = {
 			...baseMsgPauseSlowReleaseStream,
 		} as MsgPauseSlowReleaseStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.paused = object.paused ?? false;
 		return message;
@@ -1033,7 +1009,7 @@ export const MsgPauseSlowReleaseStream = {
 };
 
 const baseMsgEditSlowReleaseStream: object = {
-	id: Long.UZERO,
+	address: '',
 	sender: '',
 	destination: '',
 	paused: false,
@@ -1044,8 +1020,8 @@ export const MsgEditSlowReleaseStream = {
 		message: MsgEditSlowReleaseStream,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		if (message.sender !== '') {
 			writer.uint32(18).string(message.sender);
@@ -1087,7 +1063,7 @@ export const MsgEditSlowReleaseStream = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				case 2:
 					message.sender = reader.string();
@@ -1121,10 +1097,10 @@ export const MsgEditSlowReleaseStream = {
 		const message = {
 			...baseMsgEditSlowReleaseStream,
 		} as MsgEditSlowReleaseStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		message.sender =
 			object.sender !== undefined && object.sender !== null
 				? String(object.sender)
@@ -1154,8 +1130,7 @@ export const MsgEditSlowReleaseStream = {
 
 	toJSON(message: MsgEditSlowReleaseStream): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
 		message.start !== undefined &&
 			(obj.start = message.start.toISOString());
@@ -1177,10 +1152,7 @@ export const MsgEditSlowReleaseStream = {
 		const message = {
 			...baseMsgEditSlowReleaseStream,
 		} as MsgEditSlowReleaseStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.start = object.start ?? undefined;
 		message.interval =

@@ -5,22 +5,22 @@ import * as Long from 'long';
 export const protobufPackage = 'regen.divvy.v1';
 
 export interface EventCreateAllocator {
-	id: Long;
+	address: string;
 }
 
 export interface EventCreateStream {
-	id: Long;
+	address: string;
 }
 
-const baseEventCreateAllocator: object = { id: Long.UZERO };
+const baseEventCreateAllocator: object = { address: '' };
 
 export const EventCreateAllocator = {
 	encode(
 		message: EventCreateAllocator,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		return writer;
 	},
@@ -33,7 +33,7 @@ export const EventCreateAllocator = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -45,17 +45,16 @@ export const EventCreateAllocator = {
 
 	fromJSON(object: any): EventCreateAllocator {
 		const message = { ...baseEventCreateAllocator } as EventCreateAllocator;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		return message;
 	},
 
 	toJSON(message: EventCreateAllocator): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		return obj;
 	},
 
@@ -63,23 +62,20 @@ export const EventCreateAllocator = {
 		object: I
 	): EventCreateAllocator {
 		const message = { ...baseEventCreateAllocator } as EventCreateAllocator;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		return message;
 	},
 };
 
-const baseEventCreateStream: object = { id: Long.UZERO };
+const baseEventCreateStream: object = { address: '' };
 
 export const EventCreateStream = {
 	encode(
 		message: EventCreateStream,
 		writer: Writer = Writer.create()
 	): Writer {
-		if (!message.id.isZero()) {
-			writer.uint32(8).uint64(message.id);
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
 		}
 		return writer;
 	},
@@ -92,7 +88,7 @@ export const EventCreateStream = {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.id = reader.uint64() as Long;
+					message.address = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -104,17 +100,16 @@ export const EventCreateStream = {
 
 	fromJSON(object: any): EventCreateStream {
 		const message = { ...baseEventCreateStream } as EventCreateStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromString(object.id)
-				: Long.UZERO;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		return message;
 	},
 
 	toJSON(message: EventCreateStream): unknown {
 		const obj: any = {};
-		message.id !== undefined &&
-			(obj.id = (message.id || Long.UZERO).toString());
+		message.address !== undefined && (obj.address = message.address);
 		return obj;
 	},
 
@@ -122,10 +117,7 @@ export const EventCreateStream = {
 		object: I
 	): EventCreateStream {
 		const message = { ...baseEventCreateStream } as EventCreateStream;
-		message.id =
-			object.id !== undefined && object.id !== null
-				? Long.fromValue(object.id)
-				: Long.UZERO;
+		message.address = object.address ?? '';
 		return message;
 	},
 };

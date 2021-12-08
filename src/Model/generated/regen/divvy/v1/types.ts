@@ -11,9 +11,10 @@ export interface Recipient {
 	address: string;
 	/** allocation share. 100% = 1e6. */
 	share: number;
+	name: string;
 }
 
-export interface Allocator {
+export interface StoreAllocator {
 	/**
 	 * admin is the address of the account that creates the allocator and signs
 	 * the message
@@ -33,7 +34,13 @@ export interface Allocator {
 	 * * sum of shares in entires must equal to 100% (1mln)
 	 * list of allocation entries
 	 */
-	entries: Recipient[];
+	recipients: Recipient[];
+}
+
+export interface Allocator {
+	/** submodule address of the given allocator */
+	address: string;
+	a?: StoreAllocator;
 }
 
 export interface SlowReleaseStream {
@@ -56,7 +63,7 @@ export interface SlowReleaseStream {
 	fixedAmount: string | undefined;
 }
 
-const baseRecipient: object = { address: '', share: 0 };
+const baseRecipient: object = { address: '', share: 0, name: '' };
 
 export const Recipient = {
 	encode(message: Recipient, writer: Writer = Writer.create()): Writer {
@@ -65,6 +72,9 @@ export const Recipient = {
 		}
 		if (message.share !== 0) {
 			writer.uint32(16).uint32(message.share);
+		}
+		if (message.name !== '') {
+			writer.uint32(26).string(message.name);
 		}
 		return writer;
 	},
@@ -81,6 +91,9 @@ export const Recipient = {
 					break;
 				case 2:
 					message.share = reader.uint32();
+					break;
+				case 3:
+					message.name = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -100,6 +113,10 @@ export const Recipient = {
 			object.share !== undefined && object.share !== null
 				? Number(object.share)
 				: 0;
+		message.name =
+			object.name !== undefined && object.name !== null
+				? String(object.name)
+				: '';
 		return message;
 	},
 
@@ -107,6 +124,7 @@ export const Recipient = {
 		const obj: any = {};
 		message.address !== undefined && (obj.address = message.address);
 		message.share !== undefined && (obj.share = message.share);
+		message.name !== undefined && (obj.name = message.name);
 		return obj;
 	},
 
@@ -116,14 +134,20 @@ export const Recipient = {
 		const message = { ...baseRecipient } as Recipient;
 		message.address = object.address ?? '';
 		message.share = object.share ?? 0;
+		message.name = object.name ?? '';
 		return message;
 	},
 };
 
-const baseAllocator: object = { admin: '', name: '', url: '', paused: false };
+const baseStoreAllocator: object = {
+	admin: '',
+	name: '',
+	url: '',
+	paused: false,
+};
 
-export const Allocator = {
-	encode(message: Allocator, writer: Writer = Writer.create()): Writer {
+export const StoreAllocator = {
+	encode(message: StoreAllocator, writer: Writer = Writer.create()): Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -154,17 +178,17 @@ export const Allocator = {
 		if (message.paused === true) {
 			writer.uint32(56).bool(message.paused);
 		}
-		for (const v of message.entries) {
+		for (const v of message.recipients) {
 			Recipient.encode(v!, writer.uint32(82).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Allocator {
+	decode(input: Reader | Uint8Array, length?: number): StoreAllocator {
 		const reader = input instanceof Reader ? input : new Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
-		const message = { ...baseAllocator } as Allocator;
-		message.entries = [];
+		const message = { ...baseStoreAllocator } as StoreAllocator;
+		message.recipients = [];
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
@@ -194,7 +218,7 @@ export const Allocator = {
 					message.paused = reader.bool();
 					break;
 				case 10:
-					message.entries.push(
+					message.recipients.push(
 						Recipient.decode(reader, reader.uint32())
 					);
 					break;
@@ -206,8 +230,8 @@ export const Allocator = {
 		return message;
 	},
 
-	fromJSON(object: any): Allocator {
-		const message = { ...baseAllocator } as Allocator;
+	fromJSON(object: any): StoreAllocator {
+		const message = { ...baseStoreAllocator } as StoreAllocator;
 		message.admin =
 			object.admin !== undefined && object.admin !== null
 				? String(object.admin)
@@ -236,13 +260,13 @@ export const Allocator = {
 			object.paused !== undefined && object.paused !== null
 				? Boolean(object.paused)
 				: false;
-		message.entries = (object.entries ?? []).map((e: any) =>
+		message.recipients = (object.recipients ?? []).map((e: any) =>
 			Recipient.fromJSON(e)
 		);
 		return message;
 	},
 
-	toJSON(message: Allocator): unknown {
+	toJSON(message: StoreAllocator): unknown {
 		const obj: any = {};
 		message.admin !== undefined && (obj.admin = message.admin);
 		message.start !== undefined &&
@@ -255,20 +279,20 @@ export const Allocator = {
 		message.name !== undefined && (obj.name = message.name);
 		message.url !== undefined && (obj.url = message.url);
 		message.paused !== undefined && (obj.paused = message.paused);
-		if (message.entries) {
-			obj.entries = message.entries.map((e) =>
+		if (message.recipients) {
+			obj.recipients = message.recipients.map((e) =>
 				e ? Recipient.toJSON(e) : undefined
 			);
 		} else {
-			obj.entries = [];
+			obj.recipients = [];
 		}
 		return obj;
 	},
 
-	fromPartial<I extends Exact<DeepPartial<Allocator>, I>>(
+	fromPartial<I extends Exact<DeepPartial<StoreAllocator>, I>>(
 		object: I
-	): Allocator {
-		const message = { ...baseAllocator } as Allocator;
+	): StoreAllocator {
+		const message = { ...baseStoreAllocator } as StoreAllocator;
 		message.admin = object.admin ?? '';
 		message.start = object.start ?? undefined;
 		message.end = object.end ?? undefined;
@@ -279,8 +303,76 @@ export const Allocator = {
 		message.name = object.name ?? '';
 		message.url = object.url ?? '';
 		message.paused = object.paused ?? false;
-		message.entries =
-			object.entries?.map((e) => Recipient.fromPartial(e)) || [];
+		message.recipients =
+			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
+		return message;
+	},
+};
+
+const baseAllocator: object = { address: '' };
+
+export const Allocator = {
+	encode(message: Allocator, writer: Writer = Writer.create()): Writer {
+		if (message.address !== '') {
+			writer.uint32(10).string(message.address);
+		}
+		if (message.a !== undefined) {
+			StoreAllocator.encode(message.a, writer.uint32(18).fork()).ldelim();
+		}
+		return writer;
+	},
+
+	decode(input: Reader | Uint8Array, length?: number): Allocator {
+		const reader = input instanceof Reader ? input : new Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseAllocator } as Allocator;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.address = reader.string();
+					break;
+				case 2:
+					message.a = StoreAllocator.decode(reader, reader.uint32());
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): Allocator {
+		const message = { ...baseAllocator } as Allocator;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
+		message.a =
+			object.a !== undefined && object.a !== null
+				? StoreAllocator.fromJSON(object.a)
+				: undefined;
+		return message;
+	},
+
+	toJSON(message: Allocator): unknown {
+		const obj: any = {};
+		message.address !== undefined && (obj.address = message.address);
+		message.a !== undefined &&
+			(obj.a = message.a ? StoreAllocator.toJSON(message.a) : undefined);
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<Allocator>, I>>(
+		object: I
+	): Allocator {
+		const message = { ...baseAllocator } as Allocator;
+		message.address = object.address ?? '';
+		message.a =
+			object.a !== undefined && object.a !== null
+				? StoreAllocator.fromPartial(object.a)
+				: undefined;
 		return message;
 	},
 };

@@ -41,6 +41,64 @@ export const getAllAllocators = async (sgClient: SigningStargateClient) => {
   return queryResult
 }
 
+const testSend = () => {
+  // const encodableMsg: EncodeObject = {
+  //   typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+  //   value: {
+  //     fromAddress: account.address,
+  //     toAddress: account.address,
+  //     amount: [{
+  //       denom: 'uregen',
+  //       amount: '1000',
+  //     }],
+  //   },
+  // }
+  // const fee = {
+  //   amount: [
+  //     {
+  //       denom: 'uregen', // Use the appropriate fee denom for your chain
+  //       amount: '40000',
+  //     },
+  //   ],
+  //   gas: '80000',
+  // }
+
+  // const response: any = await regenStargateClient.getAllBalances(account.address)
+  // console.log('getAllBalances', response)
+
+  // // response = await regenStargateClient.sendTokens(
+  // //   account.address,
+  // //   account.address,
+  // //   [{
+  // //     denom: 'uregen',
+  // //     amount: '10000',
+  // //   }],
+  // //   fee,
+  // // )
+  // // console.log('sendTokens', response)
+
+  // const raw = await regenStargateClient.sign(
+  //   account.address,
+  //   [encodableMsg],
+  //   fee,
+  //   '',
+  // )
+
+  // const finished = TxRaw.encode(raw).finish()
+  // console.log('signedTx', raw)
+  // const hash = sha256(finished).toUpperCase()
+  // console.log('finished', finished, hash)
+  // await addPendingTx({
+  //   hash,
+  //   finished,
+  //   raw,
+  // })
+
+  // const bresponse = await regenStargateClient.broadcastTx(finished)
+  // const parsedLog = JSON.parse(bresponse.rawLog ?? '')
+  // console.log('broadcastTx', bresponse, parsedLog)
+  // void completePendingTx(bresponse.transactionHash, bresponse)
+}
 const chainInfo = {
   // Chain-id of the Regen chain.
   chainId: '',
