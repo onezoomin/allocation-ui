@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	GroupInfo,
 	GroupMember,
@@ -47,7 +47,10 @@ const baseGenesisState: object = {
 };
 
 export const GenesisState = {
-	encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: GenesisState,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupSeq.isZero()) {
 			writer.uint32(8).uint64(message.groupSeq);
 		}
@@ -75,8 +78,9 @@ export const GenesisState = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GenesisState {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGenesisState } as GenesisState;
 		message.groups = [];
@@ -266,9 +270,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

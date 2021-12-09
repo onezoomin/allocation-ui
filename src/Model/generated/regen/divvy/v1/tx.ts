@@ -1,9 +1,10 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Duration } from '../../../google/protobuf/duration';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 import { Recipient } from '../../../regen/divvy/v1/types';
+import { Coin } from '../../../cosmos/base/v1beta1/coin';
 
 export const protobufPackage = 'regen.divvy.v1';
 
@@ -38,7 +39,7 @@ export interface MsgCreateAllocatorResp {
 	address: string;
 }
 
-export interface MsgUpdateAllocatorSetting {
+export interface MsgUpdateAllocatorSettings {
 	/** address of the allocator */
 	address: string;
 	/** sender must the the Allocator admin */
@@ -53,7 +54,7 @@ export interface MsgUpdateAllocatorSetting {
 	url: string;
 }
 
-export interface MsgSetAllocationMap {
+export interface MsgSetAllocatorRecipients {
 	/** address of the allocator */
 	address: string;
 	/** sender must the the Allocator admin */
@@ -71,6 +72,18 @@ export interface MsgRemoveAllocator {
 	address: string;
 	/** sender must the the Allocator admin */
 	sender: string;
+}
+
+export interface MsgClaimAllocations {
+	/** signer, anyone can claim rewards */
+	sender: string;
+	/** allocator address */
+	allocator: string;
+}
+
+export interface MsgClaimAllocationsResp {
+	/** distributed allocations */
+	coins: Coin[];
 }
 
 export interface MsgCreateSlowReleaseStream {
@@ -134,12 +147,16 @@ export interface MsgEditSlowReleaseStream {
 const baseMsgEmptyResp: object = {};
 
 export const MsgEmptyResp = {
-	encode(_: MsgEmptyResp, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: MsgEmptyResp,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgEmptyResp {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgEmptyResp {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgEmptyResp } as MsgEmptyResp;
 		while (reader.pos < end) {
@@ -176,8 +193,8 @@ const baseMsgCreateAllocator: object = { admin: '', name: '', url: '' };
 export const MsgCreateAllocator = {
 	encode(
 		message: MsgCreateAllocator,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(18).string(message.admin);
 		}
@@ -211,8 +228,12 @@ export const MsgCreateAllocator = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCreateAllocator {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgCreateAllocator {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateAllocator } as MsgCreateAllocator;
 		message.recipients = [];
@@ -332,8 +353,8 @@ const baseMsgCreateAllocatorResp: object = { address: '' };
 export const MsgCreateAllocatorResp = {
 	encode(
 		message: MsgCreateAllocatorResp,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -341,10 +362,11 @@ export const MsgCreateAllocatorResp = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateAllocatorResp {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateAllocatorResp,
@@ -391,18 +413,18 @@ export const MsgCreateAllocatorResp = {
 	},
 };
 
-const baseMsgUpdateAllocatorSetting: object = {
+const baseMsgUpdateAllocatorSettings: object = {
 	address: '',
 	sender: '',
 	name: '',
 	url: '',
 };
 
-export const MsgUpdateAllocatorSetting = {
+export const MsgUpdateAllocatorSettings = {
 	encode(
-		message: MsgUpdateAllocatorSetting,
-		writer: Writer = Writer.create()
-	): Writer {
+		message: MsgUpdateAllocatorSettings,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -437,14 +459,15 @@ export const MsgUpdateAllocatorSetting = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
-	): MsgUpdateAllocatorSetting {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	): MsgUpdateAllocatorSettings {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
-			...baseMsgUpdateAllocatorSetting,
-		} as MsgUpdateAllocatorSetting;
+			...baseMsgUpdateAllocatorSettings,
+		} as MsgUpdateAllocatorSettings;
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
@@ -481,10 +504,10 @@ export const MsgUpdateAllocatorSetting = {
 		return message;
 	},
 
-	fromJSON(object: any): MsgUpdateAllocatorSetting {
+	fromJSON(object: any): MsgUpdateAllocatorSettings {
 		const message = {
-			...baseMsgUpdateAllocatorSetting,
-		} as MsgUpdateAllocatorSetting;
+			...baseMsgUpdateAllocatorSettings,
+		} as MsgUpdateAllocatorSettings;
 		message.address =
 			object.address !== undefined && object.address !== null
 				? String(object.address)
@@ -516,7 +539,7 @@ export const MsgUpdateAllocatorSetting = {
 		return message;
 	},
 
-	toJSON(message: MsgUpdateAllocatorSetting): unknown {
+	toJSON(message: MsgUpdateAllocatorSettings): unknown {
 		const obj: any = {};
 		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
@@ -532,12 +555,12 @@ export const MsgUpdateAllocatorSetting = {
 		return obj;
 	},
 
-	fromPartial<I extends Exact<DeepPartial<MsgUpdateAllocatorSetting>, I>>(
+	fromPartial<I extends Exact<DeepPartial<MsgUpdateAllocatorSettings>, I>>(
 		object: I
-	): MsgUpdateAllocatorSetting {
+	): MsgUpdateAllocatorSettings {
 		const message = {
-			...baseMsgUpdateAllocatorSetting,
-		} as MsgUpdateAllocatorSetting;
+			...baseMsgUpdateAllocatorSettings,
+		} as MsgUpdateAllocatorSettings;
 		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.start = object.start ?? undefined;
@@ -552,13 +575,13 @@ export const MsgUpdateAllocatorSetting = {
 	},
 };
 
-const baseMsgSetAllocationMap: object = { address: '', sender: '' };
+const baseMsgSetAllocatorRecipients: object = { address: '', sender: '' };
 
-export const MsgSetAllocationMap = {
+export const MsgSetAllocatorRecipients = {
 	encode(
-		message: MsgSetAllocationMap,
-		writer: Writer = Writer.create()
-	): Writer {
+		message: MsgSetAllocatorRecipients,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -571,10 +594,16 @@ export const MsgSetAllocationMap = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSetAllocationMap {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgSetAllocatorRecipients {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
-		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
+		const message = {
+			...baseMsgSetAllocatorRecipients,
+		} as MsgSetAllocatorRecipients;
 		message.recipients = [];
 		while (reader.pos < end) {
 			const tag = reader.uint32();
@@ -598,8 +627,10 @@ export const MsgSetAllocationMap = {
 		return message;
 	},
 
-	fromJSON(object: any): MsgSetAllocationMap {
-		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
+	fromJSON(object: any): MsgSetAllocatorRecipients {
+		const message = {
+			...baseMsgSetAllocatorRecipients,
+		} as MsgSetAllocatorRecipients;
 		message.address =
 			object.address !== undefined && object.address !== null
 				? String(object.address)
@@ -614,7 +645,7 @@ export const MsgSetAllocationMap = {
 		return message;
 	},
 
-	toJSON(message: MsgSetAllocationMap): unknown {
+	toJSON(message: MsgSetAllocatorRecipients): unknown {
 		const obj: any = {};
 		message.address !== undefined && (obj.address = message.address);
 		message.sender !== undefined && (obj.sender = message.sender);
@@ -628,10 +659,12 @@ export const MsgSetAllocationMap = {
 		return obj;
 	},
 
-	fromPartial<I extends Exact<DeepPartial<MsgSetAllocationMap>, I>>(
+	fromPartial<I extends Exact<DeepPartial<MsgSetAllocatorRecipients>, I>>(
 		object: I
-	): MsgSetAllocationMap {
-		const message = { ...baseMsgSetAllocationMap } as MsgSetAllocationMap;
+	): MsgSetAllocatorRecipients {
+		const message = {
+			...baseMsgSetAllocatorRecipients,
+		} as MsgSetAllocatorRecipients;
 		message.address = object.address ?? '';
 		message.sender = object.sender ?? '';
 		message.recipients =
@@ -645,8 +678,8 @@ const baseMsgRemoveAllocator: object = { address: '', sender: '' };
 export const MsgRemoveAllocator = {
 	encode(
 		message: MsgRemoveAllocator,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -656,8 +689,12 @@ export const MsgRemoveAllocator = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgRemoveAllocator {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgRemoveAllocator {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgRemoveAllocator } as MsgRemoveAllocator;
 		while (reader.pos < end) {
@@ -707,6 +744,146 @@ export const MsgRemoveAllocator = {
 	},
 };
 
+const baseMsgClaimAllocations: object = { sender: '', allocator: '' };
+
+export const MsgClaimAllocations = {
+	encode(
+		message: MsgClaimAllocations,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		if (message.sender !== '') {
+			writer.uint32(10).string(message.sender);
+		}
+		if (message.allocator !== '') {
+			writer.uint32(18).string(message.allocator);
+		}
+		return writer;
+	},
+
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgClaimAllocations {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseMsgClaimAllocations } as MsgClaimAllocations;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.sender = reader.string();
+					break;
+				case 2:
+					message.allocator = reader.string();
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): MsgClaimAllocations {
+		const message = { ...baseMsgClaimAllocations } as MsgClaimAllocations;
+		message.sender =
+			object.sender !== undefined && object.sender !== null
+				? String(object.sender)
+				: '';
+		message.allocator =
+			object.allocator !== undefined && object.allocator !== null
+				? String(object.allocator)
+				: '';
+		return message;
+	},
+
+	toJSON(message: MsgClaimAllocations): unknown {
+		const obj: any = {};
+		message.sender !== undefined && (obj.sender = message.sender);
+		message.allocator !== undefined && (obj.allocator = message.allocator);
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<MsgClaimAllocations>, I>>(
+		object: I
+	): MsgClaimAllocations {
+		const message = { ...baseMsgClaimAllocations } as MsgClaimAllocations;
+		message.sender = object.sender ?? '';
+		message.allocator = object.allocator ?? '';
+		return message;
+	},
+};
+
+const baseMsgClaimAllocationsResp: object = {};
+
+export const MsgClaimAllocationsResp = {
+	encode(
+		message: MsgClaimAllocationsResp,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		for (const v of message.coins) {
+			Coin.encode(v!, writer.uint32(10).fork()).ldelim();
+		}
+		return writer;
+	},
+
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgClaimAllocationsResp {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = {
+			...baseMsgClaimAllocationsResp,
+		} as MsgClaimAllocationsResp;
+		message.coins = [];
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.coins.push(Coin.decode(reader, reader.uint32()));
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): MsgClaimAllocationsResp {
+		const message = {
+			...baseMsgClaimAllocationsResp,
+		} as MsgClaimAllocationsResp;
+		message.coins = (object.coins ?? []).map((e: any) => Coin.fromJSON(e));
+		return message;
+	},
+
+	toJSON(message: MsgClaimAllocationsResp): unknown {
+		const obj: any = {};
+		if (message.coins) {
+			obj.coins = message.coins.map((e) =>
+				e ? Coin.toJSON(e) : undefined
+			);
+		} else {
+			obj.coins = [];
+		}
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<MsgClaimAllocationsResp>, I>>(
+		object: I
+	): MsgClaimAllocationsResp {
+		const message = {
+			...baseMsgClaimAllocationsResp,
+		} as MsgClaimAllocationsResp;
+		message.coins = object.coins?.map((e) => Coin.fromPartial(e)) || [];
+		return message;
+	},
+};
+
 const baseMsgCreateSlowReleaseStream: object = {
 	admin: '',
 	destination: '',
@@ -716,8 +893,8 @@ const baseMsgCreateSlowReleaseStream: object = {
 export const MsgCreateSlowReleaseStream = {
 	encode(
 		message: MsgCreateSlowReleaseStream,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(18).string(message.admin);
 		}
@@ -746,10 +923,11 @@ export const MsgCreateSlowReleaseStream = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateSlowReleaseStream {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateSlowReleaseStream,
@@ -857,8 +1035,8 @@ const baseMsgCreateSlowReleaseStreamResp: object = { address: '' };
 export const MsgCreateSlowReleaseStreamResp = {
 	encode(
 		message: MsgCreateSlowReleaseStreamResp,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -866,10 +1044,11 @@ export const MsgCreateSlowReleaseStreamResp = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateSlowReleaseStreamResp {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateSlowReleaseStreamResp,
@@ -925,8 +1104,8 @@ const baseMsgPauseSlowReleaseStream: object = {
 export const MsgPauseSlowReleaseStream = {
 	encode(
 		message: MsgPauseSlowReleaseStream,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -940,10 +1119,11 @@ export const MsgPauseSlowReleaseStream = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgPauseSlowReleaseStream {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgPauseSlowReleaseStream,
@@ -1018,8 +1198,8 @@ const baseMsgEditSlowReleaseStream: object = {
 export const MsgEditSlowReleaseStream = {
 	encode(
 		message: MsgEditSlowReleaseStream,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -1051,10 +1231,11 @@ export const MsgEditSlowReleaseStream = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgEditSlowReleaseStream {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgEditSlowReleaseStream,
@@ -1178,18 +1359,21 @@ export interface Msg {
 		request: MsgCreateAllocator
 	): Promise<MsgCreateAllocatorResp>;
 	/** Updates all allocator settings except admin and recipient map. */
-	UpdateAllocatorSetting(
-		request: MsgUpdateAllocatorSetting
+	UpdateAllocatorSettings(
+		request: MsgUpdateAllocatorSettings
 	): Promise<MsgEmptyResp>;
 	/**
 	 * Allocator owner can update the recipient list by setting a new
 	 * allocation map.
 	 */
-	SetAllocationMap(request: MsgSetAllocationMap): Promise<MsgEmptyResp>;
+	SetAllocatorRecipients(
+		request: MsgSetAllocatorRecipients
+	): Promise<MsgEmptyResp>;
 	/** Removes allocator and disables all streamers! */
-	RemoveAllocator(
-		request: MsgRemoveAllocator
-	): Promise<MsgCreateAllocatorResp>;
+	RemoveAllocator(request: MsgRemoveAllocator): Promise<MsgEmptyResp>;
+	ClaimAllocations(
+		request: MsgClaimAllocations
+	): Promise<MsgClaimAllocationsResp>;
 	/**
 	 * Creates a new stream to feed an address
 	 * User creates a stream. Parameters:
@@ -1212,9 +1396,10 @@ export class MsgClientImpl implements Msg {
 	constructor(rpc: Rpc) {
 		this.rpc = rpc;
 		this.CreateAllocator = this.CreateAllocator.bind(this);
-		this.UpdateAllocatorSetting = this.UpdateAllocatorSetting.bind(this);
-		this.SetAllocationMap = this.SetAllocationMap.bind(this);
+		this.UpdateAllocatorSettings = this.UpdateAllocatorSettings.bind(this);
+		this.SetAllocatorRecipients = this.SetAllocatorRecipients.bind(this);
 		this.RemoveAllocator = this.RemoveAllocator.bind(this);
+		this.ClaimAllocations = this.ClaimAllocations.bind(this);
 		this.CreateSlowReleaseStream = this.CreateSlowReleaseStream.bind(this);
 		this.PauseSlowReleaseStream = this.PauseSlowReleaseStream.bind(this);
 		this.EditSlowReleaseStream = this.EditSlowReleaseStream.bind(this);
@@ -1229,35 +1414,39 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateAllocatorResp.decode(new Reader(data))
+			MsgCreateAllocatorResp.decode(new _m0.Reader(data))
 		);
 	}
 
-	UpdateAllocatorSetting(
-		request: MsgUpdateAllocatorSetting
+	UpdateAllocatorSettings(
+		request: MsgUpdateAllocatorSettings
 	): Promise<MsgEmptyResp> {
-		const data = MsgUpdateAllocatorSetting.encode(request).finish();
+		const data = MsgUpdateAllocatorSettings.encode(request).finish();
 		const promise = this.rpc.request(
 			'regen.divvy.v1.Msg',
-			'UpdateAllocatorSetting',
+			'UpdateAllocatorSettings',
 			data
 		);
-		return promise.then((data) => MsgEmptyResp.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgEmptyResp.decode(new _m0.Reader(data))
+		);
 	}
 
-	SetAllocationMap(request: MsgSetAllocationMap): Promise<MsgEmptyResp> {
-		const data = MsgSetAllocationMap.encode(request).finish();
+	SetAllocatorRecipients(
+		request: MsgSetAllocatorRecipients
+	): Promise<MsgEmptyResp> {
+		const data = MsgSetAllocatorRecipients.encode(request).finish();
 		const promise = this.rpc.request(
 			'regen.divvy.v1.Msg',
-			'SetAllocationMap',
+			'SetAllocatorRecipients',
 			data
 		);
-		return promise.then((data) => MsgEmptyResp.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgEmptyResp.decode(new _m0.Reader(data))
+		);
 	}
 
-	RemoveAllocator(
-		request: MsgRemoveAllocator
-	): Promise<MsgCreateAllocatorResp> {
+	RemoveAllocator(request: MsgRemoveAllocator): Promise<MsgEmptyResp> {
 		const data = MsgRemoveAllocator.encode(request).finish();
 		const promise = this.rpc.request(
 			'regen.divvy.v1.Msg',
@@ -1265,7 +1454,21 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateAllocatorResp.decode(new Reader(data))
+			MsgEmptyResp.decode(new _m0.Reader(data))
+		);
+	}
+
+	ClaimAllocations(
+		request: MsgClaimAllocations
+	): Promise<MsgClaimAllocationsResp> {
+		const data = MsgClaimAllocations.encode(request).finish();
+		const promise = this.rpc.request(
+			'regen.divvy.v1.Msg',
+			'ClaimAllocations',
+			data
+		);
+		return promise.then((data) =>
+			MsgClaimAllocationsResp.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -1279,7 +1482,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateSlowReleaseStreamResp.decode(new Reader(data))
+			MsgCreateSlowReleaseStreamResp.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -1292,7 +1495,9 @@ export class MsgClientImpl implements Msg {
 			'PauseSlowReleaseStream',
 			data
 		);
-		return promise.then((data) => MsgEmptyResp.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgEmptyResp.decode(new _m0.Reader(data))
+		);
 	}
 
 	EditSlowReleaseStream(
@@ -1304,7 +1509,9 @@ export class MsgClientImpl implements Msg {
 			'EditSlowReleaseStream',
 			data
 		);
-		return promise.then((data) => MsgEmptyResp.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgEmptyResp.decode(new _m0.Reader(data))
+		);
 	}
 }
 
@@ -1371,9 +1578,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

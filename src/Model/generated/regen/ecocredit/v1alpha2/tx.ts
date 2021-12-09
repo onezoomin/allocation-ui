@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Coin } from '../../../cosmos/base/v1beta1/coin';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 import {
@@ -518,7 +518,10 @@ const baseMsgCreateClass: object = {
 };
 
 export const MsgCreateClass = {
-	encode(message: MsgCreateClass, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgCreateClass,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -534,8 +537,9 @@ export const MsgCreateClass = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCreateClass {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateClass {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateClass } as MsgCreateClass;
 		message.issuers = [];
@@ -618,8 +622,8 @@ const baseMsgCreateClassResponse: object = { classId: '' };
 export const MsgCreateClassResponse = {
 	encode(
 		message: MsgCreateClassResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
@@ -627,10 +631,11 @@ export const MsgCreateClassResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateClassResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateClassResponse,
@@ -687,8 +692,8 @@ const baseMsgCreateProject: object = {
 export const MsgCreateProject = {
 	encode(
 		message: MsgCreateProject,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.issuer !== '') {
 			writer.uint32(10).string(message.issuer);
 		}
@@ -707,8 +712,9 @@ export const MsgCreateProject = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCreateProject {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateProject {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateProject } as MsgCreateProject;
 		message.metadata = new Uint8Array();
@@ -798,8 +804,8 @@ const baseMsgCreateProjectResponse: object = { projectId: '' };
 export const MsgCreateProjectResponse = {
 	encode(
 		message: MsgCreateProjectResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -807,10 +813,11 @@ export const MsgCreateProjectResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateProjectResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateProjectResponse,
@@ -860,7 +867,10 @@ export const MsgCreateProjectResponse = {
 const baseMsgCreateBatch: object = { issuer: '', projectId: '' };
 
 export const MsgCreateBatch = {
-	encode(message: MsgCreateBatch, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgCreateBatch,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.issuer !== '') {
 			writer.uint32(10).string(message.issuer);
 		}
@@ -891,8 +901,9 @@ export const MsgCreateBatch = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCreateBatch {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateBatch {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateBatch } as MsgCreateBatch;
 		message.issuance = [];
@@ -1014,8 +1025,8 @@ const baseMsgCreateBatch_BatchIssuance: object = {
 export const MsgCreateBatch_BatchIssuance = {
 	encode(
 		message: MsgCreateBatch_BatchIssuance,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.recipient !== '') {
 			writer.uint32(10).string(message.recipient);
 		}
@@ -1032,10 +1043,11 @@ export const MsgCreateBatch_BatchIssuance = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateBatch_BatchIssuance {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateBatch_BatchIssuance,
@@ -1119,8 +1131,8 @@ const baseMsgCreateBatchResponse: object = { batchDenom: '' };
 export const MsgCreateBatchResponse = {
 	encode(
 		message: MsgCreateBatchResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -1128,10 +1140,11 @@ export const MsgCreateBatchResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateBatchResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateBatchResponse,
@@ -1182,7 +1195,10 @@ export const MsgCreateBatchResponse = {
 const baseMsgSend: object = { sender: '', recipient: '' };
 
 export const MsgSend = {
-	encode(message: MsgSend, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgSend,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sender !== '') {
 			writer.uint32(10).string(message.sender);
 		}
@@ -1195,8 +1211,9 @@ export const MsgSend = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSend {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSend {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSend } as MsgSend;
 		message.credits = [];
@@ -1273,8 +1290,8 @@ const baseMsgSend_SendCredits: object = {
 export const MsgSend_SendCredits = {
 	encode(
 		message: MsgSend_SendCredits,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -1290,8 +1307,12 @@ export const MsgSend_SendCredits = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSend_SendCredits {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgSend_SendCredits {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSend_SendCredits } as MsgSend_SendCredits;
 		while (reader.pos < end) {
@@ -1368,12 +1389,16 @@ export const MsgSend_SendCredits = {
 const baseMsgSendResponse: object = {};
 
 export const MsgSendResponse = {
-	encode(_: MsgSendResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: MsgSendResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSendResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSendResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSendResponse } as MsgSendResponse;
 		while (reader.pos < end) {
@@ -1408,7 +1433,10 @@ export const MsgSendResponse = {
 const baseMsgRetire: object = { holder: '', location: '' };
 
 export const MsgRetire = {
-	encode(message: MsgRetire, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgRetire,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.holder !== '') {
 			writer.uint32(10).string(message.holder);
 		}
@@ -1424,8 +1452,9 @@ export const MsgRetire = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgRetire {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgRetire {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgRetire } as MsgRetire;
 		message.credits = [];
@@ -1500,8 +1529,8 @@ const baseMsgRetire_RetireCredits: object = { batchDenom: '', amount: '' };
 export const MsgRetire_RetireCredits = {
 	encode(
 		message: MsgRetire_RetireCredits,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -1512,10 +1541,11 @@ export const MsgRetire_RetireCredits = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgRetire_RetireCredits {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgRetire_RetireCredits,
@@ -1575,12 +1605,16 @@ export const MsgRetire_RetireCredits = {
 const baseMsgRetireResponse: object = {};
 
 export const MsgRetireResponse = {
-	encode(_: MsgRetireResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: MsgRetireResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgRetireResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgRetireResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgRetireResponse } as MsgRetireResponse;
 		while (reader.pos < end) {
@@ -1615,7 +1649,10 @@ export const MsgRetireResponse = {
 const baseMsgCancel: object = { holder: '' };
 
 export const MsgCancel = {
-	encode(message: MsgCancel, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgCancel,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.holder !== '') {
 			writer.uint32(10).string(message.holder);
 		}
@@ -1628,8 +1665,9 @@ export const MsgCancel = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCancel {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCancel {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCancel } as MsgCancel;
 		message.credits = [];
@@ -1695,8 +1733,8 @@ const baseMsgCancel_CancelCredits: object = { batchDenom: '', amount: '' };
 export const MsgCancel_CancelCredits = {
 	encode(
 		message: MsgCancel_CancelCredits,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -1707,10 +1745,11 @@ export const MsgCancel_CancelCredits = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCancel_CancelCredits {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCancel_CancelCredits,
@@ -1770,12 +1809,16 @@ export const MsgCancel_CancelCredits = {
 const baseMsgCancelResponse: object = {};
 
 export const MsgCancelResponse = {
-	encode(_: MsgCancelResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: MsgCancelResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCancelResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCancelResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCancelResponse } as MsgCancelResponse;
 		while (reader.pos < end) {
@@ -1816,8 +1859,8 @@ const baseMsgUpdateClassAdmin: object = {
 export const MsgUpdateClassAdmin = {
 	encode(
 		message: MsgUpdateClassAdmin,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -1830,8 +1873,12 @@ export const MsgUpdateClassAdmin = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgUpdateClassAdmin {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgUpdateClassAdmin {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgUpdateClassAdmin } as MsgUpdateClassAdmin;
 		while (reader.pos < end) {
@@ -1895,16 +1942,17 @@ const baseMsgUpdateClassAdminResponse: object = {};
 export const MsgUpdateClassAdminResponse = {
 	encode(
 		_: MsgUpdateClassAdminResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateClassAdminResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateClassAdminResponse,
@@ -1951,8 +1999,8 @@ const baseMsgUpdateClassIssuers: object = {
 export const MsgUpdateClassIssuers = {
 	encode(
 		message: MsgUpdateClassIssuers,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -1965,8 +2013,12 @@ export const MsgUpdateClassIssuers = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgUpdateClassIssuers {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgUpdateClassIssuers {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateClassIssuers,
@@ -2038,16 +2090,17 @@ const baseMsgUpdateClassIssuersResponse: object = {};
 export const MsgUpdateClassIssuersResponse = {
 	encode(
 		_: MsgUpdateClassIssuersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateClassIssuersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateClassIssuersResponse,
@@ -2090,8 +2143,8 @@ const baseMsgUpdateClassMetadata: object = { admin: '', classId: '' };
 export const MsgUpdateClassMetadata = {
 	encode(
 		message: MsgUpdateClassMetadata,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -2105,10 +2158,11 @@ export const MsgUpdateClassMetadata = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateClassMetadata {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateClassMetadata,
@@ -2184,16 +2238,17 @@ const baseMsgUpdateClassMetadataResponse: object = {};
 export const MsgUpdateClassMetadataResponse = {
 	encode(
 		_: MsgUpdateClassMetadataResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateClassMetadataResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateClassMetadataResponse,
@@ -2234,7 +2289,10 @@ export const MsgUpdateClassMetadataResponse = {
 const baseMsgSell: object = { owner: '' };
 
 export const MsgSell = {
-	encode(message: MsgSell, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgSell,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -2244,8 +2302,9 @@ export const MsgSell = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSell {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSell {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSell } as MsgSell;
 		message.orders = [];
@@ -2309,7 +2368,10 @@ const baseMsgSell_Order: object = {
 };
 
 export const MsgSell_Order = {
-	encode(message: MsgSell_Order, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgSell_Order,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -2325,8 +2387,9 @@ export const MsgSell_Order = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSell_Order {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSell_Order {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSell_Order } as MsgSell_Order;
 		while (reader.pos < end) {
@@ -2406,7 +2469,10 @@ export const MsgSell_Order = {
 const baseMsgSellResponse: object = { sellOrderIds: Long.UZERO };
 
 export const MsgSellResponse = {
-	encode(message: MsgSellResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgSellResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		writer.uint32(10).fork();
 		for (const v of message.sellOrderIds) {
 			writer.uint64(v);
@@ -2415,8 +2481,9 @@ export const MsgSellResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSellResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSellResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSellResponse } as MsgSellResponse;
 		message.sellOrderIds = [];
@@ -2476,8 +2543,8 @@ const baseMsgUpdateSellOrders: object = { owner: '' };
 export const MsgUpdateSellOrders = {
 	encode(
 		message: MsgUpdateSellOrders,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -2490,8 +2557,12 @@ export const MsgUpdateSellOrders = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgUpdateSellOrders {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgUpdateSellOrders {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgUpdateSellOrders } as MsgUpdateSellOrders;
 		message.updates = [];
@@ -2564,8 +2635,8 @@ const baseMsgUpdateSellOrders_Update: object = {
 export const MsgUpdateSellOrders_Update = {
 	encode(
 		message: MsgUpdateSellOrders_Update,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.sellOrderId.isZero()) {
 			writer.uint32(8).uint64(message.sellOrderId);
 		}
@@ -2582,10 +2653,11 @@ export const MsgUpdateSellOrders_Update = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateSellOrders_Update {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateSellOrders_Update,
@@ -2677,16 +2749,17 @@ const baseMsgUpdateSellOrdersResponse: object = {};
 export const MsgUpdateSellOrdersResponse = {
 	encode(
 		_: MsgUpdateSellOrdersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgUpdateSellOrdersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgUpdateSellOrdersResponse,
@@ -2727,7 +2800,10 @@ export const MsgUpdateSellOrdersResponse = {
 const baseMsgBuy: object = { buyer: '' };
 
 export const MsgBuy = {
-	encode(message: MsgBuy, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgBuy,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.buyer !== '') {
 			writer.uint32(10).string(message.buyer);
 		}
@@ -2737,8 +2813,9 @@ export const MsgBuy = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgBuy {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgBuy {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgBuy } as MsgBuy;
 		message.orders = [];
@@ -2802,7 +2879,10 @@ const baseMsgBuy_Order: object = {
 };
 
 export const MsgBuy_Order = {
-	encode(message: MsgBuy_Order, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgBuy_Order,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.selection !== undefined) {
 			MsgBuy_Order_Selection.encode(
 				message.selection,
@@ -2824,8 +2904,9 @@ export const MsgBuy_Order = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgBuy_Order {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgBuy_Order {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgBuy_Order } as MsgBuy_Order;
 		while (reader.pos < end) {
@@ -2926,8 +3007,8 @@ const baseMsgBuy_Order_Selection: object = {};
 export const MsgBuy_Order_Selection = {
 	encode(
 		message: MsgBuy_Order_Selection,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sellOrderId !== undefined) {
 			writer.uint32(8).uint64(message.sellOrderId);
 		}
@@ -2935,10 +3016,11 @@ export const MsgBuy_Order_Selection = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgBuy_Order_Selection {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgBuy_Order_Selection,
@@ -2992,7 +3074,10 @@ export const MsgBuy_Order_Selection = {
 const baseMsgBuyResponse: object = { buyOrderIds: Long.UZERO };
 
 export const MsgBuyResponse = {
-	encode(message: MsgBuyResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgBuyResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		writer.uint32(10).fork();
 		for (const v of message.buyOrderIds) {
 			writer.uint64(v);
@@ -3001,8 +3086,9 @@ export const MsgBuyResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgBuyResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgBuyResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgBuyResponse } as MsgBuyResponse;
 		message.buyOrderIds = [];
@@ -3067,8 +3153,8 @@ const baseMsgAllowAskDenom: object = {
 export const MsgAllowAskDenom = {
 	encode(
 		message: MsgAllowAskDenom,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.rootAddress !== '') {
 			writer.uint32(10).string(message.rootAddress);
 		}
@@ -3084,8 +3170,9 @@ export const MsgAllowAskDenom = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgAllowAskDenom {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgAllowAskDenom {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgAllowAskDenom } as MsgAllowAskDenom;
 		while (reader.pos < end) {
@@ -3160,16 +3247,17 @@ const baseMsgAllowAskDenomResponse: object = {};
 export const MsgAllowAskDenomResponse = {
 	encode(
 		_: MsgAllowAskDenomResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgAllowAskDenomResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgAllowAskDenomResponse,
@@ -3217,7 +3305,10 @@ const baseMsgCreateBasket: object = {
 };
 
 export const MsgCreateBasket = {
-	encode(message: MsgCreateBasket, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgCreateBasket,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.curator !== '') {
 			writer.uint32(10).string(message.curator);
 		}
@@ -3242,8 +3333,9 @@ export const MsgCreateBasket = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgCreateBasket {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgCreateBasket {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgCreateBasket } as MsgCreateBasket;
 		message.basketCriteria = [];
@@ -3357,8 +3449,8 @@ const baseMsgCreateBasketResponse: object = { basketDenom: '' };
 export const MsgCreateBasketResponse = {
 	encode(
 		message: MsgCreateBasketResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.basketDenom !== '') {
 			writer.uint32(10).string(message.basketDenom);
 		}
@@ -3366,10 +3458,11 @@ export const MsgCreateBasketResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgCreateBasketResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgCreateBasketResponse,
@@ -3420,7 +3513,10 @@ export const MsgCreateBasketResponse = {
 const baseMsgAddToBasket: object = { owner: '', basketDenom: '' };
 
 export const MsgAddToBasket = {
-	encode(message: MsgAddToBasket, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgAddToBasket,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -3433,8 +3529,9 @@ export const MsgAddToBasket = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgAddToBasket {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgAddToBasket {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgAddToBasket } as MsgAddToBasket;
 		message.credits = [];
@@ -3508,8 +3605,8 @@ const baseMsgAddToBasketResponse: object = { amountReceived: '' };
 export const MsgAddToBasketResponse = {
 	encode(
 		message: MsgAddToBasketResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.amountReceived !== '') {
 			writer.uint32(10).string(message.amountReceived);
 		}
@@ -3517,10 +3614,11 @@ export const MsgAddToBasketResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgAddToBasketResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgAddToBasketResponse,
@@ -3579,8 +3677,8 @@ const baseMsgTakeFromBasket: object = {
 export const MsgTakeFromBasket = {
 	encode(
 		message: MsgTakeFromBasket,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -3596,8 +3694,9 @@ export const MsgTakeFromBasket = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgTakeFromBasket {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgTakeFromBasket {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgTakeFromBasket } as MsgTakeFromBasket;
 		while (reader.pos < end) {
@@ -3673,8 +3772,8 @@ const baseMsgTakeFromBasketResponse: object = {};
 export const MsgTakeFromBasketResponse = {
 	encode(
 		message: MsgTakeFromBasketResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.credits) {
 			BasketCredit.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -3682,10 +3781,11 @@ export const MsgTakeFromBasketResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgTakeFromBasketResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgTakeFromBasketResponse,
@@ -3750,8 +3850,8 @@ const baseMsgPickFromBasket: object = {
 export const MsgPickFromBasket = {
 	encode(
 		message: MsgPickFromBasket,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -3767,8 +3867,9 @@ export const MsgPickFromBasket = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgPickFromBasket {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgPickFromBasket {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgPickFromBasket } as MsgPickFromBasket;
 		message.credits = [];
@@ -3853,16 +3954,17 @@ const baseMsgPickFromBasketResponse: object = {};
 export const MsgPickFromBasketResponse = {
 	encode(
 		_: MsgPickFromBasketResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): MsgPickFromBasketResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgPickFromBasketResponse,
@@ -4017,7 +4119,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateClassResponse.decode(new Reader(data))
+			MsgCreateClassResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4031,7 +4133,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateProjectResponse.decode(new Reader(data))
+			MsgCreateProjectResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4043,7 +4145,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateBatchResponse.decode(new Reader(data))
+			MsgCreateBatchResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4054,7 +4156,9 @@ export class MsgClientImpl implements Msg {
 			'Send',
 			data
 		);
-		return promise.then((data) => MsgSendResponse.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgSendResponse.decode(new _m0.Reader(data))
+		);
 	}
 
 	Retire(request: MsgRetire): Promise<MsgRetireResponse> {
@@ -4065,7 +4169,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgRetireResponse.decode(new Reader(data))
+			MsgRetireResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4077,7 +4181,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCancelResponse.decode(new Reader(data))
+			MsgCancelResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4091,7 +4195,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgUpdateClassAdminResponse.decode(new Reader(data))
+			MsgUpdateClassAdminResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4105,7 +4209,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgUpdateClassIssuersResponse.decode(new Reader(data))
+			MsgUpdateClassIssuersResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4119,7 +4223,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgUpdateClassMetadataResponse.decode(new Reader(data))
+			MsgUpdateClassMetadataResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4130,7 +4234,9 @@ export class MsgClientImpl implements Msg {
 			'Sell',
 			data
 		);
-		return promise.then((data) => MsgSellResponse.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgSellResponse.decode(new _m0.Reader(data))
+		);
 	}
 
 	UpdateSellOrders(
@@ -4143,7 +4249,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgUpdateSellOrdersResponse.decode(new Reader(data))
+			MsgUpdateSellOrdersResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4154,7 +4260,9 @@ export class MsgClientImpl implements Msg {
 			'Buy',
 			data
 		);
-		return promise.then((data) => MsgBuyResponse.decode(new Reader(data)));
+		return promise.then((data) =>
+			MsgBuyResponse.decode(new _m0.Reader(data))
+		);
 	}
 
 	AllowAskDenom(
@@ -4167,7 +4275,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgAllowAskDenomResponse.decode(new Reader(data))
+			MsgAllowAskDenomResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4179,7 +4287,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgCreateBasketResponse.decode(new Reader(data))
+			MsgCreateBasketResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4191,7 +4299,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgAddToBasketResponse.decode(new Reader(data))
+			MsgAddToBasketResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4205,7 +4313,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgTakeFromBasketResponse.decode(new Reader(data))
+			MsgTakeFromBasketResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4219,7 +4327,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgPickFromBasketResponse.decode(new Reader(data))
+			MsgPickFromBasketResponse.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -4321,9 +4429,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

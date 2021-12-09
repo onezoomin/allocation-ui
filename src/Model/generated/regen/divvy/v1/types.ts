@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Duration } from '../../../google/protobuf/duration';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 
@@ -34,13 +34,44 @@ export interface StoreAllocator {
 	 * * sum of shares in entires must equal to 100% (1mln)
 	 * list of allocation entries
 	 */
-	recipients: Recipient[];
+	recipients: StoreRecipient[];
+	/** timestamp when anyone can call for the next time. */
+	nextClaim?: Date;
+}
+
+export interface StoreRecipient {
+	/** address wallet address */
+	address: Uint8Array;
+	/** allocation share. 100% = 1e6. */
+	share: number;
+	name: string;
 }
 
 export interface Allocator {
+	/**
+	 * admin is the address of the account that creates the allocator and signs
+	 * the message
+	 */
+	admin: string;
+	start?: Date;
+	end?: Date;
+	/** how often we do a distribution, min = 1s */
+	interval?: Duration;
+	/** name of the allocator */
+	name: string;
+	/** url with metadata */
+	url: string;
+	paused: boolean;
 	/** submodule address of the given allocator */
 	address: string;
-	a?: StoreAllocator;
+	/**
+	 * Invariant:
+	 * * sum of shares in entires must equal to 100% (1mln)
+	 * list of allocation entries
+	 */
+	recipients: Recipient[];
+	/** timestamp when anyone can call for the next time. */
+	nextClaim?: Date;
 }
 
 export interface SlowReleaseStream {
@@ -66,7 +97,10 @@ export interface SlowReleaseStream {
 const baseRecipient: object = { address: '', share: 0, name: '' };
 
 export const Recipient = {
-	encode(message: Recipient, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Recipient,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -79,8 +113,9 @@ export const Recipient = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Recipient {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Recipient {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseRecipient } as Recipient;
 		while (reader.pos < end) {
@@ -147,7 +182,10 @@ const baseStoreAllocator: object = {
 };
 
 export const StoreAllocator = {
-	encode(message: StoreAllocator, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: StoreAllocator,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -179,13 +217,20 @@ export const StoreAllocator = {
 			writer.uint32(56).bool(message.paused);
 		}
 		for (const v of message.recipients) {
-			Recipient.encode(v!, writer.uint32(82).fork()).ldelim();
+			StoreRecipient.encode(v!, writer.uint32(82).fork()).ldelim();
+		}
+		if (message.nextClaim !== undefined) {
+			Timestamp.encode(
+				toTimestamp(message.nextClaim),
+				writer.uint32(90).fork()
+			).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): StoreAllocator {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): StoreAllocator {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseStoreAllocator } as StoreAllocator;
 		message.recipients = [];
@@ -219,7 +264,12 @@ export const StoreAllocator = {
 					break;
 				case 10:
 					message.recipients.push(
-						Recipient.decode(reader, reader.uint32())
+						StoreRecipient.decode(reader, reader.uint32())
+					);
+					break;
+				case 11:
+					message.nextClaim = fromTimestamp(
+						Timestamp.decode(reader, reader.uint32())
 					);
 					break;
 				default:
@@ -261,8 +311,12 @@ export const StoreAllocator = {
 				? Boolean(object.paused)
 				: false;
 		message.recipients = (object.recipients ?? []).map((e: any) =>
-			Recipient.fromJSON(e)
+			StoreRecipient.fromJSON(e)
 		);
+		message.nextClaim =
+			object.nextClaim !== undefined && object.nextClaim !== null
+				? fromJsonTimestamp(object.nextClaim)
+				: undefined;
 		return message;
 	},
 
@@ -281,11 +335,13 @@ export const StoreAllocator = {
 		message.paused !== undefined && (obj.paused = message.paused);
 		if (message.recipients) {
 			obj.recipients = message.recipients.map((e) =>
-				e ? Recipient.toJSON(e) : undefined
+				e ? StoreRecipient.toJSON(e) : undefined
 			);
 		} else {
 			obj.recipients = [];
 		}
+		message.nextClaim !== undefined &&
+			(obj.nextClaim = message.nextClaim.toISOString());
 		return obj;
 	},
 
@@ -304,36 +360,202 @@ export const StoreAllocator = {
 		message.url = object.url ?? '';
 		message.paused = object.paused ?? false;
 		message.recipients =
-			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
+			object.recipients?.map((e) => StoreRecipient.fromPartial(e)) || [];
+		message.nextClaim = object.nextClaim ?? undefined;
 		return message;
 	},
 };
 
-const baseAllocator: object = { address: '' };
+const baseStoreRecipient: object = { share: 0, name: '' };
 
-export const Allocator = {
-	encode(message: Allocator, writer: Writer = Writer.create()): Writer {
-		if (message.address !== '') {
-			writer.uint32(10).string(message.address);
+export const StoreRecipient = {
+	encode(
+		message: StoreRecipient,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		if (message.address.length !== 0) {
+			writer.uint32(10).bytes(message.address);
 		}
-		if (message.a !== undefined) {
-			StoreAllocator.encode(message.a, writer.uint32(18).fork()).ldelim();
+		if (message.share !== 0) {
+			writer.uint32(16).uint32(message.share);
+		}
+		if (message.name !== '') {
+			writer.uint32(26).string(message.name);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Allocator {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): StoreRecipient {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
-		const message = { ...baseAllocator } as Allocator;
+		const message = { ...baseStoreRecipient } as StoreRecipient;
+		message.address = new Uint8Array();
 		while (reader.pos < end) {
 			const tag = reader.uint32();
 			switch (tag >>> 3) {
 				case 1:
-					message.address = reader.string();
+					message.address = reader.bytes();
 					break;
 				case 2:
-					message.a = StoreAllocator.decode(reader, reader.uint32());
+					message.share = reader.uint32();
+					break;
+				case 3:
+					message.name = reader.string();
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): StoreRecipient {
+		const message = { ...baseStoreRecipient } as StoreRecipient;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? bytesFromBase64(object.address)
+				: new Uint8Array();
+		message.share =
+			object.share !== undefined && object.share !== null
+				? Number(object.share)
+				: 0;
+		message.name =
+			object.name !== undefined && object.name !== null
+				? String(object.name)
+				: '';
+		return message;
+	},
+
+	toJSON(message: StoreRecipient): unknown {
+		const obj: any = {};
+		message.address !== undefined &&
+			(obj.address = base64FromBytes(
+				message.address !== undefined
+					? message.address
+					: new Uint8Array()
+			));
+		message.share !== undefined && (obj.share = message.share);
+		message.name !== undefined && (obj.name = message.name);
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<StoreRecipient>, I>>(
+		object: I
+	): StoreRecipient {
+		const message = { ...baseStoreRecipient } as StoreRecipient;
+		message.address = object.address ?? new Uint8Array();
+		message.share = object.share ?? 0;
+		message.name = object.name ?? '';
+		return message;
+	},
+};
+
+const baseAllocator: object = {
+	admin: '',
+	name: '',
+	url: '',
+	paused: false,
+	address: '',
+};
+
+export const Allocator = {
+	encode(
+		message: Allocator,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		if (message.admin !== '') {
+			writer.uint32(10).string(message.admin);
+		}
+		if (message.start !== undefined) {
+			Timestamp.encode(
+				toTimestamp(message.start),
+				writer.uint32(18).fork()
+			).ldelim();
+		}
+		if (message.end !== undefined) {
+			Timestamp.encode(
+				toTimestamp(message.end),
+				writer.uint32(26).fork()
+			).ldelim();
+		}
+		if (message.interval !== undefined) {
+			Duration.encode(
+				message.interval,
+				writer.uint32(34).fork()
+			).ldelim();
+		}
+		if (message.name !== '') {
+			writer.uint32(42).string(message.name);
+		}
+		if (message.url !== '') {
+			writer.uint32(50).string(message.url);
+		}
+		if (message.paused === true) {
+			writer.uint32(56).bool(message.paused);
+		}
+		if (message.address !== '') {
+			writer.uint32(74).string(message.address);
+		}
+		for (const v of message.recipients) {
+			Recipient.encode(v!, writer.uint32(82).fork()).ldelim();
+		}
+		if (message.nextClaim !== undefined) {
+			Timestamp.encode(
+				toTimestamp(message.nextClaim),
+				writer.uint32(90).fork()
+			).ldelim();
+		}
+		return writer;
+	},
+
+	decode(input: _m0.Reader | Uint8Array, length?: number): Allocator {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseAllocator } as Allocator;
+		message.recipients = [];
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.admin = reader.string();
+					break;
+				case 2:
+					message.start = fromTimestamp(
+						Timestamp.decode(reader, reader.uint32())
+					);
+					break;
+				case 3:
+					message.end = fromTimestamp(
+						Timestamp.decode(reader, reader.uint32())
+					);
+					break;
+				case 4:
+					message.interval = Duration.decode(reader, reader.uint32());
+					break;
+				case 5:
+					message.name = reader.string();
+					break;
+				case 6:
+					message.url = reader.string();
+					break;
+				case 7:
+					message.paused = reader.bool();
+					break;
+				case 9:
+					message.address = reader.string();
+					break;
+				case 10:
+					message.recipients.push(
+						Recipient.decode(reader, reader.uint32())
+					);
+					break;
+				case 11:
+					message.nextClaim = fromTimestamp(
+						Timestamp.decode(reader, reader.uint32())
+					);
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -345,22 +567,71 @@ export const Allocator = {
 
 	fromJSON(object: any): Allocator {
 		const message = { ...baseAllocator } as Allocator;
+		message.admin =
+			object.admin !== undefined && object.admin !== null
+				? String(object.admin)
+				: '';
+		message.start =
+			object.start !== undefined && object.start !== null
+				? fromJsonTimestamp(object.start)
+				: undefined;
+		message.end =
+			object.end !== undefined && object.end !== null
+				? fromJsonTimestamp(object.end)
+				: undefined;
+		message.interval =
+			object.interval !== undefined && object.interval !== null
+				? Duration.fromJSON(object.interval)
+				: undefined;
+		message.name =
+			object.name !== undefined && object.name !== null
+				? String(object.name)
+				: '';
+		message.url =
+			object.url !== undefined && object.url !== null
+				? String(object.url)
+				: '';
+		message.paused =
+			object.paused !== undefined && object.paused !== null
+				? Boolean(object.paused)
+				: false;
 		message.address =
 			object.address !== undefined && object.address !== null
 				? String(object.address)
 				: '';
-		message.a =
-			object.a !== undefined && object.a !== null
-				? StoreAllocator.fromJSON(object.a)
+		message.recipients = (object.recipients ?? []).map((e: any) =>
+			Recipient.fromJSON(e)
+		);
+		message.nextClaim =
+			object.nextClaim !== undefined && object.nextClaim !== null
+				? fromJsonTimestamp(object.nextClaim)
 				: undefined;
 		return message;
 	},
 
 	toJSON(message: Allocator): unknown {
 		const obj: any = {};
+		message.admin !== undefined && (obj.admin = message.admin);
+		message.start !== undefined &&
+			(obj.start = message.start.toISOString());
+		message.end !== undefined && (obj.end = message.end.toISOString());
+		message.interval !== undefined &&
+			(obj.interval = message.interval
+				? Duration.toJSON(message.interval)
+				: undefined);
+		message.name !== undefined && (obj.name = message.name);
+		message.url !== undefined && (obj.url = message.url);
+		message.paused !== undefined && (obj.paused = message.paused);
 		message.address !== undefined && (obj.address = message.address);
-		message.a !== undefined &&
-			(obj.a = message.a ? StoreAllocator.toJSON(message.a) : undefined);
+		if (message.recipients) {
+			obj.recipients = message.recipients.map((e) =>
+				e ? Recipient.toJSON(e) : undefined
+			);
+		} else {
+			obj.recipients = [];
+		}
+		message.nextClaim !== undefined &&
+			(obj.nextClaim = message.nextClaim.toISOString());
 		return obj;
 	},
 
@@ -368,11 +639,20 @@ export const Allocator = {
 		object: I
 	): Allocator {
 		const message = { ...baseAllocator } as Allocator;
-		message.address = object.address ?? '';
-		message.a =
-			object.a !== undefined && object.a !== null
-				? StoreAllocator.fromPartial(object.a)
+		message.admin = object.admin ?? '';
+		message.start = object.start ?? undefined;
+		message.end = object.end ?? undefined;
+		message.interval =
+			object.interval !== undefined && object.interval !== null
+				? Duration.fromPartial(object.interval)
 				: undefined;
+		message.name = object.name ?? '';
+		message.url = object.url ?? '';
+		message.paused = object.paused ?? false;
+		message.address = object.address ?? '';
+		message.recipients =
+			object.recipients?.map((e) => Recipient.fromPartial(e)) || [];
+		message.nextClaim = object.nextClaim ?? undefined;
 		return message;
 	},
 };
@@ -387,8 +667,8 @@ const baseSlowReleaseStream: object = {
 export const SlowReleaseStream = {
 	encode(
 		message: SlowReleaseStream,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -419,8 +699,9 @@ export const SlowReleaseStream = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): SlowReleaseStream {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): SlowReleaseStream {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseSlowReleaseStream } as SlowReleaseStream;
 		while (reader.pos < end) {
@@ -526,6 +807,40 @@ export const SlowReleaseStream = {
 	},
 };
 
+declare var self: any | undefined;
+declare var window: any | undefined;
+declare var global: any | undefined;
+var globalThis: any = (() => {
+	if (typeof globalThis !== 'undefined') return globalThis;
+	if (typeof self !== 'undefined') return self;
+	if (typeof window !== 'undefined') return window;
+	if (typeof global !== 'undefined') return global;
+	throw 'Unable to locate global object';
+})();
+
+const atob: (b64: string) => string =
+	globalThis.atob ||
+	((b64) => globalThis.Buffer.from(b64, 'base64').toString('binary'));
+function bytesFromBase64(b64: string): Uint8Array {
+	const bin = atob(b64);
+	const arr = new Uint8Array(bin.length);
+	for (let i = 0; i < bin.length; ++i) {
+		arr[i] = bin.charCodeAt(i);
+	}
+	return arr;
+}
+
+const btoa: (bin: string) => string =
+	globalThis.btoa ||
+	((bin) => globalThis.Buffer.from(bin, 'binary').toString('base64'));
+function base64FromBytes(arr: Uint8Array): string {
+	const bin: string[] = [];
+	for (const byte of arr) {
+		bin.push(String.fromCharCode(byte));
+	}
+	return btoa(bin.join(''));
+}
+
 type Builtin =
 	| Date
 	| Function
@@ -581,9 +896,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

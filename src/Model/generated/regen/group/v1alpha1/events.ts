@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 
 export const protobufPackage = 'regen.group.v1alpha1';
 
@@ -51,16 +51,17 @@ const baseEventCreateGroup: object = { groupId: Long.UZERO };
 export const EventCreateGroup = {
 	encode(
 		message: EventCreateGroup,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCreateGroup {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventCreateGroup {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCreateGroup } as EventCreateGroup;
 		while (reader.pos < end) {
@@ -110,16 +111,17 @@ const baseEventUpdateGroup: object = { groupId: Long.UZERO };
 export const EventUpdateGroup = {
 	encode(
 		message: EventUpdateGroup,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventUpdateGroup {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventUpdateGroup {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventUpdateGroup } as EventUpdateGroup;
 		while (reader.pos < end) {
@@ -169,8 +171,8 @@ const baseEventCreateGroupAccount: object = { address: '' };
 export const EventCreateGroupAccount = {
 	encode(
 		message: EventCreateGroupAccount,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -178,10 +180,11 @@ export const EventCreateGroupAccount = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): EventCreateGroupAccount {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseEventCreateGroupAccount,
@@ -233,8 +236,8 @@ const baseEventUpdateGroupAccount: object = { address: '' };
 export const EventUpdateGroupAccount = {
 	encode(
 		message: EventUpdateGroupAccount,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -242,10 +245,11 @@ export const EventUpdateGroupAccount = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): EventUpdateGroupAccount {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseEventUpdateGroupAccount,
@@ -297,16 +301,20 @@ const baseEventCreateProposal: object = { proposalId: Long.UZERO };
 export const EventCreateProposal = {
 	encode(
 		message: EventCreateProposal,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCreateProposal {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventCreateProposal {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCreateProposal } as EventCreateProposal;
 		while (reader.pos < end) {
@@ -354,15 +362,19 @@ export const EventCreateProposal = {
 const baseEventVote: object = { proposalId: Long.UZERO };
 
 export const EventVote = {
-	encode(message: EventVote, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventVote,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventVote {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventVote {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventVote } as EventVote;
 		while (reader.pos < end) {
@@ -410,15 +422,19 @@ export const EventVote = {
 const baseEventExec: object = { proposalId: Long.UZERO };
 
 export const EventExec = {
-	encode(message: EventExec, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventExec,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventExec {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventExec {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventExec } as EventExec;
 		while (reader.pos < end) {
@@ -492,9 +508,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

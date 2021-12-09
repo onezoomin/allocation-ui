@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Coin } from '../../../cosmos/base/v1beta1/coin';
 
 export const protobufPackage = 'regen.ecocredit.v1alpha2';
@@ -229,8 +229,8 @@ const baseEventCreateClass: object = { classId: '', admin: '' };
 export const EventCreateClass = {
 	encode(
 		message: EventCreateClass,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
@@ -240,8 +240,9 @@ export const EventCreateClass = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCreateClass {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventCreateClass {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCreateClass } as EventCreateClass;
 		while (reader.pos < end) {
@@ -301,8 +302,8 @@ const baseEventCreateProject: object = {
 export const EventCreateProject = {
 	encode(
 		message: EventCreateProject,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -318,8 +319,12 @@ export const EventCreateProject = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCreateProject {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventCreateProject {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCreateProject } as EventCreateProject;
 		while (reader.pos < end) {
@@ -403,8 +408,8 @@ const baseEventCreateBatch: object = {
 export const EventCreateBatch = {
 	encode(
 		message: EventCreateBatch,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
@@ -432,8 +437,9 @@ export const EventCreateBatch = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCreateBatch {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventCreateBatch {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCreateBatch } as EventCreateBatch;
 		while (reader.pos < end) {
@@ -550,7 +556,10 @@ const baseEventReceive: object = {
 };
 
 export const EventReceive = {
-	encode(message: EventReceive, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventReceive,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sender !== '') {
 			writer.uint32(10).string(message.sender);
 		}
@@ -569,8 +578,9 @@ export const EventReceive = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventReceive {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventReceive {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventReceive } as EventReceive;
 		while (reader.pos < end) {
@@ -659,7 +669,10 @@ const baseEventRetire: object = {
 };
 
 export const EventRetire = {
-	encode(message: EventRetire, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventRetire,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.retirer !== '') {
 			writer.uint32(10).string(message.retirer);
 		}
@@ -675,8 +688,9 @@ export const EventRetire = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventRetire {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventRetire {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventRetire } as EventRetire;
 		while (reader.pos < end) {
@@ -748,7 +762,10 @@ export const EventRetire = {
 const baseEventCancel: object = { canceller: '', batchDenom: '', amount: '' };
 
 export const EventCancel = {
-	encode(message: EventCancel, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventCancel,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.canceller !== '') {
 			writer.uint32(10).string(message.canceller);
 		}
@@ -761,8 +778,9 @@ export const EventCancel = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventCancel {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventCancel {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventCancel } as EventCancel;
 		while (reader.pos < end) {
@@ -830,7 +848,10 @@ const baseEventSell: object = {
 };
 
 export const EventSell = {
-	encode(message: EventSell, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventSell,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.orderId.isZero()) {
 			writer.uint32(8).uint64(message.orderId);
 		}
@@ -849,8 +870,9 @@ export const EventSell = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventSell {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventSell {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventSell } as EventSell;
 		while (reader.pos < end) {
@@ -951,8 +973,8 @@ const baseEventUpdateSellOrder: object = {
 export const EventUpdateSellOrder = {
 	encode(
 		message: EventUpdateSellOrder,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -974,8 +996,12 @@ export const EventUpdateSellOrder = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventUpdateSellOrder {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventUpdateSellOrder {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventUpdateSellOrder } as EventUpdateSellOrder;
 		while (reader.pos < end) {
@@ -1086,8 +1112,8 @@ const baseEventBuyOrderCreated: object = {
 export const EventBuyOrderCreated = {
 	encode(
 		message: EventBuyOrderCreated,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.buyOrderId.isZero()) {
 			writer.uint32(8).uint64(message.buyOrderId);
 		}
@@ -1109,8 +1135,12 @@ export const EventBuyOrderCreated = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventBuyOrderCreated {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventBuyOrderCreated {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventBuyOrderCreated } as EventBuyOrderCreated;
 		while (reader.pos < end) {
@@ -1224,8 +1254,8 @@ const baseEventBuyOrderFilled: object = {
 export const EventBuyOrderFilled = {
 	encode(
 		message: EventBuyOrderFilled,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.buyOrderId.isZero()) {
 			writer.uint32(8).uint64(message.buyOrderId);
 		}
@@ -1244,8 +1274,12 @@ export const EventBuyOrderFilled = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventBuyOrderFilled {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventBuyOrderFilled {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventBuyOrderFilled } as EventBuyOrderFilled;
 		while (reader.pos < end) {
@@ -1346,8 +1380,8 @@ const baseEventAllowAskDenom: object = {
 export const EventAllowAskDenom = {
 	encode(
 		message: EventAllowAskDenom,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.denom !== '') {
 			writer.uint32(10).string(message.denom);
 		}
@@ -1360,8 +1394,12 @@ export const EventAllowAskDenom = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventAllowAskDenom {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): EventAllowAskDenom {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventAllowAskDenom } as EventAllowAskDenom;
 		while (reader.pos < end) {
@@ -1450,9 +1488,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

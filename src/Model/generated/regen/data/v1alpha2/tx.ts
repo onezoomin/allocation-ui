@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	ContentHash,
 	ContentHash_Graph,
@@ -51,7 +51,10 @@ export interface MsgSignDataResponse {}
 const baseMsgAnchorData: object = { sender: '' };
 
 export const MsgAnchorData = {
-	encode(message: MsgAnchorData, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgAnchorData,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sender !== '') {
 			writer.uint32(10).string(message.sender);
 		}
@@ -61,8 +64,9 @@ export const MsgAnchorData = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgAnchorData {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgAnchorData {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgAnchorData } as MsgAnchorData;
 		while (reader.pos < end) {
@@ -123,8 +127,8 @@ const baseMsgAnchorDataResponse: object = { iri: '' };
 export const MsgAnchorDataResponse = {
 	encode(
 		message: MsgAnchorDataResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.timestamp !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.timestamp),
@@ -137,8 +141,12 @@ export const MsgAnchorDataResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgAnchorDataResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgAnchorDataResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseMsgAnchorDataResponse,
@@ -200,7 +208,10 @@ export const MsgAnchorDataResponse = {
 const baseMsgSignData: object = { signers: '' };
 
 export const MsgSignData = {
-	encode(message: MsgSignData, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: MsgSignData,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.signers) {
 			writer.uint32(10).string(v!);
 		}
@@ -213,8 +224,9 @@ export const MsgSignData = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSignData {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): MsgSignData {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSignData } as MsgSignData;
 		message.signers = [];
@@ -278,12 +290,19 @@ export const MsgSignData = {
 const baseMsgSignDataResponse: object = {};
 
 export const MsgSignDataResponse = {
-	encode(_: MsgSignDataResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: MsgSignDataResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): MsgSignDataResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): MsgSignDataResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMsgSignDataResponse } as MsgSignDataResponse;
 		while (reader.pos < end) {
@@ -366,7 +385,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgAnchorDataResponse.decode(new Reader(data))
+			MsgAnchorDataResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -378,7 +397,7 @@ export class MsgClientImpl implements Msg {
 			data
 		);
 		return promise.then((data) =>
-			MsgSignDataResponse.decode(new Reader(data))
+			MsgSignDataResponse.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -446,9 +465,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

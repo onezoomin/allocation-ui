@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 
 export const protobufPackage = 'cosmos.base.query.v1beta1';
 
@@ -69,7 +69,10 @@ const basePageRequest: object = {
 };
 
 export const PageRequest = {
-	encode(message: PageRequest, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: PageRequest,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.key.length !== 0) {
 			writer.uint32(10).bytes(message.key);
 		}
@@ -85,8 +88,9 @@ export const PageRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): PageRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): PageRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...basePageRequest } as PageRequest;
 		message.key = new Uint8Array();
@@ -170,7 +174,10 @@ export const PageRequest = {
 const basePageResponse: object = { total: Long.UZERO };
 
 export const PageResponse = {
-	encode(message: PageResponse, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: PageResponse,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.nextKey.length !== 0) {
 			writer.uint32(10).bytes(message.nextKey);
 		}
@@ -180,8 +187,9 @@ export const PageResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): PageResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): PageResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...basePageResponse } as PageResponse;
 		message.nextKey = new Uint8Array();
@@ -304,9 +312,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

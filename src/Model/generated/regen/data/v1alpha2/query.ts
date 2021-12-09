@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	PageRequest,
 	PageResponse,
@@ -69,16 +69,17 @@ const baseQueryByIRIRequest: object = { iri: '' };
 export const QueryByIRIRequest = {
 	encode(
 		message: QueryByIRIRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.iri !== '') {
 			writer.uint32(10).string(message.iri);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryByIRIRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): QueryByIRIRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryByIRIRequest } as QueryByIRIRequest;
 		while (reader.pos < end) {
@@ -124,8 +125,8 @@ const baseQueryByIRIResponse: object = {};
 export const QueryByIRIResponse = {
 	encode(
 		message: QueryByIRIResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.entry !== undefined) {
 			ContentEntry.encode(
 				message.entry,
@@ -135,8 +136,12 @@ export const QueryByIRIResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryByIRIResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryByIRIResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryByIRIResponse } as QueryByIRIResponse;
 		while (reader.pos < end) {
@@ -191,8 +196,8 @@ const baseQueryBySignerRequest: object = { signer: '' };
 export const QueryBySignerRequest = {
 	encode(
 		message: QueryBySignerRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.signer !== '') {
 			writer.uint32(10).string(message.signer);
 		}
@@ -205,8 +210,12 @@ export const QueryBySignerRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBySignerRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBySignerRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBySignerRequest } as QueryBySignerRequest;
 		while (reader.pos < end) {
@@ -270,8 +279,8 @@ const baseQueryBySignerResponse: object = {};
 export const QueryBySignerResponse = {
 	encode(
 		message: QueryBySignerResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.entries) {
 			ContentEntry.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -284,8 +293,12 @@ export const QueryBySignerResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBySignerResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBySignerResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBySignerResponse,
@@ -362,7 +375,10 @@ export const QueryBySignerResponse = {
 const baseContentEntry: object = { iri: '' };
 
 export const ContentEntry = {
-	encode(message: ContentEntry, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: ContentEntry,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.hash !== undefined) {
 			ContentHash.encode(message.hash, writer.uint32(10).fork()).ldelim();
 		}
@@ -378,8 +394,9 @@ export const ContentEntry = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ContentEntry {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ContentEntry {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseContentEntry } as ContentEntry;
 		while (reader.pos < end) {
@@ -452,8 +469,8 @@ const baseQuerySignersRequest: object = { iri: '' };
 export const QuerySignersRequest = {
 	encode(
 		message: QuerySignersRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.iri !== '') {
 			writer.uint32(10).string(message.iri);
 		}
@@ -466,8 +483,12 @@ export const QuerySignersRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QuerySignersRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QuerySignersRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQuerySignersRequest } as QuerySignersRequest;
 		while (reader.pos < end) {
@@ -531,8 +552,8 @@ const baseQuerySignersResponse: object = { signers: '' };
 export const QuerySignersResponse = {
 	encode(
 		message: QuerySignersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.signers) {
 			writer.uint32(10).string(v!);
 		}
@@ -545,8 +566,12 @@ export const QuerySignersResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QuerySignersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QuerySignersResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQuerySignersResponse } as QuerySignersResponse;
 		message.signers = [];
@@ -633,7 +658,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryByIRIResponse.decode(new Reader(data))
+			QueryByIRIResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -645,7 +670,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBySignerResponse.decode(new Reader(data))
+			QueryBySignerResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -657,7 +682,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySignersResponse.decode(new Reader(data))
+			QuerySignersResponse.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -725,9 +750,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

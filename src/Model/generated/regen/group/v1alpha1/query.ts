@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	GroupInfo,
 	GroupAccountInfo,
@@ -182,16 +182,20 @@ const baseQueryGroupInfoRequest: object = { groupId: Long.UZERO };
 export const QueryGroupInfoRequest = {
 	encode(
 		message: QueryGroupInfoRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryGroupInfoRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryGroupInfoRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupInfoRequest,
@@ -247,8 +251,8 @@ const baseQueryGroupInfoResponse: object = {};
 export const QueryGroupInfoResponse = {
 	encode(
 		message: QueryGroupInfoResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.info !== undefined) {
 			GroupInfo.encode(message.info, writer.uint32(10).fork()).ldelim();
 		}
@@ -256,10 +260,11 @@ export const QueryGroupInfoResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupInfoResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupInfoResponse,
@@ -317,8 +322,8 @@ const baseQueryGroupAccountInfoRequest: object = { address: '' };
 export const QueryGroupAccountInfoRequest = {
 	encode(
 		message: QueryGroupAccountInfoRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -326,10 +331,11 @@ export const QueryGroupAccountInfoRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountInfoRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountInfoRequest,
@@ -381,8 +387,8 @@ const baseQueryGroupAccountInfoResponse: object = {};
 export const QueryGroupAccountInfoResponse = {
 	encode(
 		message: QueryGroupAccountInfoResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.info !== undefined) {
 			GroupAccountInfo.encode(
 				message.info,
@@ -393,10 +399,11 @@ export const QueryGroupAccountInfoResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountInfoResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountInfoResponse,
@@ -457,8 +464,8 @@ const baseQueryGroupMembersRequest: object = { groupId: Long.UZERO };
 export const QueryGroupMembersRequest = {
 	encode(
 		message: QueryGroupMembersRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
@@ -472,10 +479,11 @@ export const QueryGroupMembersRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupMembersRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupMembersRequest,
@@ -549,8 +557,8 @@ const baseQueryGroupMembersResponse: object = {};
 export const QueryGroupMembersResponse = {
 	encode(
 		message: QueryGroupMembersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.members) {
 			GroupMember.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -564,10 +572,11 @@ export const QueryGroupMembersResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupMembersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupMembersResponse,
@@ -646,8 +655,8 @@ const baseQueryGroupsByAdminRequest: object = { admin: '' };
 export const QueryGroupsByAdminRequest = {
 	encode(
 		message: QueryGroupsByAdminRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -661,10 +670,11 @@ export const QueryGroupsByAdminRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupsByAdminRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupsByAdminRequest,
@@ -734,8 +744,8 @@ const baseQueryGroupsByAdminResponse: object = {};
 export const QueryGroupsByAdminResponse = {
 	encode(
 		message: QueryGroupsByAdminResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.groups) {
 			GroupInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -749,10 +759,11 @@ export const QueryGroupsByAdminResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupsByAdminResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupsByAdminResponse,
@@ -831,8 +842,8 @@ const baseQueryGroupAccountsByGroupRequest: object = { groupId: Long.UZERO };
 export const QueryGroupAccountsByGroupRequest = {
 	encode(
 		message: QueryGroupAccountsByGroupRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
@@ -846,10 +857,11 @@ export const QueryGroupAccountsByGroupRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountsByGroupRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountsByGroupRequest,
@@ -923,8 +935,8 @@ const baseQueryGroupAccountsByGroupResponse: object = {};
 export const QueryGroupAccountsByGroupResponse = {
 	encode(
 		message: QueryGroupAccountsByGroupResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.groupAccounts) {
 			GroupAccountInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -938,10 +950,11 @@ export const QueryGroupAccountsByGroupResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountsByGroupResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountsByGroupResponse,
@@ -1021,8 +1034,8 @@ const baseQueryGroupAccountsByAdminRequest: object = { admin: '' };
 export const QueryGroupAccountsByAdminRequest = {
 	encode(
 		message: QueryGroupAccountsByAdminRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.admin !== '') {
 			writer.uint32(10).string(message.admin);
 		}
@@ -1036,10 +1049,11 @@ export const QueryGroupAccountsByAdminRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountsByAdminRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountsByAdminRequest,
@@ -1109,8 +1123,8 @@ const baseQueryGroupAccountsByAdminResponse: object = {};
 export const QueryGroupAccountsByAdminResponse = {
 	encode(
 		message: QueryGroupAccountsByAdminResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.groupAccounts) {
 			GroupAccountInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1124,10 +1138,11 @@ export const QueryGroupAccountsByAdminResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryGroupAccountsByAdminResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryGroupAccountsByAdminResponse,
@@ -1207,16 +1222,20 @@ const baseQueryProposalRequest: object = { proposalId: Long.UZERO };
 export const QueryProposalRequest = {
 	encode(
 		message: QueryProposalRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryProposalRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryProposalRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryProposalRequest } as QueryProposalRequest;
 		while (reader.pos < end) {
@@ -1266,8 +1285,8 @@ const baseQueryProposalResponse: object = {};
 export const QueryProposalResponse = {
 	encode(
 		message: QueryProposalResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.proposal !== undefined) {
 			Proposal.encode(
 				message.proposal,
@@ -1277,8 +1296,12 @@ export const QueryProposalResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryProposalResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryProposalResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProposalResponse,
@@ -1336,8 +1359,8 @@ const baseQueryProposalsByGroupAccountRequest: object = { address: '' };
 export const QueryProposalsByGroupAccountRequest = {
 	encode(
 		message: QueryProposalsByGroupAccountRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -1351,10 +1374,11 @@ export const QueryProposalsByGroupAccountRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryProposalsByGroupAccountRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProposalsByGroupAccountRequest,
@@ -1424,8 +1448,8 @@ const baseQueryProposalsByGroupAccountResponse: object = {};
 export const QueryProposalsByGroupAccountResponse = {
 	encode(
 		message: QueryProposalsByGroupAccountResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.proposals) {
 			Proposal.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1439,10 +1463,11 @@ export const QueryProposalsByGroupAccountResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryProposalsByGroupAccountResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProposalsByGroupAccountResponse,
@@ -1524,8 +1549,8 @@ const baseQueryVoteByProposalVoterRequest: object = {
 export const QueryVoteByProposalVoterRequest = {
 	encode(
 		message: QueryVoteByProposalVoterRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
@@ -1536,10 +1561,11 @@ export const QueryVoteByProposalVoterRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVoteByProposalVoterRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVoteByProposalVoterRequest,
@@ -1604,8 +1630,8 @@ const baseQueryVoteByProposalVoterResponse: object = {};
 export const QueryVoteByProposalVoterResponse = {
 	encode(
 		message: QueryVoteByProposalVoterResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.vote !== undefined) {
 			Vote.encode(message.vote, writer.uint32(10).fork()).ldelim();
 		}
@@ -1613,10 +1639,11 @@ export const QueryVoteByProposalVoterResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVoteByProposalVoterResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVoteByProposalVoterResponse,
@@ -1672,8 +1699,8 @@ const baseQueryVotesByProposalRequest: object = { proposalId: Long.UZERO };
 export const QueryVotesByProposalRequest = {
 	encode(
 		message: QueryVotesByProposalRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
@@ -1687,10 +1714,11 @@ export const QueryVotesByProposalRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVotesByProposalRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVotesByProposalRequest,
@@ -1764,8 +1792,8 @@ const baseQueryVotesByProposalResponse: object = {};
 export const QueryVotesByProposalResponse = {
 	encode(
 		message: QueryVotesByProposalResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.votes) {
 			Vote.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1779,10 +1807,11 @@ export const QueryVotesByProposalResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVotesByProposalResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVotesByProposalResponse,
@@ -1856,8 +1885,8 @@ const baseQueryVotesByVoterRequest: object = { voter: '' };
 export const QueryVotesByVoterRequest = {
 	encode(
 		message: QueryVotesByVoterRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.voter !== '') {
 			writer.uint32(10).string(message.voter);
 		}
@@ -1871,10 +1900,11 @@ export const QueryVotesByVoterRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVotesByVoterRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVotesByVoterRequest,
@@ -1944,8 +1974,8 @@ const baseQueryVotesByVoterResponse: object = {};
 export const QueryVotesByVoterResponse = {
 	encode(
 		message: QueryVotesByVoterResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.votes) {
 			Vote.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1959,10 +1989,11 @@ export const QueryVotesByVoterResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryVotesByVoterResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryVotesByVoterResponse,
@@ -2099,7 +2130,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupInfoResponse.decode(new Reader(data))
+			QueryGroupInfoResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2113,7 +2144,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupAccountInfoResponse.decode(new Reader(data))
+			QueryGroupAccountInfoResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2127,7 +2158,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupMembersResponse.decode(new Reader(data))
+			QueryGroupMembersResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2141,7 +2172,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupsByAdminResponse.decode(new Reader(data))
+			QueryGroupsByAdminResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2155,7 +2186,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupAccountsByGroupResponse.decode(new Reader(data))
+			QueryGroupAccountsByGroupResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2169,7 +2200,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryGroupAccountsByAdminResponse.decode(new Reader(data))
+			QueryGroupAccountsByAdminResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2181,7 +2212,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryProposalResponse.decode(new Reader(data))
+			QueryProposalResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2196,7 +2227,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryProposalsByGroupAccountResponse.decode(new Reader(data))
+			QueryProposalsByGroupAccountResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2210,7 +2241,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryVoteByProposalVoterResponse.decode(new Reader(data))
+			QueryVoteByProposalVoterResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2224,7 +2255,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryVotesByProposalResponse.decode(new Reader(data))
+			QueryVotesByProposalResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -2238,7 +2269,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryVotesByVoterResponse.decode(new Reader(data))
+			QueryVotesByVoterResponse.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -2280,9 +2311,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

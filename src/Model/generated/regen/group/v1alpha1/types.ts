@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Duration } from '../../../google/protobuf/duration';
 import { Any } from '../../../google/protobuf/any';
 import { Timestamp } from '../../../google/protobuf/timestamp';
@@ -372,7 +372,10 @@ export interface Vote {
 const baseMember: object = { address: '', weight: '' };
 
 export const Member = {
-	encode(message: Member, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Member,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -385,8 +388,9 @@ export const Member = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Member {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Member {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMember } as Member;
 		message.metadata = new Uint8Array();
@@ -452,15 +456,19 @@ export const Member = {
 const baseMembers: object = {};
 
 export const Members = {
-	encode(message: Members, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Members,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.members) {
 			Member.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Members {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Members {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseMembers } as Members;
 		message.members = [];
@@ -513,8 +521,8 @@ const baseThresholdDecisionPolicy: object = { threshold: '' };
 export const ThresholdDecisionPolicy = {
 	encode(
 		message: ThresholdDecisionPolicy,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.threshold !== '') {
 			writer.uint32(10).string(message.threshold);
 		}
@@ -525,10 +533,11 @@ export const ThresholdDecisionPolicy = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): ThresholdDecisionPolicy {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseThresholdDecisionPolicy,
@@ -598,7 +607,10 @@ const baseGroupInfo: object = {
 };
 
 export const GroupInfo = {
-	encode(message: GroupInfo, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: GroupInfo,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
@@ -617,8 +629,9 @@ export const GroupInfo = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GroupInfo {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): GroupInfo {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGroupInfo } as GroupInfo;
 		message.metadata = new Uint8Array();
@@ -713,7 +726,10 @@ export const GroupInfo = {
 const baseGroupMember: object = { groupId: Long.UZERO };
 
 export const GroupMember = {
-	encode(message: GroupMember, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: GroupMember,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.groupId.isZero()) {
 			writer.uint32(8).uint64(message.groupId);
 		}
@@ -723,8 +739,9 @@ export const GroupMember = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GroupMember {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): GroupMember {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGroupMember } as GroupMember;
 		while (reader.pos < end) {
@@ -794,8 +811,8 @@ const baseGroupAccountInfo: object = {
 export const GroupAccountInfo = {
 	encode(
 		message: GroupAccountInfo,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -823,8 +840,9 @@ export const GroupAccountInfo = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GroupAccountInfo {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): GroupAccountInfo {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGroupAccountInfo } as GroupAccountInfo;
 		message.metadata = new Uint8Array();
@@ -962,7 +980,10 @@ const baseProposal: object = {
 };
 
 export const Proposal = {
-	encode(message: Proposal, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Proposal,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
@@ -1011,8 +1032,9 @@ export const Proposal = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Proposal {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Proposal {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseProposal } as Proposal;
 		message.proposers = [];
@@ -1215,7 +1237,10 @@ const baseTally: object = {
 };
 
 export const Tally = {
-	encode(message: Tally, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Tally,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.yesCount !== '') {
 			writer.uint32(10).string(message.yesCount);
 		}
@@ -1231,8 +1256,9 @@ export const Tally = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Tally {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Tally {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseTally } as Tally;
 		while (reader.pos < end) {
@@ -1302,7 +1328,10 @@ export const Tally = {
 const baseVote: object = { proposalId: Long.UZERO, voter: '', choice: 0 };
 
 export const Vote = {
-	encode(message: Vote, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Vote,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.proposalId.isZero()) {
 			writer.uint32(8).uint64(message.proposalId);
 		}
@@ -1324,8 +1353,9 @@ export const Vote = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Vote {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Vote {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseVote } as Vote;
 		message.metadata = new Uint8Array();
@@ -1503,9 +1533,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

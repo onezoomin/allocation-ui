@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { ContentHash, SignerEntry } from '../../../regen/data/v1alpha2/types';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 
@@ -25,15 +25,19 @@ export interface GenesisContentEntry {
 const baseGenesisState: object = {};
 
 export const GenesisState = {
-	encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: GenesisState,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.entries) {
 			GenesisContentEntry.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GenesisState {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGenesisState } as GenesisState;
 		message.entries = [];
@@ -89,8 +93,8 @@ const baseGenesisContentEntry: object = {};
 export const GenesisContentEntry = {
 	encode(
 		message: GenesisContentEntry,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.hash !== undefined) {
 			ContentHash.encode(message.hash, writer.uint32(10).fork()).ldelim();
 		}
@@ -106,8 +110,12 @@ export const GenesisContentEntry = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): GenesisContentEntry {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): GenesisContentEntry {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseGenesisContentEntry } as GenesisContentEntry;
 		message.signers = [];
@@ -239,9 +247,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

@@ -1,20 +1,16 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
-import { Allocator } from '../../../regen/divvy/v1/types';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	PageResponse,
 	PageRequest,
 } from '../../../cosmos/base/query/v1beta1/pagination';
+import { Allocator } from '../../../regen/divvy/v1/types';
 
 export const protobufPackage = 'regen.divvy.v1';
 
 export interface QueryAllocator {
 	address: string;
-}
-
-export interface QueryAllocatorResp {
-	allocator?: Allocator;
 }
 
 export interface QueryAllocatorsResp {
@@ -37,15 +33,19 @@ export interface QueryAllocatorsByOwner {
 const baseQueryAllocator: object = { address: '' };
 
 export const QueryAllocator = {
-	encode(message: QueryAllocator, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: QueryAllocator,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryAllocator {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllocator {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryAllocator } as QueryAllocator;
 		while (reader.pos < end) {
@@ -86,80 +86,13 @@ export const QueryAllocator = {
 	},
 };
 
-const baseQueryAllocatorResp: object = {};
-
-export const QueryAllocatorResp = {
-	encode(
-		message: QueryAllocatorResp,
-		writer: Writer = Writer.create()
-	): Writer {
-		if (message.allocator !== undefined) {
-			Allocator.encode(
-				message.allocator,
-				writer.uint32(10).fork()
-			).ldelim();
-		}
-		return writer;
-	},
-
-	decode(input: Reader | Uint8Array, length?: number): QueryAllocatorResp {
-		const reader = input instanceof Reader ? input : new Reader(input);
-		let end = length === undefined ? reader.len : reader.pos + length;
-		const message = { ...baseQueryAllocatorResp } as QueryAllocatorResp;
-		while (reader.pos < end) {
-			const tag = reader.uint32();
-			switch (tag >>> 3) {
-				case 1:
-					message.allocator = Allocator.decode(
-						reader,
-						reader.uint32()
-					);
-					break;
-				default:
-					reader.skipType(tag & 7);
-					break;
-			}
-		}
-		return message;
-	},
-
-	fromJSON(object: any): QueryAllocatorResp {
-		const message = { ...baseQueryAllocatorResp } as QueryAllocatorResp;
-		message.allocator =
-			object.allocator !== undefined && object.allocator !== null
-				? Allocator.fromJSON(object.allocator)
-				: undefined;
-		return message;
-	},
-
-	toJSON(message: QueryAllocatorResp): unknown {
-		const obj: any = {};
-		message.allocator !== undefined &&
-			(obj.allocator = message.allocator
-				? Allocator.toJSON(message.allocator)
-				: undefined);
-		return obj;
-	},
-
-	fromPartial<I extends Exact<DeepPartial<QueryAllocatorResp>, I>>(
-		object: I
-	): QueryAllocatorResp {
-		const message = { ...baseQueryAllocatorResp } as QueryAllocatorResp;
-		message.allocator =
-			object.allocator !== undefined && object.allocator !== null
-				? Allocator.fromPartial(object.allocator)
-				: undefined;
-		return message;
-	},
-};
-
 const baseQueryAllocatorsResp: object = {};
 
 export const QueryAllocatorsResp = {
 	encode(
 		message: QueryAllocatorsResp,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.allocator) {
 			Allocator.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -172,8 +105,12 @@ export const QueryAllocatorsResp = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryAllocatorsResp {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryAllocatorsResp {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryAllocatorsResp } as QueryAllocatorsResp;
 		message.allocator = [];
@@ -244,7 +181,10 @@ export const QueryAllocatorsResp = {
 const baseQueryAllocators: object = {};
 
 export const QueryAllocators = {
-	encode(message: QueryAllocators, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: QueryAllocators,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -254,8 +194,9 @@ export const QueryAllocators = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryAllocators {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): QueryAllocators {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryAllocators } as QueryAllocators;
 		while (reader.pos < end) {
@@ -310,8 +251,8 @@ const baseQueryAllocatorsByOwner: object = { owner: '' };
 export const QueryAllocatorsByOwner = {
 	encode(
 		message: QueryAllocatorsByOwner,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.owner !== '') {
 			writer.uint32(10).string(message.owner);
 		}
@@ -325,10 +266,11 @@ export const QueryAllocatorsByOwner = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryAllocatorsByOwner {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryAllocatorsByOwner,
@@ -395,7 +337,7 @@ export const QueryAllocatorsByOwner = {
 
 /** Msg is the divvy Msg service. */
 export interface Query {
-	Allocator(request: QueryAllocator): Promise<QueryAllocatorResp>;
+	AllocatorByAddress(request: QueryAllocator): Promise<Allocator>;
 	Allocators(request: QueryAllocators): Promise<QueryAllocatorsResp>;
 	AllocatorsByOwner(
 		request: QueryAllocatorsByOwner
@@ -406,20 +348,18 @@ export class QueryClientImpl implements Query {
 	private readonly rpc: Rpc;
 	constructor(rpc: Rpc) {
 		this.rpc = rpc;
-		this.Allocator = this.Allocator.bind(this);
+		this.AllocatorByAddress = this.AllocatorByAddress.bind(this);
 		this.Allocators = this.Allocators.bind(this);
 		this.AllocatorsByOwner = this.AllocatorsByOwner.bind(this);
 	}
-	Allocator(request: QueryAllocator): Promise<QueryAllocatorResp> {
+	AllocatorByAddress(request: QueryAllocator): Promise<Allocator> {
 		const data = QueryAllocator.encode(request).finish();
 		const promise = this.rpc.request(
 			'regen.divvy.v1.Query',
-			'Allocator',
+			'AllocatorByAddress',
 			data
 		);
-		return promise.then((data) =>
-			QueryAllocatorResp.decode(new Reader(data))
-		);
+		return promise.then((data) => Allocator.decode(new _m0.Reader(data)));
 	}
 
 	Allocators(request: QueryAllocators): Promise<QueryAllocatorsResp> {
@@ -430,7 +370,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryAllocatorsResp.decode(new Reader(data))
+			QueryAllocatorsResp.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -444,7 +384,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryAllocatorsResp.decode(new Reader(data))
+			QueryAllocatorsResp.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -486,9 +426,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

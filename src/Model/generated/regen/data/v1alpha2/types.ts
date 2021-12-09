@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 
 export const protobufPackage = 'regen.data.v1alpha2';
@@ -304,7 +304,10 @@ export interface SignerEntry {
 const baseContentHash: object = {};
 
 export const ContentHash = {
-	encode(message: ContentHash, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: ContentHash,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.raw !== undefined) {
 			ContentHash_Raw.encode(
 				message.raw,
@@ -320,8 +323,9 @@ export const ContentHash = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ContentHash {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ContentHash {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseContentHash } as ContentHash;
 		while (reader.pos < end) {
@@ -392,7 +396,10 @@ export const ContentHash = {
 const baseContentHash_Raw: object = { digestAlgorithm: 0, mediaType: 0 };
 
 export const ContentHash_Raw = {
-	encode(message: ContentHash_Raw, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: ContentHash_Raw,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.hash.length !== 0) {
 			writer.uint32(10).bytes(message.hash);
 		}
@@ -405,8 +412,9 @@ export const ContentHash_Raw = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ContentHash_Raw {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ContentHash_Raw {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseContentHash_Raw } as ContentHash_Raw;
 		message.hash = new Uint8Array();
@@ -483,8 +491,8 @@ const baseContentHash_Graph: object = {
 export const ContentHash_Graph = {
 	encode(
 		message: ContentHash_Graph,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.hash.length !== 0) {
 			writer.uint32(10).bytes(message.hash);
 		}
@@ -500,8 +508,9 @@ export const ContentHash_Graph = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ContentHash_Graph {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ContentHash_Graph {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseContentHash_Graph } as ContentHash_Graph;
 		message.hash = new Uint8Array();
@@ -589,7 +598,10 @@ export const ContentHash_Graph = {
 const baseSignerEntry: object = { signer: '' };
 
 export const SignerEntry = {
-	encode(message: SignerEntry, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: SignerEntry,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.signer !== '') {
 			writer.uint32(10).string(message.signer);
 		}
@@ -602,8 +614,9 @@ export const SignerEntry = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): SignerEntry {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): SignerEntry {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseSignerEntry } as SignerEntry;
 		while (reader.pos < end) {
@@ -745,9 +758,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

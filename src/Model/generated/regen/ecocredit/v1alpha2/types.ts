@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import { Coin } from '../../../cosmos/base/v1beta1/coin';
 import { Timestamp } from '../../../google/protobuf/timestamp';
 
@@ -310,7 +310,10 @@ const baseClassInfo: object = {
 };
 
 export const ClassInfo = {
-	encode(message: ClassInfo, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: ClassInfo,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
@@ -335,8 +338,9 @@ export const ClassInfo = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ClassInfo {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ClassInfo {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseClassInfo } as ClassInfo;
 		message.issuers = [];
@@ -451,7 +455,10 @@ const baseProjectInfo: object = {
 };
 
 export const ProjectInfo = {
-	encode(message: ProjectInfo, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: ProjectInfo,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -470,8 +477,9 @@ export const ProjectInfo = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): ProjectInfo {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): ProjectInfo {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseProjectInfo } as ProjectInfo;
 		message.metadata = new Uint8Array();
@@ -564,7 +572,10 @@ const baseBatchInfo: object = {
 };
 
 export const BatchInfo = {
-	encode(message: BatchInfo, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: BatchInfo,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -595,8 +606,9 @@ export const BatchInfo = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): BatchInfo {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): BatchInfo {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBatchInfo } as BatchInfo;
 		message.metadata = new Uint8Array();
@@ -713,7 +725,10 @@ const baseParams: object = {
 };
 
 export const Params = {
-	encode(message: Params, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Params,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.creditClassFee) {
 			Coin.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -729,8 +744,9 @@ export const Params = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Params {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Params {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseParams } as Params;
 		message.creditClassFee = [];
@@ -831,7 +847,10 @@ const baseCreditType: object = {
 };
 
 export const CreditType = {
-	encode(message: CreditType, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: CreditType,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.name !== '') {
 			writer.uint32(10).string(message.name);
 		}
@@ -847,8 +866,9 @@ export const CreditType = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): CreditType {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): CreditType {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseCreditType } as CreditType;
 		while (reader.pos < end) {
@@ -920,7 +940,10 @@ export const CreditType = {
 const baseCreditTypeSeq: object = { abbreviation: '', seqNumber: Long.UZERO };
 
 export const CreditTypeSeq = {
-	encode(message: CreditTypeSeq, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: CreditTypeSeq,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.abbreviation !== '') {
 			writer.uint32(10).string(message.abbreviation);
 		}
@@ -930,8 +953,9 @@ export const CreditTypeSeq = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): CreditTypeSeq {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): CreditTypeSeq {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseCreditTypeSeq } as CreditTypeSeq;
 		while (reader.pos < end) {
@@ -995,7 +1019,10 @@ const baseSellOrder: object = {
 };
 
 export const SellOrder = {
-	encode(message: SellOrder, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: SellOrder,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.orderId.isZero()) {
 			writer.uint32(8).uint64(message.orderId);
 		}
@@ -1017,8 +1044,9 @@ export const SellOrder = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): SellOrder {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): SellOrder {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseSellOrder } as SellOrder;
 		while (reader.pos < end) {
@@ -1126,7 +1154,10 @@ const baseBuyOrder: object = {
 };
 
 export const BuyOrder = {
-	encode(message: BuyOrder, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: BuyOrder,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.buyOrderId.isZero()) {
 			writer.uint32(8).uint64(message.buyOrderId);
 		}
@@ -1154,8 +1185,9 @@ export const BuyOrder = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): BuyOrder {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): BuyOrder {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBuyOrder } as BuyOrder;
 		while (reader.pos < end) {
@@ -1278,16 +1310,20 @@ const baseBuyOrder_Selection: object = {};
 export const BuyOrder_Selection = {
 	encode(
 		message: BuyOrder_Selection,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sellOrderId !== undefined) {
 			writer.uint32(8).uint64(message.sellOrderId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): BuyOrder_Selection {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): BuyOrder_Selection {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBuyOrder_Selection } as BuyOrder_Selection;
 		while (reader.pos < end) {
@@ -1335,7 +1371,10 @@ export const BuyOrder_Selection = {
 const baseAskDenom: object = { denom: '', displayDenom: '', exponent: 0 };
 
 export const AskDenom = {
-	encode(message: AskDenom, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: AskDenom,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.denom !== '') {
 			writer.uint32(10).string(message.denom);
 		}
@@ -1348,8 +1387,9 @@ export const AskDenom = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): AskDenom {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): AskDenom {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseAskDenom } as AskDenom;
 		while (reader.pos < end) {
@@ -1412,7 +1452,10 @@ export const AskDenom = {
 const baseBasketCredit: object = { batchDenom: '', tradableAmount: '' };
 
 export const BasketCredit = {
-	encode(message: BasketCredit, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: BasketCredit,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -1422,8 +1465,9 @@ export const BasketCredit = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): BasketCredit {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): BasketCredit {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBasketCredit } as BasketCredit;
 		while (reader.pos < end) {
@@ -1479,7 +1523,10 @@ export const BasketCredit = {
 const baseBasketCriteria: object = { multiplier: '' };
 
 export const BasketCriteria = {
-	encode(message: BasketCriteria, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: BasketCriteria,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.filter !== undefined) {
 			Filter.encode(message.filter, writer.uint32(10).fork()).ldelim();
 		}
@@ -1489,8 +1536,9 @@ export const BasketCriteria = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): BasketCriteria {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): BasketCriteria {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBasketCriteria } as BasketCriteria;
 		while (reader.pos < end) {
@@ -1550,7 +1598,10 @@ export const BasketCriteria = {
 const baseFilter: object = {};
 
 export const Filter = {
-	encode(message: Filter, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Filter,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.and !== undefined) {
 			Filter_And.encode(message.and, writer.uint32(10).fork()).ldelim();
 		}
@@ -1593,8 +1644,9 @@ export const Filter = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Filter {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Filter {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseFilter } as Filter;
 		while (reader.pos < end) {
@@ -1760,15 +1812,19 @@ export const Filter = {
 const baseFilter_And: object = {};
 
 export const Filter_And = {
-	encode(message: Filter_And, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Filter_And,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.filters) {
 			Filter.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Filter_And {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Filter_And {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseFilter_And } as Filter_And;
 		message.filters = [];
@@ -1821,15 +1877,19 @@ export const Filter_And = {
 const baseFilter_Or: object = {};
 
 export const Filter_Or = {
-	encode(message: Filter_Or, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Filter_Or,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.filters) {
 			Filter.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Filter_Or {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Filter_Or {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseFilter_Or } as Filter_Or;
 		message.filters = [];
@@ -1884,8 +1944,8 @@ const baseFilter_DateRange: object = {};
 export const Filter_DateRange = {
 	encode(
 		message: Filter_DateRange,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.startDate !== undefined) {
 			Timestamp.encode(
 				toTimestamp(message.startDate),
@@ -1901,8 +1961,9 @@ export const Filter_DateRange = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Filter_DateRange {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Filter_DateRange {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseFilter_DateRange } as Filter_DateRange;
 		while (reader.pos < end) {
@@ -2047,9 +2108,7 @@ function numberToLong(number: number) {
 	return Long.fromNumber(number);
 }
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

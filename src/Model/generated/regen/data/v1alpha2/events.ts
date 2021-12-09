@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 
 export const protobufPackage = 'regen.data.v1alpha2';
 
@@ -27,15 +27,19 @@ export interface EventStoreRawData {
 const baseEventAnchorData: object = { iri: '' };
 
 export const EventAnchorData = {
-	encode(message: EventAnchorData, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventAnchorData,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.iri !== '') {
 			writer.uint32(10).string(message.iri);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventAnchorData {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventAnchorData {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventAnchorData } as EventAnchorData;
 		while (reader.pos < end) {
@@ -79,7 +83,10 @@ export const EventAnchorData = {
 const baseEventSignData: object = { iri: '', signers: '' };
 
 export const EventSignData = {
-	encode(message: EventSignData, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: EventSignData,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.iri !== '') {
 			writer.uint32(10).string(message.iri);
 		}
@@ -89,8 +96,9 @@ export const EventSignData = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventSignData {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventSignData {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventSignData } as EventSignData;
 		message.signers = [];
@@ -147,16 +155,17 @@ const baseEventStoreRawData: object = { iri: '' };
 export const EventStoreRawData = {
 	encode(
 		message: EventStoreRawData,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.iri !== '') {
 			writer.uint32(10).string(message.iri);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): EventStoreRawData {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): EventStoreRawData {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseEventStoreRawData } as EventStoreRawData;
 		while (reader.pos < end) {
@@ -226,9 +235,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }

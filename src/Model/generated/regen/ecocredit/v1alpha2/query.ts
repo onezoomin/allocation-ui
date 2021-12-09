@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from 'protobufjs/minimal';
-import * as Long from 'long';
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
 import {
 	Params,
 	ClassInfo,
@@ -357,12 +357,19 @@ export interface QueryBasketCreditsResponse {
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
-	encode(_: QueryParamsRequest, writer: Writer = Writer.create()): Writer {
+	encode(
+		_: QueryParamsRequest,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryParamsRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryParamsRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryParamsRequest } as QueryParamsRequest;
 		while (reader.pos < end) {
@@ -399,16 +406,20 @@ const baseQueryParamsResponse: object = {};
 export const QueryParamsResponse = {
 	encode(
 		message: QueryParamsResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.params !== undefined) {
 			Params.encode(message.params, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryParamsResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryParamsResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryParamsResponse } as QueryParamsResponse;
 		while (reader.pos < end) {
@@ -460,8 +471,8 @@ const baseQueryClassesRequest: object = {};
 export const QueryClassesRequest = {
 	encode(
 		message: QueryClassesRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -471,8 +482,12 @@ export const QueryClassesRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryClassesRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryClassesRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryClassesRequest } as QueryClassesRequest;
 		while (reader.pos < end) {
@@ -527,8 +542,8 @@ const baseQueryClassesResponse: object = {};
 export const QueryClassesResponse = {
 	encode(
 		message: QueryClassesResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.classes) {
 			ClassInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -541,8 +556,12 @@ export const QueryClassesResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryClassesResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryClassesResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryClassesResponse } as QueryClassesResponse;
 		message.classes = [];
@@ -615,16 +634,20 @@ const baseQueryClassInfoRequest: object = { classId: '' };
 export const QueryClassInfoRequest = {
 	encode(
 		message: QueryClassInfoRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryClassInfoRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryClassInfoRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryClassInfoRequest,
@@ -676,8 +699,8 @@ const baseQueryClassInfoResponse: object = {};
 export const QueryClassInfoResponse = {
 	encode(
 		message: QueryClassInfoResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.info !== undefined) {
 			ClassInfo.encode(message.info, writer.uint32(10).fork()).ldelim();
 		}
@@ -685,10 +708,11 @@ export const QueryClassInfoResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryClassInfoResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryClassInfoResponse,
@@ -746,8 +770,8 @@ const baseQueryProjectsRequest: object = { classId: '' };
 export const QueryProjectsRequest = {
 	encode(
 		message: QueryProjectsRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.classId !== '') {
 			writer.uint32(10).string(message.classId);
 		}
@@ -760,8 +784,12 @@ export const QueryProjectsRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryProjectsRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryProjectsRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryProjectsRequest } as QueryProjectsRequest;
 		while (reader.pos < end) {
@@ -825,8 +853,8 @@ const baseQueryProjectsResponse: object = {};
 export const QueryProjectsResponse = {
 	encode(
 		message: QueryProjectsResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.projects) {
 			ProjectInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -839,8 +867,12 @@ export const QueryProjectsResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryProjectsResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryProjectsResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProjectsResponse,
@@ -919,8 +951,8 @@ const baseQueryProjectInfoRequest: object = { projectId: '' };
 export const QueryProjectInfoRequest = {
 	encode(
 		message: QueryProjectInfoRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -928,10 +960,11 @@ export const QueryProjectInfoRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryProjectInfoRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProjectInfoRequest,
@@ -983,8 +1016,8 @@ const baseQueryProjectInfoResponse: object = {};
 export const QueryProjectInfoResponse = {
 	encode(
 		message: QueryProjectInfoResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.info !== undefined) {
 			ProjectInfo.encode(message.info, writer.uint32(10).fork()).ldelim();
 		}
@@ -992,10 +1025,11 @@ export const QueryProjectInfoResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryProjectInfoResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryProjectInfoResponse,
@@ -1053,8 +1087,8 @@ const baseQueryBatchesRequest: object = { projectId: '' };
 export const QueryBatchesRequest = {
 	encode(
 		message: QueryBatchesRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.projectId !== '') {
 			writer.uint32(10).string(message.projectId);
 		}
@@ -1067,8 +1101,12 @@ export const QueryBatchesRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBatchesRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBatchesRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBatchesRequest } as QueryBatchesRequest;
 		while (reader.pos < end) {
@@ -1132,8 +1170,8 @@ const baseQueryBatchesResponse: object = {};
 export const QueryBatchesResponse = {
 	encode(
 		message: QueryBatchesResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.batches) {
 			BatchInfo.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1146,8 +1184,12 @@ export const QueryBatchesResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBatchesResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBatchesResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBatchesResponse } as QueryBatchesResponse;
 		message.batches = [];
@@ -1220,16 +1262,20 @@ const baseQueryBatchInfoRequest: object = { batchDenom: '' };
 export const QueryBatchInfoRequest = {
 	encode(
 		message: QueryBatchInfoRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBatchInfoRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBatchInfoRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBatchInfoRequest,
@@ -1282,8 +1328,8 @@ const baseQueryBatchInfoResponse: object = {};
 export const QueryBatchInfoResponse = {
 	encode(
 		message: QueryBatchInfoResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.info !== undefined) {
 			BatchInfo.encode(message.info, writer.uint32(10).fork()).ldelim();
 		}
@@ -1291,10 +1337,11 @@ export const QueryBatchInfoResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBatchInfoResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBatchInfoResponse,
@@ -1352,8 +1399,8 @@ const baseQueryBalanceRequest: object = { account: '', batchDenom: '' };
 export const QueryBalanceRequest = {
 	encode(
 		message: QueryBalanceRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.account !== '') {
 			writer.uint32(10).string(message.account);
 		}
@@ -1363,8 +1410,12 @@ export const QueryBalanceRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBalanceRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBalanceRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBalanceRequest } as QueryBalanceRequest;
 		while (reader.pos < end) {
@@ -1423,8 +1474,8 @@ const baseQueryBalanceResponse: object = {
 export const QueryBalanceResponse = {
 	encode(
 		message: QueryBalanceResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.tradableAmount !== '') {
 			writer.uint32(10).string(message.tradableAmount);
 		}
@@ -1434,8 +1485,12 @@ export const QueryBalanceResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBalanceResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBalanceResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBalanceResponse } as QueryBalanceResponse;
 		while (reader.pos < end) {
@@ -1493,16 +1548,20 @@ const baseQuerySupplyRequest: object = { batchDenom: '' };
 export const QuerySupplyRequest = {
 	encode(
 		message: QuerySupplyRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QuerySupplyRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QuerySupplyRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQuerySupplyRequest } as QuerySupplyRequest;
 		while (reader.pos < end) {
@@ -1552,8 +1611,8 @@ const baseQuerySupplyResponse: object = {
 export const QuerySupplyResponse = {
 	encode(
 		message: QuerySupplyResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.tradableSupply !== '') {
 			writer.uint32(10).string(message.tradableSupply);
 		}
@@ -1563,8 +1622,12 @@ export const QuerySupplyResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QuerySupplyResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QuerySupplyResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQuerySupplyResponse } as QuerySupplyResponse;
 		while (reader.pos < end) {
@@ -1622,16 +1685,17 @@ const baseQueryCreditTypesRequest: object = {};
 export const QueryCreditTypesRequest = {
 	encode(
 		_: QueryCreditTypesRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		return writer;
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryCreditTypesRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryCreditTypesRequest,
@@ -1674,8 +1738,8 @@ const baseQueryCreditTypesResponse: object = {};
 export const QueryCreditTypesResponse = {
 	encode(
 		message: QueryCreditTypesResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.creditTypes) {
 			CreditType.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1683,10 +1747,11 @@ export const QueryCreditTypesResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryCreditTypesResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryCreditTypesResponse,
@@ -1747,16 +1812,20 @@ const baseQuerySellOrderRequest: object = { sellOrderId: Long.UZERO };
 export const QuerySellOrderRequest = {
 	encode(
 		message: QuerySellOrderRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.sellOrderId.isZero()) {
 			writer.uint32(8).uint64(message.sellOrderId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QuerySellOrderRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QuerySellOrderRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrderRequest,
@@ -1812,8 +1881,8 @@ const baseQuerySellOrderResponse: object = {};
 export const QuerySellOrderResponse = {
 	encode(
 		message: QuerySellOrderResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.sellOrder !== undefined) {
 			SellOrder.encode(
 				message.sellOrder,
@@ -1824,10 +1893,11 @@ export const QuerySellOrderResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrderResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrderResponse,
@@ -1888,8 +1958,8 @@ const baseQuerySellOrdersRequest: object = {};
 export const QuerySellOrdersRequest = {
 	encode(
 		message: QuerySellOrdersRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -1900,10 +1970,11 @@ export const QuerySellOrdersRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersRequest,
@@ -1964,8 +2035,8 @@ const baseQuerySellOrdersResponse: object = {};
 export const QuerySellOrdersResponse = {
 	encode(
 		message: QuerySellOrdersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.sellOrders) {
 			SellOrder.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -1979,10 +2050,11 @@ export const QuerySellOrdersResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersResponse,
@@ -2061,8 +2133,8 @@ const baseQuerySellOrdersByBatchDenomRequest: object = { batchDenom: '' };
 export const QuerySellOrdersByBatchDenomRequest = {
 	encode(
 		message: QuerySellOrdersByBatchDenomRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.batchDenom !== '') {
 			writer.uint32(10).string(message.batchDenom);
 		}
@@ -2076,10 +2148,11 @@ export const QuerySellOrdersByBatchDenomRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersByBatchDenomRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersByBatchDenomRequest,
@@ -2150,8 +2223,8 @@ const baseQuerySellOrdersByBatchDenomResponse: object = {};
 export const QuerySellOrdersByBatchDenomResponse = {
 	encode(
 		message: QuerySellOrdersByBatchDenomResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.sellOrders) {
 			SellOrder.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -2165,10 +2238,11 @@ export const QuerySellOrdersByBatchDenomResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersByBatchDenomResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersByBatchDenomResponse,
@@ -2247,8 +2321,8 @@ const baseQuerySellOrdersByAddressRequest: object = { address: '' };
 export const QuerySellOrdersByAddressRequest = {
 	encode(
 		message: QuerySellOrdersByAddressRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -2262,10 +2336,11 @@ export const QuerySellOrdersByAddressRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersByAddressRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersByAddressRequest,
@@ -2335,8 +2410,8 @@ const baseQuerySellOrdersByAddressResponse: object = {};
 export const QuerySellOrdersByAddressResponse = {
 	encode(
 		message: QuerySellOrdersByAddressResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.sellOrders) {
 			SellOrder.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -2350,10 +2425,11 @@ export const QuerySellOrdersByAddressResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QuerySellOrdersByAddressResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQuerySellOrdersByAddressResponse,
@@ -2432,16 +2508,20 @@ const baseQueryBuyOrderRequest: object = { buyOrderId: Long.UZERO };
 export const QueryBuyOrderRequest = {
 	encode(
 		message: QueryBuyOrderRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (!message.buyOrderId.isZero()) {
 			writer.uint32(8).uint64(message.buyOrderId);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBuyOrderRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBuyOrderRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBuyOrderRequest } as QueryBuyOrderRequest;
 		while (reader.pos < end) {
@@ -2491,8 +2571,8 @@ const baseQueryBuyOrderResponse: object = {};
 export const QueryBuyOrderResponse = {
 	encode(
 		message: QueryBuyOrderResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.buyOrder !== undefined) {
 			BuyOrder.encode(
 				message.buyOrder,
@@ -2502,8 +2582,12 @@ export const QueryBuyOrderResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBuyOrderResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBuyOrderResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBuyOrderResponse,
@@ -2561,8 +2645,8 @@ const baseQueryBuyOrdersRequest: object = {};
 export const QueryBuyOrdersRequest = {
 	encode(
 		message: QueryBuyOrdersRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -2572,8 +2656,12 @@ export const QueryBuyOrdersRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBuyOrdersRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBuyOrdersRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBuyOrdersRequest,
@@ -2634,8 +2722,8 @@ const baseQueryBuyOrdersResponse: object = {};
 export const QueryBuyOrdersResponse = {
 	encode(
 		message: QueryBuyOrdersResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.buyOrders) {
 			BuyOrder.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -2649,10 +2737,11 @@ export const QueryBuyOrdersResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBuyOrdersResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBuyOrdersResponse,
@@ -2731,8 +2820,8 @@ const baseQueryBuyOrdersByAddressRequest: object = { address: '' };
 export const QueryBuyOrdersByAddressRequest = {
 	encode(
 		message: QueryBuyOrdersByAddressRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.address !== '') {
 			writer.uint32(10).string(message.address);
 		}
@@ -2746,10 +2835,11 @@ export const QueryBuyOrdersByAddressRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBuyOrdersByAddressRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBuyOrdersByAddressRequest,
@@ -2819,8 +2909,8 @@ const baseQueryBuyOrdersByAddressResponse: object = {};
 export const QueryBuyOrdersByAddressResponse = {
 	encode(
 		message: QueryBuyOrdersByAddressResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.buyOrders) {
 			BuyOrder.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -2834,10 +2924,11 @@ export const QueryBuyOrdersByAddressResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBuyOrdersByAddressResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBuyOrdersByAddressResponse,
@@ -2916,8 +3007,8 @@ const baseQueryAllowedAskDenomsRequest: object = {};
 export const QueryAllowedAskDenomsRequest = {
 	encode(
 		message: QueryAllowedAskDenomsRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -2928,10 +3019,11 @@ export const QueryAllowedAskDenomsRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryAllowedAskDenomsRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryAllowedAskDenomsRequest,
@@ -2992,8 +3084,8 @@ const baseQueryAllowedAskDenomsResponse: object = {};
 export const QueryAllowedAskDenomsResponse = {
 	encode(
 		message: QueryAllowedAskDenomsResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.askDenoms) {
 			AskDenom.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -3007,10 +3099,11 @@ export const QueryAllowedAskDenomsResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryAllowedAskDenomsResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryAllowedAskDenomsResponse,
@@ -3094,7 +3187,10 @@ const baseBasket: object = {
 };
 
 export const Basket = {
-	encode(message: Basket, writer: Writer = Writer.create()): Writer {
+	encode(
+		message: Basket,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.curator !== '') {
 			writer.uint32(10).string(message.curator);
 		}
@@ -3119,8 +3215,9 @@ export const Basket = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): Basket {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(input: _m0.Reader | Uint8Array, length?: number): Basket {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseBasket } as Basket;
 		message.basketCriteria = [];
@@ -3232,16 +3329,20 @@ const baseQueryBasketRequest: object = { basketDenom: '' };
 export const QueryBasketRequest = {
 	encode(
 		message: QueryBasketRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.basketDenom !== '') {
 			writer.uint32(10).string(message.basketDenom);
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBasketRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBasketRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBasketRequest } as QueryBasketRequest;
 		while (reader.pos < end) {
@@ -3288,16 +3389,20 @@ const baseQueryBasketResponse: object = {};
 export const QueryBasketResponse = {
 	encode(
 		message: QueryBasketResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.basket !== undefined) {
 			Basket.encode(message.basket, writer.uint32(10).fork()).ldelim();
 		}
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBasketResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBasketResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBasketResponse } as QueryBasketResponse;
 		while (reader.pos < end) {
@@ -3349,8 +3454,8 @@ const baseQueryBasketsRequest: object = {};
 export const QueryBasketsRequest = {
 	encode(
 		message: QueryBasketsRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.pagination !== undefined) {
 			PageRequest.encode(
 				message.pagination,
@@ -3360,8 +3465,12 @@ export const QueryBasketsRequest = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBasketsRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBasketsRequest {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBasketsRequest } as QueryBasketsRequest;
 		while (reader.pos < end) {
@@ -3416,8 +3525,8 @@ const baseQueryBasketsResponse: object = {};
 export const QueryBasketsResponse = {
 	encode(
 		message: QueryBasketsResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.baskets) {
 			Basket.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -3430,8 +3539,12 @@ export const QueryBasketsResponse = {
 		return writer;
 	},
 
-	decode(input: Reader | Uint8Array, length?: number): QueryBasketsResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): QueryBasketsResponse {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = { ...baseQueryBasketsResponse } as QueryBasketsResponse;
 		message.baskets = [];
@@ -3504,8 +3617,8 @@ const baseQueryBasketCreditsRequest: object = { basketDenom: '' };
 export const QueryBasketCreditsRequest = {
 	encode(
 		message: QueryBasketCreditsRequest,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		if (message.basketDenom !== '') {
 			writer.uint32(10).string(message.basketDenom);
 		}
@@ -3513,10 +3626,11 @@ export const QueryBasketCreditsRequest = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBasketCreditsRequest {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBasketCreditsRequest,
@@ -3569,8 +3683,8 @@ const baseQueryBasketCreditsResponse: object = {};
 export const QueryBasketCreditsResponse = {
 	encode(
 		message: QueryBasketCreditsResponse,
-		writer: Writer = Writer.create()
-	): Writer {
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
 		for (const v of message.credits) {
 			BasketCredit.encode(v!, writer.uint32(10).fork()).ldelim();
 		}
@@ -3584,10 +3698,11 @@ export const QueryBasketCreditsResponse = {
 	},
 
 	decode(
-		input: Reader | Uint8Array,
+		input: _m0.Reader | Uint8Array,
 		length?: number
 	): QueryBasketCreditsResponse {
-		const reader = input instanceof Reader ? input : new Reader(input);
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
 		let end = length === undefined ? reader.len : reader.pos + length;
 		const message = {
 			...baseQueryBasketCreditsResponse,
@@ -3763,7 +3878,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryClassesResponse.decode(new Reader(data))
+			QueryClassesResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3775,7 +3890,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryClassInfoResponse.decode(new Reader(data))
+			QueryClassInfoResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3787,7 +3902,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryProjectsResponse.decode(new Reader(data))
+			QueryProjectsResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3801,7 +3916,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryProjectInfoResponse.decode(new Reader(data))
+			QueryProjectInfoResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3813,7 +3928,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBatchesResponse.decode(new Reader(data))
+			QueryBatchesResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3825,7 +3940,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBatchInfoResponse.decode(new Reader(data))
+			QueryBatchInfoResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3837,7 +3952,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBalanceResponse.decode(new Reader(data))
+			QueryBalanceResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3849,7 +3964,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySupplyResponse.decode(new Reader(data))
+			QuerySupplyResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3863,7 +3978,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryCreditTypesResponse.decode(new Reader(data))
+			QueryCreditTypesResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3875,7 +3990,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryParamsResponse.decode(new Reader(data))
+			QueryParamsResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3887,7 +4002,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySellOrderResponse.decode(new Reader(data))
+			QuerySellOrderResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3901,7 +4016,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySellOrdersResponse.decode(new Reader(data))
+			QuerySellOrdersResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3916,7 +4031,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySellOrdersByBatchDenomResponse.decode(new Reader(data))
+			QuerySellOrdersByBatchDenomResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3930,7 +4045,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QuerySellOrdersByAddressResponse.decode(new Reader(data))
+			QuerySellOrdersByAddressResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3942,7 +4057,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBuyOrderResponse.decode(new Reader(data))
+			QueryBuyOrderResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3954,7 +4069,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBuyOrdersResponse.decode(new Reader(data))
+			QueryBuyOrdersResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3968,7 +4083,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBuyOrdersByAddressResponse.decode(new Reader(data))
+			QueryBuyOrdersByAddressResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3982,7 +4097,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryAllowedAskDenomsResponse.decode(new Reader(data))
+			QueryAllowedAskDenomsResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -3994,7 +4109,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBasketResponse.decode(new Reader(data))
+			QueryBasketResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4006,7 +4121,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBasketsResponse.decode(new Reader(data))
+			QueryBasketsResponse.decode(new _m0.Reader(data))
 		);
 	}
 
@@ -4020,7 +4135,7 @@ export class QueryClientImpl implements Query {
 			data
 		);
 		return promise.then((data) =>
-			QueryBasketCreditsResponse.decode(new Reader(data))
+			QueryBasketCreditsResponse.decode(new _m0.Reader(data))
 		);
 	}
 }
@@ -4062,9 +4177,7 @@ export type Exact<P, I extends P> = P extends Builtin
 				never
 			>;
 
-// If you get a compile-error about 'Constructor<Long> and ... have no overlap',
-// add '--ts_proto_opt=esModuleInterop=true' as a flag when calling 'protoc'.
-if (util.Long !== Long) {
-	util.Long = Long as any;
-	configure();
+if (_m0.util.Long !== Long) {
+	_m0.util.Long = Long as any;
+	_m0.configure();
 }
