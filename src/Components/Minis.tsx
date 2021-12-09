@@ -1,7 +1,9 @@
 
+import WarningIcon from '@mui/icons-material/Warning'
+import { IconButton, Link, Tooltip } from '@mui/material'
 import FiberManualRecord from 'mdi-preact/FiberManualRecordIcon'
+import { Image } from 'mui-image'
 import { h } from 'preact'
-
 // import { TokenSpecificQuery } from '../Data/data'
 // import { Address } from '../Model/Address'
 // import { TokenAccount, TokenInfo } from '../Model/Token'
@@ -83,6 +85,21 @@ export const ShortAddress = ({ address, className = '' }: { address: Address, cl
 //   )
 // }
 
+export const ImageTest = ({ className = '' }) => {
+  return (
+    <FlexRow className={`p-4 ${className}`}>
+      <Link href='https://github.com/onezoomin'>
+        <Image width={100} src="https://avatars.githubusercontent.com/u/13870464?s=200&v=4" />
+      </Link>
+      <Image width={100} src="https://test.broken.url" showLoading
+            errorIcon={
+              <Tooltip arrow title="Broken Image" placement="right-start">
+                <IconButton aria-label="broken"><WarningIcon /></IconButton>
+              </Tooltip>}
+          />
+    </FlexRow>
+  )
+}
 export const BouncingEllipsis = ({ className = '' }) => {
   className = `flex flex-row max-w-fit justify-between animate-pulse ${className}`
   return (

@@ -1,5 +1,78 @@
+import { EncodeObject } from '@cosmjs/proto-signing'
+import { sha256 } from 'js-sha256'
+import { TxRaw } from '../Model/generated/cosmos/tx/v1beta1/tx'
+import { MsgCreateAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
+import { regenFee } from '../Utils/cosmos-utils'
 import { initialRecipients, Recipient, RecipientWeighted } from './../Model/Allocations'
+import { MsgRemoveAllocator } from './../Model/generated/regen/divvy/v1/tx'
+import { addPendingTx, completePendingTx } from './data'
 
+export const sendAndAwaitMsg = async (
+  encodableMsg,
+  sgClient,
+  clientAddress,
+  fee = regenFee(),
+) => {
+  if (!sgClient || !clientAddress) return console.warn('useCallCreateAllocator called without client')
+  console.log(encodableMsg)
+
+  const raw = await sgClient.sign(
+    clientAddress,
+    [encodableMsg],
+    fee,
+    '',
+  )
+
+  const finished = TxRaw.encode(raw).finish()
+  console.log('signedTx', raw)
+  const hash = sha256(finished).toUpperCase()
+  console.log('finished', finished, hash)
+  await addPendingTx({
+    hash,
+    finished,
+    raw,
+  })
+
+  const bresponse = await sgClient.broadcastTx(finished)
+  console.log('broadcastTx', bresponse)
+  await completePendingTx(bresponse.transactionHash, bresponse)
+}
+export const callSetAllocatorRecipients = async (partialMsgSetAllocatorRecipients, sgClient, clientAddress) => {
+  const setAllocatorRecipientsMsg: MsgSetAllocatorRecipients = MsgSetAllocatorRecipients.fromPartial(partialMsgSetAllocatorRecipients)
+  const encodableMsg: EncodeObject = {
+    typeUrl: '/regen.divvy.v1.MsgSetAllocatorRecipients',
+    value: setAllocatorRecipientsMsg,
+  }
+  console.log('sending', encodableMsg)
+
+  await sendAndAwaitMsg(encodableMsg,
+    sgClient,
+    clientAddress)
+}
+export const callCreateAllocator = async (partialMsgCreateAllocator, sgClient, clientAddress) => {
+  if (!sgClient || !clientAddress) return console.warn('useCallCreateAllocator called without client')
+
+  const createAllocatorMsg: MsgCreateAllocator = MsgCreateAllocator.fromPartial(partialMsgCreateAllocator)
+  const encodableMsg: EncodeObject = {
+    typeUrl: '/regen.divvy.v1.MsgCreateAllocator',
+    value: createAllocatorMsg,
+  }
+  await sendAndAwaitMsg(encodableMsg,
+    sgClient,
+    clientAddress)
+}
+export const callRemoveAllocator = async (partialMsgRemoveAllocator, sgClient, clientAddress) => {
+  if (!sgClient || !clientAddress) return console.warn('useCallCreateAllocator called without client')
+
+  const removeAllocatorMsg: MsgRemoveAllocator = MsgRemoveAllocator.fromPartial(partialMsgRemoveAllocator)
+  const encodableMsg: EncodeObject = {
+    typeUrl: '/regen.divvy.v1.MsgRemoveAllocator',
+    value: removeAllocatorMsg,
+  }
+  await sendAndAwaitMsg(encodableMsg,
+    sgClient,
+    clientAddress)
+}
 const mockRecipientMap: Map<string, RecipientWeighted> = new Map(
   initialRecipients.map(
     (r: Recipient) => [r.address.address, new RecipientWeighted(r)],

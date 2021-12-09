@@ -1,5 +1,8 @@
-import { createProtobufRpcClient, QueryClient, SigningStargateClient } from '@cosmjs/stargate'
+import { Registry } from '@cosmjs/proto-signing'
+import { createProtobufRpcClient, defaultRegistryTypes, QueryClient, SigningStargateClient } from '@cosmjs/stargate'
+import { MsgCreateAllocator, MsgRemoveAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
 import { QueryClientImpl } from './../Model/generated/regen/divvy/v1/query'
+import { MsgUpdateAllocatorSettings } from './../Model/generated/regen/divvy/v1/tx'
 
 export const getAllAllocators = async (sgClient: SigningStargateClient) => {
   // https://github.com/cosmos/cosmjs/blob/main/packages/stargate/CUSTOM_PROTOBUF_CODECS.md#step-3b-instantiate-a-query-client-using-your-custom-query-service
@@ -37,10 +40,29 @@ export const getAllAllocators = async (sgClient: SigningStargateClient) => {
   //   countTotal: boolean;
   // },
   })
+  console.log('getAllocators', queryResult)
 
   return queryResult
 }
-
+export const regenRegistry = new Registry([
+  ...defaultRegistryTypes,
+  ['/regen.divvy.v1.MsgCreateAllocator', MsgCreateAllocator],
+  ['/regen.divvy.v1.MsgSetAllocatorRecipients', MsgSetAllocatorRecipients],
+  ['/regen.divvy.v1.MsgUpdateAllocatorSettings', MsgUpdateAllocatorSettings],
+  ['/regen.divvy.v1.MsgRemoveAllocator', MsgRemoveAllocator],
+  // ['/regen.ecocredit.v1alpha2.tx.MsgCreateAllocator', MsgCreateAllocator],
+])
+export const regenFee = (amount = '40000', gas = '80000') => {
+  return {
+    amount: [
+      {
+        denom: 'uregen', // Use the appropriate fee denom for your chain
+        amount,
+      },
+    ],
+    gas,
+  }
+}
 const testSend = () => {
   // const encodableMsg: EncodeObject = {
   //   typeUrl: '/cosmos.bank.v1beta1.MsgSend',

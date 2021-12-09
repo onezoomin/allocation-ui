@@ -1,114 +1,95 @@
-import { EncodeObject } from '@cosmjs/proto-signing'
 import AddIcon from '@mui/icons-material/Add'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
+import CircularProgress from '@mui/material/CircularProgress'
 import Fab from '@mui/material/Fab'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import Zoom from '@mui/material/Zoom'
 import addDays from 'date-fns/addDays'
-import { sha256 } from 'js-sha256'
 import { h } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import { StateUpdater, useCallback, useContext, useEffect, useState } from 'preact/hooks'
 import { AllocatorContext, CosmosContext } from '../../app'
-import { addPendingTx, completePendingTx } from '../../Data/data'
+import { callCreateAllocator } from '../../Data/AllocationEngine'
 import { Recipient } from '../../Model/Allocations'
-import { TxRaw } from '../../Model/generated/cosmos/tx/v1beta1/tx'
 import { Duration } from '../../Model/generated/google/protobuf/duration'
-import { MsgCreateAllocator } from '../../Model/generated/regen/divvy/v1/tx'
+import { Allocator } from '../../Model/generated/regen/divvy/v1/types'
+import { usePrevious } from '../../Utils/react-utils'
 import { FlexRow } from '../Minis'
 
 const filter = createFilterOptions()
 
-const ADD_NEW = 'Add a new Allocator: '
+const allocatorEquality = (option: Allocator, value: Allocator) => option.address === value.address
 
-export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedProps }) {
+const ADD_NEW = 'Add a new Allocator: '
+// interface AutocompleteOption {
+//   label: string
+// }
+
+export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedProps }: { onChoose: StateUpdater<Allocator>, triggerFetch: StateUpdater<boolean> }) {
   const [inputValue, setInputValue] = useState('')
   const [showAddButton, setShowAddButton] = useState(false)
+  const [isAwaitingAdd, setIsAwaitingAdd] = useState(false)
   const { sgClient, clientAddress } = useContext(CosmosContext)
   const { recipientList, allocatorOptions } = useContext(AllocatorContext)
-  const [options, setOptions] = useState<string[]>(allocatorOptions.map((a) => a.name))
-  const [value, setValue] = useState<string | null>(null)
-  const alloMapByName = new Map(allocatorOptions.map((a) => ([a.name, a]))) // TODO refactor to use unique ID/address instead of name
-  useEffect(() => {
-    setOptions(allocatorOptions.map((a) => a.name))
-    if (!value && allocatorOptions.length) setValue(allocatorOptions[0].name)
-  }, [allocatorOptions, options])
+  const prevAllocatorOptions = usePrevious<Allocator[]>(allocatorOptions)
+  const [options, setOptions] = useState<Allocator[]>(allocatorOptions.map((a: Allocator) => a))
+  const [value, setValue] = useState<Allocator | null>(null)
+  const alloNames = allocatorOptions.map((a) => a.name)
 
-  const onChange = (event: any, newValue: string = '', viaAdd = false) => {
-    if (newValue?.split(ADD_NEW)[1]) return onAdd()
-    const newVa = newValue?.split(ADD_NEW)[1] ?? newValue
-    console.log('choose', newVa, alloMapByName)
-
-    if (newVa && !options.includes(newVa)) {
-      setShowAddButton(false)
-      setOptions([...options, newVa])
-    }
-    setValue(newVa)
-
-    if (alloMapByName.has(newVa)) onChoose(alloMapByName.get(newVa))
-  }
-  const onAdd = async () => {
+  const onAdd = useCallback(async () => {
     if (!sgClient) return console.warn('no stargate client in context')
-    onChange(undefined, inputValue, true)
-    const createAllocatorMsg: MsgCreateAllocator = MsgCreateAllocator.fromPartial({
+    setIsAwaitingAdd(true)
+    // setValue(null)
+    await callCreateAllocator({
       admin: clientAddress,
       start: new Date(),
       end: addDays(new Date(), 21),
-      name: inputValue,
+      name: inputValue.split(ADD_NEW)[1] ?? inputValue,
       interval: Duration.fromPartial({
         seconds: 60,
       }),
-      /** url with metadata */
       url: 'https://meta.data',
       recipients: Array.from(recipientList.values()).map(({ address, share, name }: Recipient) => ({
         address,
         name,
-        share, /** allocation share. 100% = 1e6. */
+        share,
       })),
-    })
-    const encodableMsg: EncodeObject = {
-      typeUrl: '/regen.divvy.v1.MsgCreateAllocator',
-      value: createAllocatorMsg,
-    }
-    console.log(encodableMsg)
+    },
+    sgClient, clientAddress)
 
-    const fee = {
-      amount: [
-        {
-          denom: 'uregen', // Use the appropriate fee denom for your chain
-          amount: '40000',
-        },
-      ],
-      gas: '80000',
-    }
-
-    const raw = await sgClient.sign(
-      clientAddress,
-      [encodableMsg],
-      fee,
-      '',
-    )
-
-    const finished = TxRaw.encode(raw).finish()
-    console.log('signedTx', raw)
-    const hash = sha256(finished).toUpperCase()
-    console.log('finished', finished, hash)
-    await addPendingTx({
-      hash,
-      finished,
-      raw,
-    })
-
-    const bresponse = await sgClient.broadcastTx(finished)
-    // const parsedLog = JSON.parse(bresponse.rawLog ?? '')
-    console.log('broadcastTx', bresponse)
     triggerFetch(true)
-    void completePendingTx(bresponse.transactionHash, bresponse)
-  }
+  }, [clientAddress, inputValue, recipientList, sgClient, triggerFetch])
+  const onChange = useCallback((event: any, newValue: string | Allocator = '') => {
+    if (typeof newValue === 'string' && newValue.split(ADD_NEW)[1]) return onAdd()
+    const newVa = newValue as Allocator // (typeof newValue === 'string') ? newValue?.split(ADD_NEW)[1] :
+    const alloMapByAddress = new Map(allocatorOptions.map((a) => ([a.address, a])))
+    // console.log('choose', newVa, alloMapByAddress)
+
+    // if (newVa && options.includes(newVa)) {
+    //   setValue(newVa)
+    //   // setShowAddButton(false)
+    //   // setOptions([...options, newVa])
+    // }
+
+    if (alloMapByAddress.has(newVa.address)) {
+      setValue(newVa)
+      onChoose(alloMapByAddress.get(newVa.address) as Allocator)
+    }
+  }, [allocatorOptions, onAdd, onChoose, options])
+  useEffect(() => {
+    // console.log('useEffect', prevAllocatorOptions, allocatorOptions)
+
+    if (!prevAllocatorOptions || allocatorOptions?.length !== prevAllocatorOptions?.length) {
+      setIsAwaitingAdd(false)
+      // setShowAddButton(false)
+      setOptions(allocatorOptions)
+      if (allocatorOptions.length && (!value || allocatorOptions?.length < prevAllocatorOptions?.length)) void onChange(undefined, allocatorOptions[allocatorOptions.length - 1])
+    }
+  }, [allocatorOptions, onChange, isAwaitingAdd, prevAllocatorOptions, value])
+
   const onInputChange = (event, newInputValue) => {
     setInputValue(newInputValue)
-    if (newInputValue && !options.includes(newInputValue)) {
-      setInputValue(newInputValue)
+    if (newInputValue && !alloNames.includes(newInputValue)) {
       setShowAddButton(true)
     } else {
       setShowAddButton(false)
@@ -126,11 +107,12 @@ export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedP
     <Autocomplete
         {...passedProps}
         {...{ options, value, filterOptions, inputValue, onChange, onKeyDown, onInputChange }}
-
+        getOptionLabel={(option: Allocator | string) => (option as Allocator).name ?? option}
         id="allocators-combo-box"
         sx={{ width: 300 }}
+        isOptionEqualToValue={allocatorEquality}
         renderInput={(params) => {
-          if (showAddButton) {
+          if (showAddButton || isAwaitingAdd) {
             params.InputProps = {
               ...params.InputProps,
 
@@ -144,6 +126,17 @@ export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedP
                       <AddIcon />
                     </Fab>
                   </Zoom>
+                  {isAwaitingAdd && (
+                    <CircularProgress
+                        size={44}
+                        sx={{
+                          color: 'white',
+                          position: 'absolute',
+                          left: 7,
+                          zIndex: 1,
+                        }}
+                      />
+                  )}
                 </InputAdornment>
               ),
 
@@ -151,7 +144,9 @@ export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedP
           }
           return (
             <FlexRow>
+
               <TextField {...params} label="Choose or Add an Allocator" />
+
             </FlexRow>
           )
         }}
@@ -159,6 +154,7 @@ export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedP
 
   )
 }
+
 const filterOptions = (options, params) => {
   const filtered = filter(options, params)
 

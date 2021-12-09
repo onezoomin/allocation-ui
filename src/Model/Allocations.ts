@@ -1,5 +1,6 @@
 import { formatAddressShort } from '../Utils/js-utils'
 import { Address } from './Address'
+import { Duration } from './generated/google/protobuf/duration'
 import { Allocator as AllocatorDivvy, Recipient as RecipientDivvy, StoreAllocator } from './generated/regen/divvy/v1/types'
 
 export class AllocatorOpts implements AllocatorDivvy, StoreAllocator {
@@ -12,8 +13,8 @@ export class AllocatorOpts implements AllocatorDivvy, StoreAllocator {
   url: string
   paused: boolean
   recipients: Recipient[]
-  constructor (AllocatorOptions: AllocatorOpts) {
-    Object.assign(this, AllocatorOptions)
+  constructor (allocatorOptions: AllocatorOpts) {
+    Object.assign(this, allocatorOptions)
   }
 }
 
@@ -111,3 +112,13 @@ export const initialRecipients: Recipient[] = [
     share: 250000,
   }),
 ]
+
+export const allocatorTemplate = (admin) => new Allocator({
+  address: 'regenPlaceholder',
+  admin,
+  interval: Duration.fromPartial({ seconds: 600 }),
+  name: 'New Allocator From Template',
+  url: '',
+  paused: false,
+  recipients: initialRecipients,
+})
