@@ -36,8 +36,10 @@ export default defineConfig({
     preactRefresh(),
     VitePWA(),
     WindiCSS({ safelist: 'prose prose-sm m-auto' }),
+    // inject({ Buffer: ['buffer', 'Buffer'] }),
   ],
   define: {
     'process.env': process?.env || {}, // needed in addition to nodePolyfills
+    'globalThis.Buffer': Buffer, // needed in addition to nodePolyfills
   },
 })
