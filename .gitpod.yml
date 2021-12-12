@@ -5,7 +5,7 @@ ports:
 tasks:
   - name: allocation-ui
     before: pnpm -v || curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-    init: pnpm i && pnpm build
+    init: pnpm i
     command: pnpm dev --force
     openMode: split-right
     
