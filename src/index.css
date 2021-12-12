@@ -4,7 +4,7 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
-  background: #fafafa;
+  background-color: #673ab8;
   font-family: 'Helvetica Neue', arial, sans-serif;
   font-weight: 400;
   color: #444;
@@ -19,7 +19,6 @@ body {
 #app {
   min-height: 100%;
   text-align: center;
-  background-color: #673ab8;
   color: #fff;
   font-size: 1.5em;
 }

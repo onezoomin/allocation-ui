@@ -21,9 +21,6 @@ const filter = createFilterOptions()
 const allocatorEquality = (option: Allocator, value: Allocator) => option.address === value.address
 
 const ADD_NEW = 'Add a new Allocator: '
-// interface AutocompleteOption {
-//   label: string
-// }
 
 export default function AllocatorsComboBox ({ onChoose, triggerFetch, ...passedProps }: { onChoose: StateUpdater<Allocator>, triggerFetch: StateUpdater<boolean> }) {
   const [inputValue, setInputValue] = useState('')

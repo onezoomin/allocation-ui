@@ -10,6 +10,7 @@ specifiers:
   '@cosmjs/launchpad': ^0.26.5
   '@cosmjs/proto-signing': ^0.26.5
   '@cosmjs/stargate': ^0.26.5
+  '@cosmjs/utils': ^0.26.5
   '@emotion/react': ^11.7.0
   '@emotion/styled': ^11.3.0
   '@keplr-wallet/common': ^0.9.9
@@ -22,6 +23,7 @@ specifiers:
   '@mui/icons-material': ^5.2.0
   '@mui/material': ^5.2.2
   '@prefresh/vite': ^2.2.4
+  '@rollup/plugin-inject': ^4.0.3
   '@rollup/plugin-node-resolve': ^13.0.6
   '@types/node': ^16.11.11
   '@typescript-eslint/eslint-plugin': ^5.5.0
@@ -69,6 +71,7 @@ dependencies:
   '@cosmjs/launchpad': 0.26.5
   '@cosmjs/proto-signing': 0.26.5
   '@cosmjs/stargate': 0.26.5
+  '@cosmjs/utils': 0.26.5
   '@emotion/react': 11.7.0_@babel+core@7.16.0
   '@emotion/styled': 11.6.0_3139d3708784381331b4ef91910b034b
   '@keplr-wallet/common': 0.9.9
@@ -79,6 +82,7 @@ dependencies:
   '@keplr-wallet/wc-client': 0.9.9
   '@mui/icons-material': 5.2.0_@mui+material@5.2.2
   '@mui/material': 5.2.2_13e7bfc16a4559ac7928290388ffa136
+  '@rollup/plugin-inject': 4.0.3
   '@rollup/plugin-node-resolve': 13.0.6
   '@walletconnect/browser-utils': 1.6.6
   '@walletconnect/client': 1.6.6

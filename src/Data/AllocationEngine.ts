@@ -1,12 +1,13 @@
-import { EncodeObject } from '@cosmjs/proto-signing'
+import { EncodeObject, isTsProtoGeneratedType, TsProtoGeneratedType } from '@cosmjs/proto-signing'
+import { assert } from '@cosmjs/utils'
 import { sha256 } from 'js-sha256'
 import { TxRaw } from '../Model/generated/cosmos/tx/v1beta1/tx'
-import { MsgCreateAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
+import { MsgClaimAllocations, MsgCreateAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
 import { regenFee } from '../Utils/cosmos-utils'
 import { initialRecipients, Recipient, RecipientWeighted } from './../Model/Allocations'
 import { MsgRemoveAllocator } from './../Model/generated/regen/divvy/v1/tx'
+import { regenRegistry } from './../Utils/cosmos-utils'
 import { addPendingTx, completePendingTx } from './data'
-
 export const sendAndAwaitMsg = async (
   encodableMsg,
   sgClient,
@@ -62,7 +63,7 @@ export const callCreateAllocator = async (partialMsgCreateAllocator, sgClient, c
     clientAddress)
 }
 export const callRemoveAllocator = async (partialMsgRemoveAllocator, sgClient, clientAddress) => {
-  if (!sgClient || !clientAddress) return console.warn('useCallCreateAllocator called without client')
+  if (!sgClient || !clientAddress) return console.warn('callRemoveAllocator called without client')
 
   const removeAllocatorMsg: MsgRemoveAllocator = MsgRemoveAllocator.fromPartial(partialMsgRemoveAllocator)
   const encodableMsg: EncodeObject = {
@@ -73,6 +74,40 @@ export const callRemoveAllocator = async (partialMsgRemoveAllocator, sgClient, c
     sgClient,
     clientAddress)
 }
+export const callClaimAllocations = async (partialMsgClaimAllocations, sgClient, clientAddress) => {
+  if (!sgClient || !clientAddress) return console.warn('callClaimAllocations called without client')
+
+  const claimAllocationsMsg: MsgClaimAllocations = MsgClaimAllocations.fromPartial(partialMsgClaimAllocations)
+  const encodableMsg: EncodeObject = {
+    typeUrl: '/regen.divvy.v1.MsgClaimAllocations',
+    value: claimAllocationsMsg,
+  }
+  await sendAndAwaitMsg(encodableMsg,
+    sgClient,
+    clientAddress)
+}
+export const getAssertedTsProtoGeneratedType = (MsgUrl): TsProtoGeneratedType => {
+  const MsgConst = regenRegistry.lookupType(MsgUrl)
+  if (!MsgConst) throw new Error(`${MsgUrl} not found in registry`)
+  assert(isTsProtoGeneratedType(MsgConst)) // ) throw new Error(`${MsgConst} !isTsProtoGeneratedType`)
+
+  return (MsgConst as TsProtoGeneratedType)
+}
+export const callCustomMessage = async (MsgUrl, partialMsg, sgClient, clientAddress) => {
+  if (!sgClient || !clientAddress) return console.warn('callClaimAllocations called without client')
+
+  const MsgConst = getAssertedTsProtoGeneratedType(MsgUrl)
+
+  const encodableMsg: EncodeObject = {
+    typeUrl: '/regen.divvy.v1.MsgClaimAllocations',
+    value: MsgConst.fromPartial(partialMsg),
+  }
+
+  await sendAndAwaitMsg(encodableMsg,
+    sgClient,
+    clientAddress)
+}
+
 const mockRecipientMap: Map<string, RecipientWeighted> = new Map(
   initialRecipients.map(
     (r: Recipient) => [r.address.address, new RecipientWeighted(r)],

@@ -1,6 +1,6 @@
 import { Registry } from '@cosmjs/proto-signing'
 import { createProtobufRpcClient, defaultRegistryTypes, QueryClient, SigningStargateClient } from '@cosmjs/stargate'
-import { MsgCreateAllocator, MsgRemoveAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
+import { MsgClaimAllocations, MsgCreateAllocator, MsgRemoveAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
 import { QueryClientImpl } from './../Model/generated/regen/divvy/v1/query'
 import { MsgUpdateAllocatorSettings } from './../Model/generated/regen/divvy/v1/tx'
 
@@ -50,8 +50,11 @@ export const regenRegistry = new Registry([
   ['/regen.divvy.v1.MsgSetAllocatorRecipients', MsgSetAllocatorRecipients],
   ['/regen.divvy.v1.MsgUpdateAllocatorSettings', MsgUpdateAllocatorSettings],
   ['/regen.divvy.v1.MsgRemoveAllocator', MsgRemoveAllocator],
+  ['/regen.divvy.v1.MsgClaimAllocations', MsgClaimAllocations],
   // ['/regen.ecocredit.v1alpha2.tx.MsgCreateAllocator', MsgCreateAllocator],
 ])
+console.log('lookup', regenRegistry.lookupType('/regen.divvy.v1.MsgClaimAllocations'))
+
 export const regenFee = (amount = '40000', gas = '80000') => {
   return {
     amount: [
