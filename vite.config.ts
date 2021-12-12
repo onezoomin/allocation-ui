@@ -1,22 +1,24 @@
 import preactRefresh from '@prefresh/vite'
-import nodeResolve from '@rollup/plugin-node-resolve'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import WindiCSS from 'vite-plugin-windicss'
+
 // import commonjsExternals from "vite-plugin-commonjs-externals"
 // import {builtinModules} from 'module'
 // import inject from '@rollup/plugin-inject'
 // import nodeResolve from '@rollup/plugin-node-resolve'
 // import nodePolyfills from 'rollup-plugin-polyfill-node'
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   // optimizeDeps: {
-  //   // exclude: builtinModules,
-  //   exclude: [
-  //     'buffer',
-  //     // 'bip32','tiny-secp256k1','@keplr-wallet/crypto','@cosmjs/stargate','@keplr-wallet/stores'
-  //   ],
+  //   exclude: builtinModules,
+  //   // exclude: [
+  //   //   'buffer',
+  //   //   // 'bip32','tiny-secp256k1','@keplr-wallet/crypto','@cosmjs/stargate','@keplr-wallet/stores'
+  //   // ],
   // },
   // build: {
   //   assetsDir: '.',
@@ -34,7 +36,7 @@ export default defineConfig({
   esbuild: {
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
-    target: 'es2020',
+    target: 'esnext',
     // define: {
     //   'Buffer': 'Buffer'
     // }
@@ -51,9 +53,10 @@ export default defineConfig({
   },
   plugins: [
     nodePolyfills(),
-    nodeResolve({
-      preferBuiltins: false,
-    }),
+    // nodeResolve({
+    //   browser: true,
+    //   preferBuiltins: false,
+    // }),
     // commonjsExternals({
     //   externals: builtinModules,
     // }),

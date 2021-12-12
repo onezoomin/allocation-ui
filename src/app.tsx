@@ -1,10 +1,10 @@
 import { SigningStargateClient } from '@cosmjs/stargate'
-import { getKeplrFromWindow } from '@keplr-wallet/stores'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import { Button } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { ThemeProvider } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
+import { Buffer } from 'buffer'
 import { createContext, h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import AllocatorsComboBox from './Components/Allocator/AllocatorsComboBox'
@@ -16,6 +16,7 @@ import { callCustomMessage } from './Data/AllocationEngine'
 import { Allocator, allocatorTemplate, initialRecipients, Recipient, RecipientWeighted } from './Model/Allocations'
 import { addRegenLocalChain, getAllAllocators, regenRegistry } from './Utils/cosmos-utils'
 import { useDarkMode, useToggle } from './Utils/react-utils'
+globalThis.Buffer = Buffer
 
 const runningTally = (recipients) => new Map<string, RecipientWeighted>(recipients.map((r) => [r.address, new RecipientWeighted(r)]))
 
@@ -97,7 +98,7 @@ export const App = () => {
   }
   const clickConnect = async (mEv: MouseEvent) => {
     if (sgClient) return console.log('already connected')
-
+    const { getKeplrFromWindow } = await import('@keplr-wallet/stores') // delayed dynamic import to avoid missing Buffer crap
     const k = await getKeplrFromWindow()
     // addRegenRedwoodChain(k) // if you don't have a regen ledger running locally with api.enabled = true, then you can use redwood (but it won't have the latest modules active)
     addRegenLocalChain(k)
