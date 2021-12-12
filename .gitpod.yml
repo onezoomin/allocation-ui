@@ -15,7 +15,7 @@ vscode:
     - mhutchie.git-graph
     - eamodio.gitlens
     - dsznajder.es7-react-js-snippets
-    - bradlc.vscode-tailwindcss
+    - voorjaar.windicss-intellisense
     - dbaeumer.vscode-eslint
 tasks:
   - name: allocation-ui
