@@ -55,7 +55,7 @@ export const regenRegistry = new Registry([
 ])
 console.log('lookup', regenRegistry.lookupType('/regen.divvy.v1.MsgClaimAllocations'))
 
-export const regenFee = (amount = '40000', gas = '80000') => {
+export const regenFee = (amount = '50000', gas = '150000') => {
   return {
     amount: [
       {
@@ -212,7 +212,7 @@ const chainInfo = {
 const rpc = process.env.RPC_URL ?? 'http://127.0.0.1:26657'
 const rest = process.env.LCD_URL ?? 'http://127.0.0.1:1317'
 
-console.log(rpc,rest)
+console.log(rpc, rest)
 
 export const addRegenLocalChain = (k) => {
   const local = {

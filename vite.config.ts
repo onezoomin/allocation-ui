@@ -1,24 +1,31 @@
 import preactRefresh from '@prefresh/vite'
+import { execSync } from 'child_process'
 import nodePolyfills from 'rollup-plugin-polyfill-node'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import WindiCSS from 'vite-plugin-windicss'
 
-import { execSync } from 'child_process'
 // import commonjsExternals from "vite-plugin-commonjs-externals"
 // import {builtinModules} from 'module'
 // import inject from '@rollup/plugin-inject'
 // import nodeResolve from '@rollup/plugin-node-resolve'
 // import nodePolyfills from 'rollup-plugin-polyfill-node'
+let RPC_URL, LCD_URL
+try {
+  RPC_URL = execSync('gp url 26657').toString().trim()
+  LCD_URL = execSync('gp url 1317').toString().trim()
+} catch (e) {
+  console.log('not in gitpod')
+}
+const port = RPC_URL ? 443 : 3000
 
-process.env.RPC_URL = execSync('gp url 26657').toString().trim()  || 'http://127.0.0.1:26657'
-process.env.LCD_URL = execSync('gp url 1317').toString().trim() || 'http://127.0.0.1:1317'
+process.env.RPC_URL = RPC_URL ?? 'http://127.0.0.1:26657'
+process.env.LCD_URL = LCD_URL ?? 'http://127.0.0.1:1317'
 
 // const RPC_URL = process.env.GITPOD  || 'http://127.0.0.1:26657'
 // const LCD_URL = process.env.GITPOD || 'http://127.0.0.1:1317'
-const port = process.env.RPC_URL.search(/gitpod/) ? 443 : 3000
 
-// console.log(RPC_URL, LCD_URL)
+console.log(port, process.env.RPC_URL, process.env.LCD_URL)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -84,14 +91,14 @@ export default defineConfig({
   ],
   define: {
     'process.env': process?.env || {}, // needed in addition to nodePolyfills
-    // 'RPC_URL': RPC_URL, 
-    // 'LCD_URL': LCD_URL, 
+    // 'RPC_URL': RPC_URL,
+    // 'LCD_URL': LCD_URL,
     // 'globalThis.Buffer': Buffer, // needed in addition to nodePolyfills
     // Buffer, // needed in addition to nodePolyfills
   },
   server: {
     hmr: {
-      port
-    }
-  }
+      port,
+    },
+  },
 })
