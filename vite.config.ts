@@ -4,12 +4,21 @@ import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import WindiCSS from 'vite-plugin-windicss'
 
+import { execSync } from 'child_process'
 // import commonjsExternals from "vite-plugin-commonjs-externals"
 // import {builtinModules} from 'module'
 // import inject from '@rollup/plugin-inject'
 // import nodeResolve from '@rollup/plugin-node-resolve'
 // import nodePolyfills from 'rollup-plugin-polyfill-node'
 
+process.env.RPC_URL = execSync('gp url 26657').toString().trim()  || 'http://127.0.0.1:26657'
+process.env.LCD_URL = execSync('gp url 1317').toString().trim() || 'http://127.0.0.1:1317'
+
+// const RPC_URL = process.env.GITPOD  || 'http://127.0.0.1:26657'
+// const LCD_URL = process.env.GITPOD || 'http://127.0.0.1:1317'
+const port = process.env.RPC_URL.search(/gitpod/) ? 443 : 3000
+
+// console.log(RPC_URL, LCD_URL)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -75,7 +84,14 @@ export default defineConfig({
   ],
   define: {
     'process.env': process?.env || {}, // needed in addition to nodePolyfills
+    // 'RPC_URL': RPC_URL, 
+    // 'LCD_URL': LCD_URL, 
     // 'globalThis.Buffer': Buffer, // needed in addition to nodePolyfills
     // Buffer, // needed in addition to nodePolyfills
   },
+  server: {
+    hmr: {
+      port
+    }
+  }
 })

@@ -209,14 +209,19 @@ const chainInfo = {
   features: ['stargate'],
 }
 
+const rpc = process.env.RPC_URL ?? 'http://127.0.0.1:26657'
+const rest = process.env.LCD_URL ?? 'http://127.0.0.1:1317'
+
+console.log(rpc,rest)
+
 export const addRegenLocalChain = (k) => {
   const local = {
     ...chainInfo,
 
     chainId: 'test',
     chainName: 'Regen Local Testnet',
-    rpc: 'http://127.0.0.1:26657',
-    rest: 'http://127.0.0.1:1317',
+    rpc,
+    rest,
   }
   k.experimentalSuggestChain(local)
 }

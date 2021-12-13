@@ -112,7 +112,7 @@ export const App = () => {
       setClientAddress(account.address)
 
       const regenStargateClient = await SigningStargateClient.connectWithSigner(
-        'http://127.0.0.1:26657',
+        process?.env.RPC_URL ?? 'http://127.0.0.1:26657',
         offlineSigner,
         { registry: regenRegistry },
       )
