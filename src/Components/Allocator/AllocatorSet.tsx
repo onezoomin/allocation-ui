@@ -1,19 +1,33 @@
+import { Coin } from '@cosmjs/proto-signing'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import Badge from '@mui/material/Badge'
+import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import { clamp } from 'lodash'
 import { h } from 'preact'
-import { useContext } from 'preact/hooks'
+import { StateUpdater, useContext, useEffect, useState } from 'preact/hooks'
 import { CosmosContext } from '../../app'
-import { callRemoveAllocator, callSetAllocatorRecipients } from '../../Data/AllocationEngine'
+import { callCustomMessage, callRemoveAllocator, callSetAllocatorRecipients } from '../../Data/AllocationEngine'
 import { Allocator } from '../../Model/Allocations'
+import { regenMsgConsts } from '../../Utils/cosmos-utils'
 import { useEditSaveFab } from '../../Utils/react-utils'
 import { FlexRow } from '../Minis'
 import Slider from '../Slider'
 
-export default function AllocatorSet ({ chosenAllocator, triggerFetch, setRecipientList }: {chosenAllocator: Allocator, setRecipientList: any}) {
+export default function AllocatorSet ({ chosenAllocator, triggerFetch, setRecipientList }: {chosenAllocator: Allocator, setRecipientList: any, triggerFetch: StateUpdater<boolean>}) {
   const { name: allocatorName, recipients, address, admin: sender } = chosenAllocator
   const { sgClient, clientAddress } = useContext(CosmosContext)
+  const [allocatorBalances, setAllocatorBalances] = useState<readonly Coin[]>([])
+  useEffect(() => {
+    const getAndSetBalances = async () => {
+      setAllocatorBalances((await sgClient?.getAllBalances(address)) ?? [])
+    }
+    void getAndSetBalances()
+  }, [address, sgClient])
+
   const doSave = async (mEv) => {
     const { address, name, admin: sender, recipients } = chosenAllocator // extract again here to use edited values
     console.log('save', mEv)
@@ -130,6 +144,33 @@ export default function AllocatorSet ({ chosenAllocator, triggerFetch, setRecipi
         )
       })}
       Sum: {(currentSum / 10000).toFixed(1)} %
+      <FlexRow className="mt-2 p-4 items-center justify-end">
+        <Button
+          onClick={async () => {
+            const partialMsg = {
+              sender: clientAddress,
+              allocator: chosenAllocator.address,
+            }
+            await callCustomMessage(regenMsgConsts.CLAIM_ALLOCATIONS, partialMsg, sgClient, clientAddress)
+          }} >
+          <SaveAltIcon className="mr-2" />
+          Claim
+          {!allocatorBalances.length
+            ? null
+            : (
+              <Tooltip
+                className="ml-4 mr-2"
+                placement="right"
+                title={
+                  allocatorBalances.map((eachBal) => `${eachBal.denom}: ${+eachBal.amount / 1000000}`)
+                } arrow>
+                <Badge color="secondary" badgeContent={allocatorBalances.length} showZero />
+              </Tooltip>
+              )}
+        </Button>
+
+      </FlexRow>
+
     </div>
   )
 }

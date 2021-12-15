@@ -8,8 +8,8 @@ class AllocatorDB extends Dexie {
   // Declare implicit table properties. (just to inform Typescript. Instanciated by Dexie in stores() method)
   Addresses: Dexie.Table<Address, string> // string = type of the primkey
   Allocators: Dexie.Table<Allocator, number>
-  PendingTxs: Dexie.Table<PendingTx, string>
-  CompletedTxs: Dexie.Table<CompletedTx, string>
+  PendingTxs: Dexie.Table<PendingTx, Date>
+  CompletedTxs: Dexie.Table<CompletedTx, Date>
   // ...other tables go here...
 
   // async init () {
@@ -26,8 +26,8 @@ class AllocatorDB extends Dexie {
     this.version(1).stores({
       Addresses: 'address',
       Allocators: '++id, name, admin, string',
-      PendingTxs: 'hash',
-      CompletedTxs: 'hash',
+      PendingTxs: 'date, hash',
+      CompletedTxs: 'date, hash',
       // ...other tables go here...//
     })
     this.Addresses = this.table('Addresses')

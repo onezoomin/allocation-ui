@@ -1,4 +1,5 @@
 import { BroadcastTxResponse } from '@cosmjs/stargate'
+import differenceInMilliseconds from 'date-fns/differenceInMilliseconds'
 import { Allocator } from '../Model/generated/regen/divvy/v1/types'
 import { PendingTx } from '../Model/Transactions'
 import { allocatorDB } from './offline'
@@ -12,14 +13,18 @@ const getAllocators = async function getAllocators () {
 export const addPendingTx = async (newFinishedTx: PendingTx) => await allocatorDB.PendingTxs.add(newFinishedTx)
 
 export const completePendingTx = async (txHash: string, response: BroadcastTxResponse) => {
-  const tx = await allocatorDB.PendingTxs.get(txHash)
+  const tx = await allocatorDB.PendingTxs.where('hash').equalsIgnoreCase(txHash).first()
+  const date = new Date()
+  const span = differenceInMilliseconds(date, tx?.date ?? date)
   if (tx) {
     const cTx = {
       ...tx,
+      date,
+      span,
       response,
     }
     await allocatorDB.CompletedTxs.add(cTx)
-    await allocatorDB.PendingTxs.delete(txHash)
+    await allocatorDB.PendingTxs.delete(tx.date)
   }
 }
 

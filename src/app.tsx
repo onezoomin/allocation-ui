@@ -1,6 +1,4 @@
 import { SigningStargateClient } from '@cosmjs/stargate'
-import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { Button } from '@mui/material'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { ThemeProvider } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
@@ -12,7 +10,6 @@ import AllocatorSet from './Components/Allocator/AllocatorSet'
 import SubmitRow from './Components/Allocator/SubmitRow'
 import ConnectButton from './Components/ButtonComponents/ConnectButton'
 import { FlexRow } from './Components/Minis'
-import { callCustomMessage } from './Data/AllocationEngine'
 import { Allocator, allocatorTemplate, initialRecipients, Recipient, RecipientWeighted } from './Model/Allocations'
 import { addRegenLocalChain, getAllAllocators, regenRegistry } from './Utils/cosmos-utils'
 import { useDarkMode, useToggle } from './Utils/react-utils'
@@ -134,19 +131,6 @@ export const App = () => {
             <ConnectButton address={ clientAddress } onClick={clickConnect} />
           </FlexRow>
 
-          {sgClient
-              && <FlexRow className="p-4 items-baseline justify-end">
-                <Button
-                onClick={async () => {
-                  const partialMsg = {
-                    sender: clientAddress,
-                    allocator: chosenAllocator.address,
-                  }
-                  await callCustomMessage('/regen.divvy.v1.MsgClaimAllocations', partialMsg, sgClient, clientAddress)
-                }} >
-                  <SaveAltIcon className="mr-2" />Claim
-                </Button>
-              </FlexRow>}
           <div className="container mx-auto lg:w-1/2">
 
             {chosenAllocator && <AllocatorSet {...{ chosenAllocator, triggerFetch, setRecipientList }} />}

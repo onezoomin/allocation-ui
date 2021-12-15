@@ -74,6 +74,21 @@ export interface Allocator {
 	nextClaim?: Date;
 }
 
+export interface StoreSlowReleaseStream {
+	/** signer and creator of the stream */
+	admin: Uint8Array;
+	/** when the stream starts */
+	start?: Date;
+	/** how often we do a distribution */
+	interval?: Duration;
+	/** Allocator address */
+	destination: Uint8Array;
+	/** name of the allocator */
+	name: string;
+	paused: boolean;
+	strategy?: StreamStrategy;
+}
+
 export interface SlowReleaseStream {
 	/** signer and creator of the stream */
 	admin: string;
@@ -86,6 +101,12 @@ export interface SlowReleaseStream {
 	/** name of the allocator */
 	name: string;
 	paused: boolean;
+	strategy?: StreamStrategy;
+	/** submodule address of the given stream */
+	address: string;
+}
+
+export interface StreamStrategy {
 	/**
 	 * fixed amount of tokens streamed in each round. If there is a zero balance
 	 * available then then nothing will be streamed. If only fraction is
@@ -657,11 +678,186 @@ export const Allocator = {
 	},
 };
 
+const baseStoreSlowReleaseStream: object = { name: '', paused: false };
+
+export const StoreSlowReleaseStream = {
+	encode(
+		message: StoreSlowReleaseStream,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		if (message.admin.length !== 0) {
+			writer.uint32(10).bytes(message.admin);
+		}
+		if (message.start !== undefined) {
+			Timestamp.encode(
+				toTimestamp(message.start),
+				writer.uint32(18).fork()
+			).ldelim();
+		}
+		if (message.interval !== undefined) {
+			Duration.encode(
+				message.interval,
+				writer.uint32(26).fork()
+			).ldelim();
+		}
+		if (message.destination.length !== 0) {
+			writer.uint32(34).bytes(message.destination);
+		}
+		if (message.name !== '') {
+			writer.uint32(42).string(message.name);
+		}
+		if (message.paused === true) {
+			writer.uint32(48).bool(message.paused);
+		}
+		if (message.strategy !== undefined) {
+			StreamStrategy.encode(
+				message.strategy,
+				writer.uint32(58).fork()
+			).ldelim();
+		}
+		return writer;
+	},
+
+	decode(
+		input: _m0.Reader | Uint8Array,
+		length?: number
+	): StoreSlowReleaseStream {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = {
+			...baseStoreSlowReleaseStream,
+		} as StoreSlowReleaseStream;
+		message.admin = new Uint8Array();
+		message.destination = new Uint8Array();
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.admin = reader.bytes();
+					break;
+				case 2:
+					message.start = fromTimestamp(
+						Timestamp.decode(reader, reader.uint32())
+					);
+					break;
+				case 3:
+					message.interval = Duration.decode(reader, reader.uint32());
+					break;
+				case 4:
+					message.destination = reader.bytes();
+					break;
+				case 5:
+					message.name = reader.string();
+					break;
+				case 6:
+					message.paused = reader.bool();
+					break;
+				case 7:
+					message.strategy = StreamStrategy.decode(
+						reader,
+						reader.uint32()
+					);
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): StoreSlowReleaseStream {
+		const message = {
+			...baseStoreSlowReleaseStream,
+		} as StoreSlowReleaseStream;
+		message.admin =
+			object.admin !== undefined && object.admin !== null
+				? bytesFromBase64(object.admin)
+				: new Uint8Array();
+		message.start =
+			object.start !== undefined && object.start !== null
+				? fromJsonTimestamp(object.start)
+				: undefined;
+		message.interval =
+			object.interval !== undefined && object.interval !== null
+				? Duration.fromJSON(object.interval)
+				: undefined;
+		message.destination =
+			object.destination !== undefined && object.destination !== null
+				? bytesFromBase64(object.destination)
+				: new Uint8Array();
+		message.name =
+			object.name !== undefined && object.name !== null
+				? String(object.name)
+				: '';
+		message.paused =
+			object.paused !== undefined && object.paused !== null
+				? Boolean(object.paused)
+				: false;
+		message.strategy =
+			object.strategy !== undefined && object.strategy !== null
+				? StreamStrategy.fromJSON(object.strategy)
+				: undefined;
+		return message;
+	},
+
+	toJSON(message: StoreSlowReleaseStream): unknown {
+		const obj: any = {};
+		message.admin !== undefined &&
+			(obj.admin = base64FromBytes(
+				message.admin !== undefined ? message.admin : new Uint8Array()
+			));
+		message.start !== undefined &&
+			(obj.start = message.start.toISOString());
+		message.interval !== undefined &&
+			(obj.interval = message.interval
+				? Duration.toJSON(message.interval)
+				: undefined);
+		message.destination !== undefined &&
+			(obj.destination = base64FromBytes(
+				message.destination !== undefined
+					? message.destination
+					: new Uint8Array()
+			));
+		message.name !== undefined && (obj.name = message.name);
+		message.paused !== undefined && (obj.paused = message.paused);
+		message.strategy !== undefined &&
+			(obj.strategy = message.strategy
+				? StreamStrategy.toJSON(message.strategy)
+				: undefined);
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<StoreSlowReleaseStream>, I>>(
+		object: I
+	): StoreSlowReleaseStream {
+		const message = {
+			...baseStoreSlowReleaseStream,
+		} as StoreSlowReleaseStream;
+		message.admin = object.admin ?? new Uint8Array();
+		message.start = object.start ?? undefined;
+		message.interval =
+			object.interval !== undefined && object.interval !== null
+				? Duration.fromPartial(object.interval)
+				: undefined;
+		message.destination = object.destination ?? new Uint8Array();
+		message.name = object.name ?? '';
+		message.paused = object.paused ?? false;
+		message.strategy =
+			object.strategy !== undefined && object.strategy !== null
+				? StreamStrategy.fromPartial(object.strategy)
+				: undefined;
+		return message;
+	},
+};
+
 const baseSlowReleaseStream: object = {
 	admin: '',
 	destination: '',
 	name: '',
 	paused: false,
+	address: '',
 };
 
 export const SlowReleaseStream = {
@@ -693,8 +889,14 @@ export const SlowReleaseStream = {
 		if (message.paused === true) {
 			writer.uint32(48).bool(message.paused);
 		}
-		if (message.fixedAmount !== undefined) {
-			writer.uint32(82).string(message.fixedAmount);
+		if (message.strategy !== undefined) {
+			StreamStrategy.encode(
+				message.strategy,
+				writer.uint32(58).fork()
+			).ldelim();
+		}
+		if (message.address !== '') {
+			writer.uint32(82).string(message.address);
 		}
 		return writer;
 	},
@@ -727,8 +929,14 @@ export const SlowReleaseStream = {
 				case 6:
 					message.paused = reader.bool();
 					break;
+				case 7:
+					message.strategy = StreamStrategy.decode(
+						reader,
+						reader.uint32()
+					);
+					break;
 				case 10:
-					message.fixedAmount = reader.string();
+					message.address = reader.string();
 					break;
 				default:
 					reader.skipType(tag & 7);
@@ -764,10 +972,14 @@ export const SlowReleaseStream = {
 			object.paused !== undefined && object.paused !== null
 				? Boolean(object.paused)
 				: false;
-		message.fixedAmount =
-			object.fixedAmount !== undefined && object.fixedAmount !== null
-				? String(object.fixedAmount)
+		message.strategy =
+			object.strategy !== undefined && object.strategy !== null
+				? StreamStrategy.fromJSON(object.strategy)
 				: undefined;
+		message.address =
+			object.address !== undefined && object.address !== null
+				? String(object.address)
+				: '';
 		return message;
 	},
 
@@ -784,8 +996,11 @@ export const SlowReleaseStream = {
 			(obj.destination = message.destination);
 		message.name !== undefined && (obj.name = message.name);
 		message.paused !== undefined && (obj.paused = message.paused);
-		message.fixedAmount !== undefined &&
-			(obj.fixedAmount = message.fixedAmount);
+		message.strategy !== undefined &&
+			(obj.strategy = message.strategy
+				? StreamStrategy.toJSON(message.strategy)
+				: undefined);
+		message.address !== undefined && (obj.address = message.address);
 		return obj;
 	},
 
@@ -802,6 +1017,67 @@ export const SlowReleaseStream = {
 		message.destination = object.destination ?? '';
 		message.name = object.name ?? '';
 		message.paused = object.paused ?? false;
+		message.strategy =
+			object.strategy !== undefined && object.strategy !== null
+				? StreamStrategy.fromPartial(object.strategy)
+				: undefined;
+		message.address = object.address ?? '';
+		return message;
+	},
+};
+
+const baseStreamStrategy: object = {};
+
+export const StreamStrategy = {
+	encode(
+		message: StreamStrategy,
+		writer: _m0.Writer = _m0.Writer.create()
+	): _m0.Writer {
+		if (message.fixedAmount !== undefined) {
+			writer.uint32(10).string(message.fixedAmount);
+		}
+		return writer;
+	},
+
+	decode(input: _m0.Reader | Uint8Array, length?: number): StreamStrategy {
+		const reader =
+			input instanceof _m0.Reader ? input : new _m0.Reader(input);
+		let end = length === undefined ? reader.len : reader.pos + length;
+		const message = { ...baseStreamStrategy } as StreamStrategy;
+		while (reader.pos < end) {
+			const tag = reader.uint32();
+			switch (tag >>> 3) {
+				case 1:
+					message.fixedAmount = reader.string();
+					break;
+				default:
+					reader.skipType(tag & 7);
+					break;
+			}
+		}
+		return message;
+	},
+
+	fromJSON(object: any): StreamStrategy {
+		const message = { ...baseStreamStrategy } as StreamStrategy;
+		message.fixedAmount =
+			object.fixedAmount !== undefined && object.fixedAmount !== null
+				? String(object.fixedAmount)
+				: undefined;
+		return message;
+	},
+
+	toJSON(message: StreamStrategy): unknown {
+		const obj: any = {};
+		message.fixedAmount !== undefined &&
+			(obj.fixedAmount = message.fixedAmount);
+		return obj;
+	},
+
+	fromPartial<I extends Exact<DeepPartial<StreamStrategy>, I>>(
+		object: I
+	): StreamStrategy {
+		const message = { ...baseStreamStrategy } as StreamStrategy;
 		message.fixedAmount = object.fixedAmount ?? undefined;
 		return message;
 	},

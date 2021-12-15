@@ -5,6 +5,7 @@ export interface PendingTx{
   hash: string
   finished: Uint8Array // "finished" means fully encoded via TxRaw.encode(raw).finish()
   raw: TxRaw
+  date: Date
 }
 
 export interface CompletedTx{
@@ -12,4 +13,6 @@ export interface CompletedTx{
   finished: Uint8Array // "finished" means fully encoded via TxRaw.encode(raw).finish()
   raw: TxRaw
   response: BroadcastTxResponse
+  date: Date
+  span: number
 }

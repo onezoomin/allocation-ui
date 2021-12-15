@@ -3,7 +3,7 @@ import { assert } from '@cosmjs/utils'
 import { sha256 } from 'js-sha256'
 import { TxRaw } from '../Model/generated/cosmos/tx/v1beta1/tx'
 import { MsgClaimAllocations, MsgCreateAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
-import { regenFee } from '../Utils/cosmos-utils'
+import { regenFee, regenMsgConsts } from '../Utils/cosmos-utils'
 import { initialRecipients, Recipient, RecipientWeighted } from './../Model/Allocations'
 import { MsgRemoveAllocator } from './../Model/generated/regen/divvy/v1/tx'
 import { regenRegistry } from './../Utils/cosmos-utils'
@@ -29,6 +29,7 @@ export const sendAndAwaitMsg = async (
   const hash = sha256(finished).toUpperCase()
   console.log('finished', finished, hash)
   await addPendingTx({
+    date: new Date(),
     hash,
     finished,
     raw,
@@ -41,7 +42,7 @@ export const sendAndAwaitMsg = async (
 export const callSetAllocatorRecipients = async (partialMsgSetAllocatorRecipients, sgClient, clientAddress) => {
   const setAllocatorRecipientsMsg: MsgSetAllocatorRecipients = MsgSetAllocatorRecipients.fromPartial(partialMsgSetAllocatorRecipients)
   const encodableMsg: EncodeObject = {
-    typeUrl: '/regen.divvy.v1.MsgSetAllocatorRecipients',
+    typeUrl: regenMsgConsts.SET_ALLOCATOR_RECIPIENTS,
     value: setAllocatorRecipientsMsg,
   }
   console.log('sending', encodableMsg)
@@ -91,7 +92,7 @@ export const getAssertedTsProtoGeneratedType = (MsgUrl): TsProtoGeneratedType =>
   if (!MsgConst) throw new Error(`${MsgUrl} not found in registry`)
   assert(isTsProtoGeneratedType(MsgConst)) // ) throw new Error(`${MsgConst} !isTsProtoGeneratedType`)
 
-  return (MsgConst as TsProtoGeneratedType)
+  return MsgConst
 }
 export const callCustomMessage = async (MsgUrl, partialMsg, sgClient, clientAddress) => {
   if (!sgClient || !clientAddress) return console.warn('callClaimAllocations called without client')
@@ -99,7 +100,7 @@ export const callCustomMessage = async (MsgUrl, partialMsg, sgClient, clientAddr
   const MsgConst = getAssertedTsProtoGeneratedType(MsgUrl)
 
   const encodableMsg: EncodeObject = {
-    typeUrl: '/regen.divvy.v1.MsgClaimAllocations',
+    typeUrl: MsgUrl, // eg. '/regen.divvy.v1.MsgClaimAllocations'
     value: MsgConst.fromPartial(partialMsg),
   }
 

@@ -2,8 +2,9 @@ import { Registry } from '@cosmjs/proto-signing'
 import { createProtobufRpcClient, defaultRegistryTypes, QueryClient, SigningStargateClient } from '@cosmjs/stargate'
 import { MsgClaimAllocations, MsgCreateAllocator, MsgRemoveAllocator, MsgSetAllocatorRecipients } from '../Model/generated/regen/divvy/v1/tx'
 import { QueryClientImpl } from './../Model/generated/regen/divvy/v1/query'
+import * as DivvyTxExports from './../Model/generated/regen/divvy/v1/tx'
 import { MsgUpdateAllocatorSettings } from './../Model/generated/regen/divvy/v1/tx'
-
+import { regenRegistry } from './cosmos-utils'
 export const getAllAllocators = async (sgClient: SigningStargateClient) => {
   // https://github.com/cosmos/cosmjs/blob/main/packages/stargate/CUSTOM_PROTOBUF_CODECS.md#step-3b-instantiate-a-query-client-using-your-custom-query-service
   const tmC = sgClient.getTmClient()
@@ -44,15 +45,25 @@ export const getAllAllocators = async (sgClient: SigningStargateClient) => {
 
   return queryResult
 }
+export const regenMsgConsts = {
+  CREATE_ALLOCATOR: '/regen.divvy.v1.MsgCreateAllocator',
+  SET_ALLOCATOR_RECIPIENTS: '/regen.divvy.v1.MsgSetAllocatorRecipients',
+  UPDATE_ALLOCATOR_SETTINGS: '/regen.divvy.v1.MsgUpdateAllocatorSettings',
+  REMOVE_ALLOCATOR: '/regen.divvy.v1.MsgRemoveAllocator',
+  CLAIM_ALLOCATIONS: '/regen.divvy.v1.MsgClaimAllocations',
+}
 export const regenRegistry = new Registry([
   ...defaultRegistryTypes,
-  ['/regen.divvy.v1.MsgCreateAllocator', MsgCreateAllocator],
-  ['/regen.divvy.v1.MsgSetAllocatorRecipients', MsgSetAllocatorRecipients],
-  ['/regen.divvy.v1.MsgUpdateAllocatorSettings', MsgUpdateAllocatorSettings],
-  ['/regen.divvy.v1.MsgRemoveAllocator', MsgRemoveAllocator],
-  ['/regen.divvy.v1.MsgClaimAllocations', MsgClaimAllocations],
+  [regenMsgConsts.CREATE_ALLOCATOR, MsgCreateAllocator],
+  [regenMsgConsts.SET_ALLOCATOR_RECIPIENTS, MsgSetAllocatorRecipients],
+  [regenMsgConsts.UPDATE_ALLOCATOR_SETTINGS, MsgUpdateAllocatorSettings],
+  [regenMsgConsts.REMOVE_ALLOCATOR, MsgRemoveAllocator],
+  [regenMsgConsts.CLAIM_ALLOCATIONS, MsgClaimAllocations],
   // ['/regen.ecocredit.v1alpha2.tx.MsgCreateAllocator', MsgCreateAllocator],
 ])
+
+console.log(Object.keys(DivvyTxExports))
+
 console.log('lookup', regenRegistry.lookupType('/regen.divvy.v1.MsgClaimAllocations'))
 
 export const regenFee = (amount = '50000', gas = '150000') => {
