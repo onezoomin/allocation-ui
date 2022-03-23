@@ -1,6 +1,8 @@
 # An allocator UI 
 nested groups of sliders that always add up to 100%
 
+https://devpost.com/software/oopt-in
+
 ## Installation
 
 pnpm i
